@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Inventory {
 
     @Id
-    private Product product;
+    private String itemId;
     private String amountPresent ;
 
 

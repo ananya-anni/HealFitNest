@@ -8,21 +8,20 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @Getter
 @Setter
-@Document(collection = "Product")
+@Document(collection = "Items")
 
 
 
-public class Product {
+public class Item {
 
     @Id
-    private int productId;
-    private String productName;
+    private String itemId;
     private String categoryId;
     private String SubCategoryId;
-    private String quantity;
-    private String description;
-    private int cost;
-    private Boolean isAvailable;
-    private String ImageUrl;
+    private String itemName;
+    private String itemdescription;
+    private int itemPrice;
+    private Boolean itemAvailable;
+    private String itemImage;
 
 }

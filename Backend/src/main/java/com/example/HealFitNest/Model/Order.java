@@ -12,8 +12,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Order {
 
     @Id
-    private int orderId;
-    private Cart cart ;
+    private String orderId;
+    private String userId;
+    private String cartId ;
+    private String addressId;
+    private String status;
 
 
 }
