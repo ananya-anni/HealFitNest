@@ -15,13 +15,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Item {
 
     @Id
-    private String itemId;
+    private long itemId;
     private String categoryId;
     private String SubCategoryId;
     private String itemName;
     private String itemdescription;
-    private int itemPrice;
+    private double itemPrice;
     private Boolean itemAvailable;
     private String itemImage;
+    public Object getItemPrice;
 
 }
