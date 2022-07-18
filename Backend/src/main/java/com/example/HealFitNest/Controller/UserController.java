@@ -17,12 +17,12 @@ public class UserController {
     private UserRepo userRepo;
 
     @PostMapping("/addUser")
-    public String saveCustomer(@RequestBody Users users){
+    public String saveUser(@RequestBody Users users){
         userRepo.save(users);
         return "User Added Successfully";
     }
     @GetMapping("/users")
-    public List<Users> getCustomer(){
+    public List<Users> getUser(){
         return userRepo.findAll();
     }
 
@@ -39,9 +39,8 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public String deleteCustomer(@PathVariable String id){
+    public String deleteUser(@PathVariable String id){
         userRepo.deleteById(id);
         return "User Deleted Successfully";
     }
 }
-
