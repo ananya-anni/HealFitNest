@@ -1,6 +1,7 @@
 package com.example.HealFitNest.Service.Implementation;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,12 +40,6 @@ public class ItemServiceImp implements ItemService {
     }
 
     @Override
-    public Item findById(long id) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public List<Item> findAllByOrderByIdAsc() {
         // TODO Auto-generated method stub
         return null;
@@ -60,6 +55,11 @@ public class ItemServiceImp implements ItemService {
     public long count() {
         // TODO Auto-generated method stub
         return 0;
+    }
+
+    @Override
+    public Item findById(String id) {
+        return itemRepo.findById(id).get();
     }
 
 

@@ -1,6 +1,9 @@
 package com.example.HealFitNest.Model;
 
 import lombok.*;
+
+import java.math.BigDecimal;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 @Data
@@ -15,12 +18,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Item {
 
     @Id
-    private long itemId;
+    private String itemId;
     private String categoryId;
     private String SubCategoryId;
     private String itemName;
     private String itemdescription;
-    private double itemPrice;
+    private BigDecimal itemPrice;
     private Boolean itemAvailable;
     private String itemImage;
     public Object getItemPrice;

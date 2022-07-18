@@ -8,7 +8,7 @@ public interface ItemService {
     void save(Item item);
     void edit(long id, Item newItem);
     void delete(long id);
-    Item findById(long id);
+    Item findById(String id);
     List<Item> findAllByOrderByIdAsc();
     List<Item> findAllByCategoryId(long categoryId);
     long count();

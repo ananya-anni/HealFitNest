@@ -1,5 +1,8 @@
 package com.example.HealFitNest.Service;
 
+import java.math.BigDecimal;
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 
 import com.example.HealFitNest.Model.Item;
@@ -10,6 +13,7 @@ public interface CartService {
     void removeItem(Item item);
     void clearItem();
     int countItem();
-    long totalPrice();
+    BigDecimal totalPrice();
     void cartCheckout();
+    Map<Item, Integer> itemsInCart();
 }

@@ -1,9 +1,9 @@
 package com.example.HealFitNest.Service.Implementation;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,15 +22,16 @@ public class CartServiceImp implements CartService {
         this.cartRepo = cartRepo;
     }
 
-    private Map<Item, Long> cart = new LinkedHashMap<>();
+    private Map<Item, Integer> cart = new LinkedHashMap<>();
 
     @Override
     public void addItem(Item item) {
         if (cart.containsKey(item)){
             cart.replace(item, cart.get(item) + 1);
         }else{
-            cart.put(item, (long) 1);
+            cart.put(item, 1);
         }
+        cartRepo.save(item);
     }
 
     @Override
@@ -51,23 +52,26 @@ public class CartServiceImp implements CartService {
 
     @Override
     public int countItem() {
-        // TODO Auto-generated method stub
-        return 0;
+        return cart.entrySet().stream().map(k -> k.getValue())
+        .mapToInt(Integer:: intValue)
+        .sum();
     }
 
     @Override
-    public long totalPrice() {
-        
-    }
-
-    private long getItemPrice() {
-        return 0;
+    public BigDecimal totalPrice() {
+        return cart.entrySet().stream()
+        .map(k -> k.getKey().getItemPrice().multiply(BigDecimal.valueOf(k.getValue()))).sorted()
+        .reduce(BigDecimal::add)
+        .orElse(BigDecimal.ZERO);
     }
 
     @Override
     public void cartCheckout() {
         cart.clear();
+    }   
+
+    @Override
+    public Map<Item, Integer> itemsInCart() {
+        return Collections.unmodifiableMap(cart);
     }
-    
-    
 }
