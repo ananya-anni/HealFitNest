@@ -19,7 +19,7 @@ public class Item {
     private String categoryId;
     private String SubCategoryId;
     private String itemName;
-    private String itemdescription;
+    private String itemDescription;
     private int itemPrice;
     private Boolean itemAvailable;
     private String itemImage;
