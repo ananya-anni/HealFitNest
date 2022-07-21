@@ -3,6 +3,7 @@ package com.example.HealFitNest.Controller;
 import com.example.HealFitNest.Model.Address;
 import com.example.HealFitNest.Repository.AddressRepo;
 
+import com.example.HealFitNest.Service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,8 @@ import java.util.List;
 public class AddressController{
     @Autowired
     private AddressRepo addressRepo;
-
+    @Autowired
+    private AddressService addressService;
 
     @PostMapping("/addAddress")
     public String saveItem(@RequestBody Address address){
@@ -46,6 +48,11 @@ public class AddressController{
     public String deleteProduct(@PathVariable String id){
         addressRepo.deleteById(id);
         return "Deleted Successfully";
+    }
+
+    @GetMapping("/get/{userId}")
+    public List<Address> getAddresses(@PathVariable String userId){
+        return addressService.getAllAddress(userId);
     }
 
 
