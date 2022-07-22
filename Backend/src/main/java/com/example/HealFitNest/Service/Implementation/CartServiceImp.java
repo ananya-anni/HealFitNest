@@ -24,15 +24,22 @@ public class CartServiceImp implements CartService {
 
     private Map<Item, Integer> cart = new LinkedHashMap<>();
 
+    // @Override
+    // public void addItem(Item item) {
+    //     if (cart.containsKey(item)){
+    //         cart.replace(item, cart.get(item) + 1);
+    //     }else{
+    //         cart.put(item, 1);
+    //     }
+    //     //cartRepo.save(item);
+    // }
+
     @Override
-    public void addItem(Item item) {
-        if (cart.containsKey(item)){
-            cart.replace(item, cart.get(item) + 1);
-        }else{
-            cart.put(item, 1);
-        }
-        cartRepo.save(item);
+    public void addItem(Item item)
+    {
+
     }
+
 
     @Override
     public void removeItem(Item item) {
