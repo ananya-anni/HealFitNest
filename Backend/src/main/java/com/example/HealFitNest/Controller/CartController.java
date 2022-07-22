@@ -1,15 +1,24 @@
 package com.example.HealFitNest.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.HealFitNest.Model.Cart;
 import com.example.HealFitNest.Model.Item;
 import com.example.HealFitNest.Service.CartService;
+import com.example.HealFitNest.Repository.CartRepo;
 import com.example.HealFitNest.Service.ItemService;
+
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 
 @RestController
 @RequestMapping("/api/v3")
@@ -17,11 +26,19 @@ public class CartController {
 
     private final CartService cartService;
     private final ItemService itemService;
-
+    @Autowired 
+    private CartRepo cartRepo;
     @Autowired
     public CartController(CartService cartService, ItemService itemService) {
         this.cartService = cartService;
         this.itemService = itemService;
+    }
+
+    @GetMapping("/cartshow")
+    public List<Cart> allCart()
+    {
+        return cartRepo.findAll();
+
     }
 
     @GetMapping("/cart")
@@ -33,7 +50,13 @@ public class CartController {
         return "cart";
     }
 
-    @GetMapping("/addItem/{id}")
+    @PostMapping("/addcart")
+    public void addtocart(@RequestBody Cart cart){
+        cartRepo.save(cart);
+    }
+
+
+    @PostMapping("/addItem/{id}")
     public String addProductToCart(@PathVariable String id){
         Item item = itemService.findById(id);
         if (item != null){
