@@ -1,6 +1,9 @@
 package com.example.HealFitNest.Model;
 
 import lombok.*;
+
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 @Data
@@ -15,7 +18,7 @@ public class Cart {
     @Id
     private String cartId;
     private String userId;
-    private String itemId;
     private double totalPrice;
     private int countItem;
+    private List<CartItem> cartItem;
 }
