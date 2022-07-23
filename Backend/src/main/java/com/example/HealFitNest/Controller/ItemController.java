@@ -38,7 +38,7 @@ public class ItemController {
     public ResponseEntity<Item> updateItem(@PathVariable String id, @RequestBody Item updatedItem){
         Item updateItem = itemRepo.findById(id).orElse(null);
         updateItem.setItemName(updatedItem.getItemName());
-        updateItem.setItemDescription(updatedItem.getItemDescription());
+        updateItem.setItemdescription(updatedItem.getItemdescription());
         updateItem.setItemPrice(updatedItem.getItemPrice());
         updateItem.setItemImage(updatedItem.getItemImage());
 
