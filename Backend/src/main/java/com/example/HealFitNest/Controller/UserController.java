@@ -26,6 +26,13 @@ public class UserController {
         return userRepo.findAll();
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<Users> getUsersById(@PathVariable String id){
+        Users users = userRepo.findById(id).orElse(null);
+//                .orElseThrow(() -> new ResourceNotFound("Mentors with the Id : " + id + "was not found!"));
+        return ResponseEntity.ok(users);
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<Users> updateUser(@PathVariable String id, @RequestBody Users updatedUser){
         Users updateUser = userRepo.findById(id).orElse(null);

@@ -27,6 +27,13 @@ public class ItemController {
         return itemRepo.findAll();
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<Item> getItemsById(@PathVariable String id){
+        Item item = itemRepo.findById(id).orElse(null);
+//                .orElseThrow(() -> new ResourceNotFound("Mentors with the Id : " + id + "was not found!"));
+        return ResponseEntity.ok(item);
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<Item> updateItem(@PathVariable String id, @RequestBody Item updatedItem){
         Item updateItem = itemRepo.findById(id).orElse(null);
