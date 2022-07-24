@@ -35,7 +35,6 @@ public class CartController {
     @PostMapping("/addToCart/{cartId}/{itemId}")
     public void addToCart(@PathVariable String cartId, @PathVariable String itemId, int quantity){
         cartService.addItem(cartId, itemId, quantity);
-        cartService.showCart();
     }
 
     @DeleteMapping("/deleteCart/{cartId}")

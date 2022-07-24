@@ -1,6 +1,5 @@
 package com.example.HealFitNest.Service.Implementation;
 
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,18 +25,22 @@ public class CartServiceImp implements CartService {
     List<CartItem> addCartItem =  new ArrayList<CartItem>();
 
     public void addItem(String cartId, String itemId, int quantity) {
-        Item item = itemService.findItemById(itemId);
-        CartItem cartItem = new CartItem(itemId, item.getItemName(), item.getItemPrice(), quantity);
-        addCartItem.add(cartItem);
-        Cart cart = new Cart();
-        cart.setCartId(cartId);
-        cart.setCartItems(addCartItem);
-        cartRepo.save(cart);
-        int count = countItem(cartId);
-        cart.setCountItem(count);
-        BigDecimal total = totalPrice(cartId);
-        cart.setTotalPrice(total);
-        cartRepo.save(cart);
+        try{
+            Item item = itemService.findItemById(itemId);
+            CartItem cartItem = new CartItem(itemId, item.getItemName(), item.getItemPrice(), quantity);
+            addCartItem.add(cartItem);
+            Cart cart = new Cart();
+            cart.setCartId(cartId);
+            cart.setCartItems(addCartItem);
+            cartRepo.save(cart);
+            int count = countItem(cartId);
+            cart.setCountItem(count);
+            BigDecimal total = totalPrice(cartId);
+            cart.setTotalPrice(total);
+            cartRepo.save(cart);
+        } catch (Exception e){
+            System.out.println(e);
+        }
     }
     
     public List<Cart> showCart(){
