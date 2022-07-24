@@ -100,6 +100,26 @@ public class CartServiceImp implements CartService {
         cartRepo.save(cart);
     }
 
+    public void updateItemQuantity(String cartId, String itemId, int quantity){
+        Cart cart = cartRepo.findById(cartId).get();
+        List<CartItem> cartItems = cart.getCartItems(); 
+        int updateIndex = 0;
+        for(CartItem eachCartItem : cartItems){
+            int index  = cartItems.indexOf(eachCartItem); 
+            if(eachCartItem.getItemId().equalsIgnoreCase(itemId)){
+                updateIndex = index;
+            }
+        }
+        CartItem eachCartItem = cartItems.get(updateIndex);
+        eachCartItem.setItemQuantity(quantity);
+        cartRepo.save(cart);
+        int count = countItem(cartId);
+        cart.setCountItem(count);
+        BigDecimal total = totalPrice(cartId);
+        cart.setTotalPrice(total);
+        cartRepo.save(cart);
+    }
+
     // @Override
     // public void cartCheckout() {
     //     cart.clear();
