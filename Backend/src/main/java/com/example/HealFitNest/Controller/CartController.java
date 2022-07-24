@@ -53,6 +53,10 @@ public class CartController {
         cartService.removeItem(cartId, itemId);
     }
 
+    @PutMapping("/updateCart/{cartId}/{itemId}")
+    public void updateCart(@PathVariable String cartId, @PathVariable String itemId, int quantity){
+        cartService.updateItemQuantity(cartId, itemId, quantity);
+    }
     // @GetMapping("/cart/checkout")
     // public String cartCheckout(){
     //     cartService.cartCheckout();
