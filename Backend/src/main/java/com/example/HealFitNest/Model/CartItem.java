@@ -3,13 +3,10 @@ package com.example.HealFitNest.Model;
 import java.math.BigDecimal;
 
 import lombok.*;
-import nonapi.io.github.classgraph.json.Id;
 
 @Data
-@NoArgsConstructor
 @Getter
 @Setter
-
 public class CartItem {
     private String itemId;
     private String itemName;
