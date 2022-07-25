@@ -4,6 +4,7 @@ import com.example.HealFitNest.Model.Users;
 import com.example.HealFitNest.Repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,8 +17,13 @@ public class UserController {
     @Autowired
     private UserRepo userRepo;
 
+//    @Autowired
+//    BCryptPasswordEncoder bCryptPasswordEncoder;
+
+
     @PostMapping("/addUser")
     public String saveUser(@RequestBody Users users){
+//        users.setPassword(bCryptPasswordEncoder.encode(users.getPassword()));
         userRepo.save(users);
         return "User Added Successfully";
     }
@@ -26,16 +32,24 @@ public class UserController {
         return userRepo.findAll();
     }
 
+    public Users FindUserByEmail(String email){
+        return userRepo.findByemail(email);
+    }
+
+    @GetMapping("/users/{id}")
+    public Users getUserById(@PathVariable String id){
+      return userRepo.findById(id).orElse(null);
+    }
+
     @PutMapping("/update/{id}")
-    public ResponseEntity<Users> updateUser(@PathVariable String id, @RequestBody Users updatedUser){
+    public String updateUser(@PathVariable String id, @RequestBody Users updatedUser){
         Users updateUser = userRepo.findById(id).orElse(null);
         updateUser.setFirstName(updatedUser.getFirstName());
         updateUser.setLastName(updatedUser.getLastName());
         updateUser.setContact(updatedUser.getContact());
         updateUser.setEmail(updatedUser.getEmail());
-
         userRepo.save(updateUser);
-        return ResponseEntity.ok(updateUser);
+        return "updated Successfully";
     }
 
     @DeleteMapping("/delete/{id}")
@@ -43,4 +57,5 @@ public class UserController {
         userRepo.deleteById(id);
         return "User Deleted Successfully";
     }
+
 }
