@@ -39,12 +39,12 @@ public class CartServiceImp implements CartService {
         cart.setTotalPrice(total);
         cartRepo.save(cart);
     }
-
+    
     public List<Cart> showCart(){
         return cartRepo.findAll();
     }
 
-    public Cart showCartofId(String cartId){
+    public Cart showCartofId(String cartId){ 
         return cartRepo.findById(cartId).get();
     }
 
@@ -86,7 +86,7 @@ public class CartServiceImp implements CartService {
         List<CartItem> cartItems = cart.getCartItems();
         int removeIndex=0;
         for(CartItem eachCartItem : cartItems){
-            int index  = cartItems.indexOf(eachCartItem);
+            int index  = cartItems.indexOf(eachCartItem); 
             if(eachCartItem.getItemId().equalsIgnoreCase(itemId)){
                 removeIndex = index;
             }
@@ -102,10 +102,10 @@ public class CartServiceImp implements CartService {
 
     public void updateItemQuantity(String cartId, String itemId, int quantity){
         Cart cart = cartRepo.findById(cartId).get();
-        List<CartItem> cartItems = cart.getCartItems();
+        List<CartItem> cartItems = cart.getCartItems(); 
         int updateIndex = 0;
         for(CartItem eachCartItem : cartItems){
-            int index  = cartItems.indexOf(eachCartItem);
+            int index  = cartItems.indexOf(eachCartItem); 
             if(eachCartItem.getItemId().equalsIgnoreCase(itemId)){
                 updateIndex = index;
             }
@@ -123,5 +123,5 @@ public class CartServiceImp implements CartService {
     // @Override
     // public void cartCheckout() {
     //     cart.clear();
-    // }
+    // }   
 }
