@@ -16,6 +16,7 @@ public class ItemController {
     @Autowired
     private ItemRepo itemRepo;
 
+
     @PostMapping("/addItem")
     public String saveItem(@RequestBody Item item){
         itemRepo.save(item);
@@ -38,7 +39,7 @@ public class ItemController {
     public ResponseEntity<Item> updateItem(@PathVariable String id, @RequestBody Item updatedItem){
         Item updateItem = itemRepo.findById(id).orElse(null);
         updateItem.setItemName(updatedItem.getItemName());
-        updateItem.setItemdescription(updatedItem.getItemdescription());
+        updateItem.setItemDescription(updatedItem.getItemDescription());
         updateItem.setItemPrice(updatedItem.getItemPrice());
         updateItem.setItemImage(updatedItem.getItemImage());
 

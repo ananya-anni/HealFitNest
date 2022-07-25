@@ -16,12 +16,14 @@ import java.util.List;
 @NoArgsConstructor
 @Service
 public class AddressService {
+//    @Autowired
+//    Address address;
     @Autowired
     MongoTemplate mongoTemplate;
 
     public List<Address> getAllAddress(String userId){
         Query query = new Query();
-        query.addCriteria(Criteria.where("userId").is("1Mv004"));
+        query.addCriteria(Criteria.where("userId").is(userId));
         return mongoTemplate.find(query, Address.class);
     }
 

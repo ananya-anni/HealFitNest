@@ -13,12 +13,15 @@ import com.example.HealFitNest.Model.Item;
 import com.example.HealFitNest.Service.CartService;
 import com.example.HealFitNest.Service.ItemService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v4")
 public class CartController {
 
     private final CartService cartService;
     private final ItemService itemService;
+
 
     @Autowired
     public CartController(CartService cartService, ItemService itemService) {
@@ -41,12 +44,12 @@ public class CartController {
         if (item != null){
             cartService.addItem(item);
             return "Added";
-        } 
+        }
         else {
             return "Error: Id not present.";
         }
     }
-    
+
     @DeleteMapping("/cart/removeItem/{id}")
     public String removeProductFromCart(@PathVariable  String id){
         Item item = itemService.findById(id);
@@ -55,7 +58,7 @@ public class CartController {
             return "Deleted";
         } else {
             return "Error: Id not present to delete.";
-        } 
+        }
     }
 
     @GetMapping("/cart/clearCart")
@@ -69,5 +72,4 @@ public class CartController {
         cartService.cartCheckout();
         return "Proceeding to checkout";
     }
-    
 }
