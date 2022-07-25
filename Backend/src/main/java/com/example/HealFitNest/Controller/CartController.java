@@ -20,7 +20,6 @@ public class CartController {
 
     @Autowired
     private CartService cartService;
-    //private ItemService itemService;
 
     @PostMapping("/cart")
     public List<Cart> allCart(){
