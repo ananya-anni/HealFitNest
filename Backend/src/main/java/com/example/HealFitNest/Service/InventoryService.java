@@ -9,5 +9,5 @@ public interface InventoryService {
     public List<Inventory> showInventory();
     public Inventory showInventoryItem(String itemId);
     public boolean itemAvailability(String itemId);
-    public void amountVariation(String cartId);
+    // public void amountVariation(String cartId);
 }

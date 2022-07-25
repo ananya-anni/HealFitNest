@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.HealFitNest.Model.Cart;
-import com.example.HealFitNest.Model.CartItem;
+// import com.example.HealFitNest.Model.Cart;
+// import com.example.HealFitNest.Model.CartItem;
 import com.example.HealFitNest.Model.Inventory;
 import com.example.HealFitNest.Model.Item;
 import com.example.HealFitNest.Repository.InventoryRepo;
-import com.example.HealFitNest.Service.CartService;
+// import com.example.HealFitNest.Service.CartService;
 import com.example.HealFitNest.Service.InventoryService;
 import com.example.HealFitNest.Service.ItemService;
 
@@ -19,8 +19,8 @@ public class InventoryServiceImp implements InventoryService {
     @Autowired
     private ItemService itemService;
 
-    @Autowired
-    private CartService cartService;
+    // @Autowired
+    // private CartService cartService;
 
     @Autowired
     private InventoryRepo inventRepo;
@@ -52,11 +52,11 @@ public class InventoryServiceImp implements InventoryService {
         }
     }
 
-    public void amountVariation(String cartId){
-        Cart cart = cartService.showCartofId(cartId);
-        List<CartItem> cartItems = cart.getCartItems();
-        for(CartItem eachCartItem : cartItems){
-        }   
-    }
+    // public void amountVariation(String cartId){
+    //     Cart cart = cartService.showCartofId(cartId);
+    //     List<CartItem> cartItems = cart.getCartItems();
+    //     for(CartItem eachCartItem : cartItems){
+    //     }   
+    // }
     
 }
