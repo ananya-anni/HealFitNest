@@ -2,6 +2,7 @@ package com.example.HealFitNest.Controller;
 
 import com.example.HealFitNest.Model.Item;
 import com.example.HealFitNest.Repository.ItemRepo;
+import com.example.HealFitNest.Service.Implementation.ItemServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,11 @@ import java.util.List;
 @RestController
 
 public class ItemController {
+
+//    @Autowired
+//    SubCategoryService subCategoryService;
+    @Autowired
+    ItemServiceImp itemServiceImp;
     @Autowired
     private ItemRepo itemRepo;
 
@@ -51,5 +57,10 @@ public class ItemController {
     public String deleteProduct(@PathVariable String id){
         itemRepo.deleteById(id);
         return "Item Deleted Successfully";
+    }
+
+    @GetMapping("/get/{categoryId}")
+    public List<Item> getItems(@PathVariable String categoryId){
+        return itemServiceImp.getAllItems(categoryId);
     }
 }

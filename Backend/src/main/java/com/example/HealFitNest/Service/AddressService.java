@@ -16,8 +16,6 @@ import java.util.List;
 @NoArgsConstructor
 @Service
 public class AddressService {
-//    @Autowired
-//    Address address;
     @Autowired
     MongoTemplate mongoTemplate;
 

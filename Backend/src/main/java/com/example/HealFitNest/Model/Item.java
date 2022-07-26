@@ -18,12 +18,12 @@ public class Item {
     @Id
     private String itemId;
     private String categoryId;
-    private String SubCategoryId;
+    private String subCategoryId;
     private String itemName;
     private String itemDescription;
     private BigDecimal itemPrice;
     private Boolean itemAvailable;
     private String itemImage;
-//    public Object getItemPrice;
+    public Object getItemPrice;
 
 }
