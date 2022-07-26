@@ -5,7 +5,6 @@ import com.example.HealFitNest.Repository.AddressRepo;
 
 import com.example.HealFitNest.Service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,6 +53,4 @@ public class AddressController{
     public List<Address> getAddresses(@PathVariable String userId){
         return addressService.getAllAddress(userId);
     }
-
-
 }

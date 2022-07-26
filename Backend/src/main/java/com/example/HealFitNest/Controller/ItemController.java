@@ -2,6 +2,7 @@ package com.example.HealFitNest.Controller;
 
 import com.example.HealFitNest.Model.Item;
 import com.example.HealFitNest.Repository.ItemRepo;
+import com.example.HealFitNest.Service.Implementation.ItemServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +14,14 @@ import java.util.List;
 @RestController
 
 public class ItemController {
+
+//    @Autowired
+//    SubCategoryService subCategoryService;
+    @Autowired
+    ItemServiceImp itemServiceImp;
     @Autowired
     private ItemRepo itemRepo;
+
 
     @PostMapping("/addItem")
     public String saveItem(@RequestBody Item item){
@@ -27,11 +34,18 @@ public class ItemController {
         return itemRepo.findAll();
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<Item> getItemsById(@PathVariable String id){
+        Item item = itemRepo.findById(id).orElse(null);
+//                .orElseThrow(() -> new ResourceNotFound("Mentors with the Id : " + id + "was not found!"));
+        return ResponseEntity.ok(item);
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<Item> updateItem(@PathVariable String id, @RequestBody Item updatedItem){
         Item updateItem = itemRepo.findById(id).orElse(null);
         updateItem.setItemName(updatedItem.getItemName());
-        updateItem.setItemdescription(updatedItem.getItemdescription());
+        updateItem.setItemDescription(updatedItem.getItemDescription());
         updateItem.setItemPrice(updatedItem.getItemPrice());
         updateItem.setItemImage(updatedItem.getItemImage());
 
@@ -43,5 +57,10 @@ public class ItemController {
     public String deleteProduct(@PathVariable String id){
         itemRepo.deleteById(id);
         return "Item Deleted Successfully";
+    }
+
+    @GetMapping("/get/{categoryId}")
+    public List<Item> getItems(@PathVariable String categoryId){
+        return itemServiceImp.getAllItems(categoryId);
     }
 }
