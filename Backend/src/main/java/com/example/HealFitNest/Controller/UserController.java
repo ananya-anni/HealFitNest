@@ -1,10 +1,10 @@
 package com.example.HealFitNest.Controller;
 
-import com.example.HealFitNest.Model.Address;
+// import com.example.HealFitNest.Model.Address;
 import com.example.HealFitNest.Model.Users;
 import com.example.HealFitNest.Repository.UserRepo;
-import com.example.HealFitNest.Service.AddressService;
-import com.example.HealFitNest.Service.UserService;
+// import com.example.HealFitNest.Service.UserService;
+// import com.example.HealFitNest.Service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +19,8 @@ public class UserController {
     @Autowired
     private UserRepo userRepo;
 
-    @Autowired
-    private AddressService addressService;
+    // @Autowired
+    // private AddressService addressService;
 
 //    @Autowired
 //    BCryptPasswordEncoder bCryptPasswordEncoder;
