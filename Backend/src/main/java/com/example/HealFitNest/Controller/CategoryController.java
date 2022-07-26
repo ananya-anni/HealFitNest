@@ -3,6 +3,7 @@ package com.example.HealFitNest.Controller;
 import com.example.HealFitNest.Model.Category;
 import com.example.HealFitNest.Repository.CategoryRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 public class CategoryController{
 
     @Autowired
-    CategoryRepo categoryRepo;
+    private CategoryRepo categoryRepo;
 
 
     @PostMapping("/addCategory")
@@ -26,22 +27,25 @@ public class CategoryController{
         return categoryRepo.findAll();
     }
 
-    @GetMapping("/{id}")
-    public Category findCategoryById(@PathVariable String categoryId){
-        return categoryRepo.findById(categoryId).orElse(null);
+    @GetMapping("{id}")
+    public ResponseEntity<Category> getItemsById(@PathVariable String id){
+        Category category = categoryRepo.findById(id).orElse(null);
+        return ResponseEntity.ok(category);
     }
 
     @PutMapping("/update/{id}")
-    public String updateCategory(@PathVariable String categoryId, @RequestBody Category updatedCategory){
-        Category updateCategory = categoryRepo.findById(categoryId).orElse(null);
+    public ResponseEntity<Category> updateItem(@PathVariable String id, @RequestBody Category updatedCategory){
+        Category updateCategory = categoryRepo.findById(id).orElse(null);
         updateCategory.setCategoryName(updatedCategory.getCategoryName());
         updateCategory.setSubCategoryName(updatedCategory.getSubCategoryName());
-        return "updated Successfully";
+
+        categoryRepo.save(updateCategory);
+        return ResponseEntity.ok(updateCategory);
     }
 
     @DeleteMapping("/delete/{id}")
-    public String deleteCategory(@PathVariable String categoryId){
-        categoryRepo.deleteById(categoryId);
+    public String deleteCategory(@PathVariable String id){
+        categoryRepo.deleteById(id);
         return "Category Deleted Successfully";
     }
 
