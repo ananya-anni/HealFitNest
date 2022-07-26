@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.example.HealFitNest.Model.Cart;
 import com.example.HealFitNest.Model.Order;
 
-@Service
+
 public interface OrderService {
     public List<Order> showOrder();
 
