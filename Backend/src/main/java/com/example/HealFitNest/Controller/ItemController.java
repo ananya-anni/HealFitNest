@@ -15,10 +15,8 @@ import java.util.List;
 
 public class ItemController {
 
-//    @Autowired
-//    SubCategoryService subCategoryService;
     @Autowired
-    ItemServiceImp itemServiceImp;
+    private ItemServiceImp itemServiceImp;
     @Autowired
     private ItemRepo itemRepo;
 

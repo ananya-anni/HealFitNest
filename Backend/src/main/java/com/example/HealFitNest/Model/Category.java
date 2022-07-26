@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Category {
 
     @Id
-    private int categoryId;
+    private String categoryId;
     private String[] subCategoryId;
     private String categoryName;
     private String[] subCategoryName;
