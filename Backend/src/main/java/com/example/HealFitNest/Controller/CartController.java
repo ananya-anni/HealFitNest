@@ -21,7 +21,7 @@ public class CartController {
     @Autowired
     private CartService cartService;
 
-    @PostMapping("/cart")
+    @GetMapping("/cart")
     public List<Cart> allCart(){
         return cartService.showCart();
     }

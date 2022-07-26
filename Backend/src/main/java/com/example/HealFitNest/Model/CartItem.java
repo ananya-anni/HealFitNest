@@ -5,8 +5,6 @@ import java.math.BigDecimal;
 import lombok.*;
 
 @Data
-@Getter
-@Setter
 public class CartItem {
     private String itemId;
     private String itemName;

@@ -7,8 +7,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 @Document(collection = "RegisteredUsers")
 
 public class Users {
