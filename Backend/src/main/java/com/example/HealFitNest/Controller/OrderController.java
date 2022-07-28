@@ -20,7 +20,9 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @PostMapping("/order")
+
+
+    @GetMapping("/order")
     public List<Order> allCart(){
         return orderService.showOrder();
     }
