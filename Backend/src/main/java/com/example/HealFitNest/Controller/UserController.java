@@ -1,8 +1,12 @@
 package com.example.HealFitNest.Controller;
 
+// import com.example.HealFitNest.Model.Address;
 import com.example.HealFitNest.Model.Users;
 import com.example.HealFitNest.Repository.UserRepo;
+// import com.example.HealFitNest.Service.UserService;
+// import com.example.HealFitNest.Service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,20 +19,48 @@ public class UserController {
     @Autowired
     private UserRepo userRepo;
 
+    // @Autowired
+    // private AddressService addressService;
+
+//    @Autowired
+//    BCryptPasswordEncoder bCryptPasswordEncoder;
+
+
     @PostMapping("/addUser")
-    public String saveCustomer(@RequestBody Users users){
+    public String saveUser(@RequestBody Users users){
+//        users.setPassword(bCryptPasswordEncoder.encode(users.getPassword()));
         userRepo.save(users);
-        return "Customer Added Successfully";
+        return "User Added Successfully";
     }
     @GetMapping("/users")
-    public List<Users> getCustomer(){
+    public List<Users> getUser(){
         return userRepo.findAll();
     }
 
-    @DeleteMapping("/delete/{id}")
-    public String deleteCustomer(@PathVariable String id){
-        userRepo.deleteById(id);
-        return "Deleted Successfully";
+    public Users FindUserByEmail(String email){
+        return userRepo.findByemail(email);
     }
-}
 
+    @GetMapping("/users/{id}")
+    public Users getUserById(@PathVariable String id){
+        return userRepo.findById(id).orElse(null);
+    }
+
+    @PutMapping("/update/{id}")
+    public String updateUser(@PathVariable String id, @RequestBody Users updatedUser){
+        Users updateUser = userRepo.findById(id).orElse(null);
+        updateUser.setFirstName(updatedUser.getFirstName());
+        updateUser.setLastName(updatedUser.getLastName());
+        updateUser.setContact(updatedUser.getContact());
+        updateUser.setEmail(updatedUser.getEmail());
+        userRepo.save(updateUser);
+        return "updated Successfully";
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteUser(@PathVariable String id){
+        userRepo.deleteById(id);
+        return "User Deleted Successfully";
+    }
+
+}

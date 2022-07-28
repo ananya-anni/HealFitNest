@@ -6,17 +6,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-@Document(collection = "Cart")
+@Document(collection = "Category")
 
 public class Category {
 
     @Id
-    private int categoryId;
-    private int subCategoryId;
+    private String categoryId;
+    private String[] subCategoryId;
     private String categoryName;
-    private String subCategoryName;
-    private String imageUrl;
+    private String[] subCategoryName;
+    private String categoryImage;
 
 }
