@@ -5,6 +5,6 @@ import com.example.HealFitNest.Model.Item;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface CartRepo extends MongoRepository<Item,String> {
+public interface CartRepo extends MongoRepository<Cart,String> {
 
 }

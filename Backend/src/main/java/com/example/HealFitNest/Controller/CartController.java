@@ -1,73 +1,64 @@
 package com.example.HealFitNest.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.HealFitNest.Model.Item;
+import com.example.HealFitNest.Model.Cart;
 import com.example.HealFitNest.Service.CartService;
-import com.example.HealFitNest.Service.ItemService;
 
 @RestController
 @RequestMapping("/api/v4")
 public class CartController {
 
-    private final CartService cartService;
-    private final ItemService itemService;
-
     @Autowired
-    public CartController(CartService cartService, ItemService itemService) {
-        this.cartService = cartService;
-        this.itemService = itemService;
-    }
+    private CartService cartService;
 
     @GetMapping("/cart")
-    public String cart(Model model){
-        model.addAttribute("products", cartService.itemsInCart());
-        model.addAttribute("totalPrice", cartService.totalPrice());
-        System.out.println(cartService.totalPrice());
-        System.out.println(cartService.itemsInCart());
-        return "cart";
+    public List<Cart> allCart(){
+        return cartService.showCart();
     }
 
-    @PostMapping("/cart/addItem/{id}")
-    public String addProductToCart(@PathVariable String id){
-        Item item = itemService.findById(id);
-        if (item != null){
-            cartService.addItem(item);
-            return "Added";
-        } 
-        else {
-            return "Error: Id not present.";
-        }
-    }
-    
-    @DeleteMapping("/cart/removeItem/{id}")
-    public String removeProductFromCart(@PathVariable  String id){
-        Item item = itemService.findById(id);
-        if (item != null){
-            cartService.removeItem(item);
-            return "Deleted";
-        } else {
-            return "Error: Id not present to delete.";
-        } 
+    @GetMapping("/cart/{cartId}")
+    public Cart showCartWithId(@PathVariable String cartId){
+        return cartService.showCartofId(cartId);
     }
 
-    @GetMapping("/cart/clearCart")
-    public String clearProductsInCart(){
-        cartService.clearItem();
-        return "Cleared";
+    @PostMapping("/addToCart/{cartId}/{itemId}")
+    public void addToCart(@PathVariable String cartId, @PathVariable String itemId, int quantity){
+        cartService.addItem(cartId, itemId, quantity);
     }
 
-    @GetMapping("/cart/checkout")
-    public String cartCheckout(){
-        cartService.cartCheckout();
-        return "Proceeding to checkout";
+    @DeleteMapping("/deleteCart/{cartId}")
+    public void deleteCart(@PathVariable String cartId){
+        cartService.removeCart(cartId);
     }
-    
+
+    @PutMapping("/clearCart/{cartId}")
+    public void clearCart(@PathVariable String cartId){
+        cartService.clearCart(cartId);
+    }
+
+    @DeleteMapping("/deleteCart/{cartId}/{itemId}")
+    public void deleteItem(@PathVariable String cartId, @PathVariable String itemId){
+        cartService.removeItem(cartId, itemId);
+    }
+
+    @PutMapping("/updateCart/{cartId}/{itemId}")
+    public void updateCart(@PathVariable String cartId, @PathVariable String itemId, int quantity){
+        cartService.updateItemQuantity(cartId, itemId, quantity);
+    }
+    // @GetMapping("/cart/checkout")
+    // public String cartCheckout(){
+    //     cartService.cartCheckout();
+    //     return "Proceeding to checkout";
+    // }
+
 }

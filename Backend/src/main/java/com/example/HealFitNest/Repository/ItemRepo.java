@@ -4,5 +4,7 @@ import com.example.HealFitNest.Model.Item;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface ItemRepo extends MongoRepository<Item,String> {
+    Item findByitemName(String itemName);
+    Item findBySubCategoryId(String SubCategoryId);
 }
 

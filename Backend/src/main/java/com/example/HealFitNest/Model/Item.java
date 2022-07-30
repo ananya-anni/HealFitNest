@@ -20,7 +20,7 @@ public class Item {
     @Id
     private String itemId;
     private String categoryId;
-    private String SubCategoryId;
+    private String subCategoryId;
     private String itemName;
     private String itemdescription;
     private BigDecimal itemPrice;
