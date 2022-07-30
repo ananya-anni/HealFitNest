@@ -12,6 +12,7 @@ import com.example.HealFitNest.Model.CartItem;
 import com.example.HealFitNest.Model.Item;
 import com.example.HealFitNest.Repository.CartRepo;
 import com.example.HealFitNest.Service.CartService;
+import com.example.HealFitNest.Service.InventoryService;
 import com.example.HealFitNest.Service.ItemService;
 
 @Service
@@ -22,22 +23,31 @@ public class CartServiceImp implements CartService {
     @Autowired
     private ItemService itemService;
 
+    @Autowired
+    private InventoryService inventService;
+
     List<CartItem> addCartItem =  new ArrayList<CartItem>();
 
     public void addItem(String cartId, String itemId, int quantity) {
         try{
             Item item = itemService.findItemById(itemId);
-            CartItem cartItem = new CartItem(itemId, item.getItemName(), item.getItemPrice(), quantity);
-            addCartItem.add(cartItem);
-            Cart cart = new Cart();
-            cart.setCartId(cartId);
-            cart.setCartItems(addCartItem);
-            cartRepo.save(cart);
-            int count = countItem(cartId);
-            cart.setCountItem(count);
-            BigDecimal total = totalPrice(cartId);
-            cart.setTotalPrice(total);
-            cartRepo.save(cart);
+            if(item.getItemAvailable()){
+                CartItem cartItem = new CartItem(itemId, item.getItemName(), item.getItemPrice(), quantity);
+                addCartItem.add(cartItem);
+                Cart cart = new Cart();
+                cart.setCartId(cartId);
+                cart.setCartItems(addCartItem);
+                cartRepo.save(cart);
+                int count = countItem(cartId);
+                cart.setCountItem(count);
+                BigDecimal total = totalPrice(cartId);
+                cart.setTotalPrice(total);
+                cartRepo.save(cart);
+                inventService.amountVariation(itemId, quantity);
+                boolean avail = inventService.itemAvailability(itemId);
+                item.setItemAvailable(avail);
+                itemService.saveItem(item);
+            } 
         } catch (Exception e){
             System.out.println(e);
         }
@@ -109,6 +119,7 @@ public class CartServiceImp implements CartService {
 
     public void updateItemQuantity(String cartId, String itemId, int quantity){
         Cart cart = cartRepo.findById(cartId).get();
+        Item item = itemService.findItemById(itemId);
         List<CartItem> cartItems = cart.getCartItems(); 
         int updateIndex = 0;
         for(CartItem eachCartItem : cartItems){
@@ -118,13 +129,21 @@ public class CartServiceImp implements CartService {
             }
         }
         CartItem eachCartItem = cartItems.get(updateIndex);
-        eachCartItem.setItemQuantity(quantity);
-        cartRepo.save(cart);
-        int count = countItem(cartId);
-        cart.setCountItem(count);
-        BigDecimal total = totalPrice(cartId);
-        cart.setTotalPrice(total);
-        cartRepo.save(cart);
+        if(item.getItemAvailable()){
+            eachCartItem.setItemQuantity(quantity);
+            cartRepo.save(cart);
+            int count = countItem(cartId);
+            cart.setCountItem(count);
+            BigDecimal total = totalPrice(cartId);
+            cart.setTotalPrice(total);
+            cartRepo.save(cart);
+            inventService.amountVariation(itemId, quantity);
+            boolean avail = inventService.itemAvailability(itemId);
+            item.setItemAvailable(avail);
+            itemService.saveItem(item);
+        } else {
+            System.out.println("Not present");
+        }        
     }
 
     // public void cartCheckout() {

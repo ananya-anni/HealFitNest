@@ -19,9 +19,6 @@ public class InventoryServiceImp implements InventoryService {
     @Autowired
     private ItemService itemService;
 
-    // @Autowired
-    // private CartService cartService;
-
     @Autowired
     private InventoryRepo inventRepo;
 
@@ -30,6 +27,9 @@ public class InventoryServiceImp implements InventoryService {
             Item item = itemService.findItemById(itemId);
             Inventory inventItem = new Inventory(itemId, item.getItemName(), amount);
             inventRepo.save(inventItem);
+            boolean avail = itemAvailability(itemId);
+            item.setItemAvailable(avail);
+            itemService.saveItem(item);
         } catch (Exception e){
             System.out.println(e);
         }
@@ -52,11 +52,17 @@ public class InventoryServiceImp implements InventoryService {
         }
     }
 
-    // public void amountVariation(String cartId){
-    //     Cart cart = cartService.showCartofId(cartId);
-    //     List<CartItem> cartItems = cart.getCartItems();
-    //     for(CartItem eachCartItem : cartItems){
-    //     }   
-    // }
+    public void amountVariation(String itemId, int quantity){
+         Inventory inventItem = showInventoryItem(itemId);
+         int amount  = inventItem.getAmountPresent() - quantity;
+         inventItem.setAmountPresent(amount);
+         inventRepo.save(inventItem);
+    }
     
+    public void updateInventQuantity(String itemId, int quantity){
+        Inventory inventItem = showInventoryItem(itemId);
+        int amount  = inventItem.getAmountPresent() + quantity;
+        inventItem.setAmountPresent(amount);
+        inventRepo.save(inventItem);
+    }
 }

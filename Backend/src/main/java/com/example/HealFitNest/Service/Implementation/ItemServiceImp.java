@@ -38,7 +38,4 @@ public class ItemServiceImp implements ItemService {
         query.addCriteria(Criteria.where("categoryId").is(categoryId));
         return mongoTemplate.find(query, Item.class);
     }
-
-
-
 }

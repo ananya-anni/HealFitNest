@@ -27,4 +27,9 @@ public class InventoryController {
     public List<Inventory> showAll(){
         return inventService.showInventory();
     }
+
+    @PostMapping("/updateInventItem/{itemId}")
+    public void updateInventItem(@PathVariable String itemId, int amount){
+        inventService.updateInventQuantity(itemId, amount);
+    }
 }
