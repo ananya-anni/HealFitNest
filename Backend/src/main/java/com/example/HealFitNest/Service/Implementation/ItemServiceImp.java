@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.example.HealFitNest.Handler.ItemNotFoundException;
 import com.example.HealFitNest.Model.Item;
 import com.example.HealFitNest.Repository.ItemRepo;
 import com.example.HealFitNest.Service.ItemService;
@@ -30,7 +31,7 @@ public class ItemServiceImp implements ItemService {
     }
 
     public Item findItemById(String id) {
-        return itemRepo.findById(id).get();
+        return itemRepo.findById(id).orElseThrow(() -> new ItemNotFoundException("Item not found of this id: "+id));
     }
 
     public List<Item> getAllItems(String categoryId){

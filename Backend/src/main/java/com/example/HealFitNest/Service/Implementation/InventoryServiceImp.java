@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.HealFitNest.Handler.ItemNotFoundException;
 // import com.example.HealFitNest.Model.Cart;
 // import com.example.HealFitNest.Model.CartItem;
 import com.example.HealFitNest.Model.Inventory;
@@ -23,16 +24,12 @@ public class InventoryServiceImp implements InventoryService {
     private InventoryRepo inventRepo;
 
     public void addNewItem(String itemId, int amount){
-        try{
-            Item item = itemService.findItemById(itemId);
-            Inventory inventItem = new Inventory(itemId, item.getItemName(), amount);
-            inventRepo.save(inventItem);
-            boolean avail = itemAvailability(itemId);
-            item.setItemAvailable(avail);
-            itemService.saveItem(item);
-        } catch (Exception e){
-            System.out.println(e);
-        }
+        Item item = itemService.findItemById(itemId);
+        Inventory inventItem = new Inventory(itemId, item.getItemName(), amount);
+        inventRepo.save(inventItem);
+        boolean avail = itemAvailability(itemId);
+        item.setItemAvailable(avail);
+        itemService.saveItem(item);
     }
 
     public List<Inventory> showInventory(){
@@ -40,7 +37,7 @@ public class InventoryServiceImp implements InventoryService {
     }
 
     public Inventory showInventoryItem(String itemId){
-        return inventRepo.findById(itemId).get();
+        return inventRepo.findById(itemId).orElseThrow(() -> new ItemNotFoundException("Item does not exists."));
     }
 
     public boolean itemAvailability(String itemId){
