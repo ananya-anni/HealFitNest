@@ -9,12 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 @Document(collection = "Items")
-
-
-
 public class Item {
 
     @Id
@@ -22,10 +17,8 @@ public class Item {
     private String categoryId;
     private String subCategoryId;
     private String itemName;
-    private String itemdescription;
+    private String itemDescription;
     private BigDecimal itemPrice;
     private Boolean itemAvailable;
     private String itemImage;
-    public Object getItemPrice;
-
 }

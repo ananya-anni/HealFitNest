@@ -1,5 +1,3 @@
-
-
 package com.example.HealFitNest.Model;
 
 import lombok.*;

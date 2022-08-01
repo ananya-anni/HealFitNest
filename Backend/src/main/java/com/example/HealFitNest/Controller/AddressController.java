@@ -54,6 +54,4 @@ public class AddressController{
     public List<Address> getAddresses(@PathVariable String userId){
         return addressService.getAllAddress(userId);
     }
-
-
 }
