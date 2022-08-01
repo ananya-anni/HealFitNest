@@ -39,4 +39,20 @@ public class ItemServiceImp implements ItemService {
         query.addCriteria(Criteria.where("categoryId").is(categoryId));
         return mongoTemplate.find(query, Item.class);
     }
+
+
+    @Override
+    public Item searchItem(String name){
+        return itemRepo.findByitemName(name);
+
+
+    }
+    @Override
+    public List<Item> getAllItem(String subId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("subCategoryId").is(subId));
+        return mongoTemplate.find(query, Item.class);
+    }
+
+
 }
