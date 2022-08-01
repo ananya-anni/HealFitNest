@@ -6,12 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.HealFitNest.Handler.ItemNotFoundException;
-// import com.example.HealFitNest.Model.Cart;
-// import com.example.HealFitNest.Model.CartItem;
 import com.example.HealFitNest.Model.Inventory;
 import com.example.HealFitNest.Model.Item;
 import com.example.HealFitNest.Repository.InventoryRepo;
-// import com.example.HealFitNest.Service.CartService;
 import com.example.HealFitNest.Service.InventoryService;
 import com.example.HealFitNest.Service.ItemService;
 
@@ -61,5 +58,9 @@ public class InventoryServiceImp implements InventoryService {
         int amount  = inventItem.getAmountPresent() + quantity;
         inventItem.setAmountPresent(amount);
         inventRepo.save(inventItem);
+        Item item = itemService.findItemById(itemId);
+        boolean avail = itemAvailability(itemId);
+        item.setItemAvailable(avail);
+        itemService.saveItem(item);
     }
 }

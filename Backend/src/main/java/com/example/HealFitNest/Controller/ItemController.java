@@ -1,5 +1,6 @@
 package com.example.HealFitNest.Controller;
 
+import com.example.HealFitNest.Handler.ItemNotFoundException;
 import com.example.HealFitNest.Model.Item;
 import com.example.HealFitNest.Repository.ItemRepo;
 import com.example.HealFitNest.Service.Implementation.ItemServiceImp;
@@ -34,14 +35,15 @@ public class ItemController {
 
     @GetMapping("{id}")
     public ResponseEntity<Item> getItemsById(@PathVariable String id){
-        Item item = itemRepo.findById(id).orElse(null);
-//                .orElseThrow(() -> new ResourceNotFound("Mentors with the Id : " + id + "was not found!"));
+        Item item = itemRepo.findById(id)
+               .orElseThrow(() -> new ItemNotFoundException("Item with the Id : " + id + " was not found!"));
         return ResponseEntity.ok(item);
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Item> updateItem(@PathVariable String id, @RequestBody Item updatedItem){
-        Item updateItem = itemRepo.findById(id).orElse(null);
+        Item updateItem = itemRepo.findById(id)
+                .orElseThrow(() -> new ItemNotFoundException("Item with the Id : " + id + " was not found!"));
         updateItem.setItemName(updatedItem.getItemName());
         updateItem.setItemDescription(updatedItem.getItemDescription());
         updateItem.setItemPrice(updatedItem.getItemPrice());
