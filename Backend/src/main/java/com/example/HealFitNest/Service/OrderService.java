@@ -9,4 +9,6 @@ public interface OrderService {
 
     Order showOrderbyId(String orderId) ;
 
+    void  saveOrder(Order order);
+
 }

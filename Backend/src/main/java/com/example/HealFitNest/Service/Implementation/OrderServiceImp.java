@@ -2,6 +2,7 @@ package com.example.HealFitNest.Service.Implementation;
 
 import java.util.List;
 
+import com.example.HealFitNest.Service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,17 +20,23 @@ public class OrderServiceImp implements OrderService{
     @Autowired
     private OrderRepo orderRepo;
 
+    @Autowired
+    private CartService cartService;
+
     public List<Order> showOrder() {
+
         return orderRepo.findAll();
     }
 
-//    public Cart showCartofId(String cartId){
-//        return cartRepo.findById(cartId).get();
-//    }
-
     @Override
     public Order showOrderbyId(String orderId) {
+
         return orderRepo.findById(orderId).get();
+    }
+
+    @Override
+    public void saveOrder(Order order) {
+        orderRepo.save(order);
     }
 
 }
