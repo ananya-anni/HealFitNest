@@ -38,9 +38,9 @@ public class CartController {
     }
 
     // Add item which is present in the item as well as inventory to the cart
-    @PostMapping("/addToCart/{cartId}/{itemId}")
-    public ResponseEntity<?> addToCart(@PathVariable String cartId, @PathVariable String itemId, int quantity){
-        cartService.addItem(cartId, itemId, quantity);
+    @PostMapping("/addToCart/{userId}/{cartId}/{itemId}/{quantity}")
+    public ResponseEntity<?> addToCart(@PathVariable String userId, @PathVariable String cartId, @PathVariable String itemId, @PathVariable int quantity){
+        cartService.addItem(userId, cartId, itemId, quantity);
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 

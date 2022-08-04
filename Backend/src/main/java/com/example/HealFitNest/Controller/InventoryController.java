@@ -19,8 +19,8 @@ public class InventoryController {
     private InventoryService inventService;
 
     // Add item to the invetory table
-    @PostMapping("/addInventItem/{itemId}")
-    public void addInventItem(@PathVariable String itemId, int amount){
+    @PostMapping("/addInventItem/{itemId}/{amount}")
+    public void addInventItem(@PathVariable String itemId, @PathVariable int amount){
         inventService.addNewItem(itemId, amount);
     }
 
@@ -31,8 +31,8 @@ public class InventoryController {
     }
 
     // Updates the item quantity present in inventory 
-    @PostMapping("/updateInventItem/{itemId}")
-    public void updateInventItem(@PathVariable String itemId, int amount){
+    @PostMapping("/updateInventItem/{itemId}/{amount}")
+    public void updateInventItem(@PathVariable String itemId, @PathVariable int amount){
         inventService.updateInventQuantity(itemId, amount);
     }
 }
