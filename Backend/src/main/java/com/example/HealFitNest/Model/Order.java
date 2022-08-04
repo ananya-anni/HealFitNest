@@ -17,6 +17,6 @@ public class Order {
     private String userId;
     private String cartId;
     private String addressId;
-    private String status;
+    private Boolean status=false;
     private BigDecimal totalPrice;
 }

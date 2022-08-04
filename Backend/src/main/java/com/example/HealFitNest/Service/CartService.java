@@ -6,7 +6,7 @@ import java.util.List;
 import com.example.HealFitNest.Model.Cart;
 
 public interface CartService {
-    public void addItem(String cartId, String itemId, int quantity);
+    public void addItem(String userId, String cartId, String itemId, int quantity);
     public List<Cart> showCart();
     public Cart showCartofId(String cartId);
     public void removeCart(String cartId);
