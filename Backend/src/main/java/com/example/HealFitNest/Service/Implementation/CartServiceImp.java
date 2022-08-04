@@ -9,10 +9,13 @@ import org.springframework.stereotype.Service;
 
 import com.example.HealFitNest.Handler.CartNotFoundException;
 import com.example.HealFitNest.Handler.ItemNotFoundException;
+import com.example.HealFitNest.Handler.UserNotFoundException;
 import com.example.HealFitNest.Model.Cart;
 import com.example.HealFitNest.Model.CartItem;
 import com.example.HealFitNest.Model.Item;
+import com.example.HealFitNest.Model.Users;
 import com.example.HealFitNest.Repository.CartRepo;
+import com.example.HealFitNest.Repository.UserRepo;
 import com.example.HealFitNest.Service.CartService;
 import com.example.HealFitNest.Service.InventoryService;
 import com.example.HealFitNest.Service.ItemService;
@@ -28,16 +31,29 @@ public class CartServiceImp implements CartService {
     @Autowired
     private InventoryService inventService;
 
-    List<CartItem> addCartItem =  new ArrayList<CartItem>();
+    @Autowired
+    private UserRepo userRepo;
 
-    public void addItem(String cartId, String itemId, int quantity) {
+    
+    public void addItem(String userId, String cartId, String itemId, int quantity) {
         Item item = itemService.findItemById(itemId);
+        Users user = userRepo.findById(userId).orElseThrow(()-> new UserNotFoundException("User not found"));
+        boolean present = cartRepo.findById(cartId).isPresent();
+        List<CartItem> addCartItem =  new ArrayList<CartItem>();
+        if(present){
+            System.out.println(present);
+            Cart preCart = showCartofId(cartId);
+            List<CartItem> previousCartItem = preCart.getCartItems();
+            addCartItem.addAll(previousCartItem);
+        }
+        System.out.println(present);
         if(item.getItemAvailable()){
             CartItem cartItem = new CartItem(itemId, item.getItemName(), item.getItemPrice(), quantity);
-            addCartItem.add(cartItem);
             Cart cart = new Cart();
+            addCartItem.add(cartItem);
             cart.setCartId(cartId);
             cart.setCartItems(addCartItem);
+            cart.setUserId(userId);
             cartRepo.save(cart);
             int count = countItem(cartId);
             cart.setCountItem(count);
