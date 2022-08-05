@@ -9,14 +9,12 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 @Document(collection = "Category")
 
 public class Category {
 
     @Id
-    private String categoryId;
+    private int categoryId;
     private List<String> subCategoryId;
     private String categoryName;
     private List<String> subCategoryName;

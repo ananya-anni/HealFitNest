@@ -3,7 +3,6 @@ package com.example.HealFitNest.Controller;
 import com.example.HealFitNest.Model.Category;
 import com.example.HealFitNest.Model.Item;
 import com.example.HealFitNest.Repository.CategoryRepo;
-import com.example.HealFitNest.Service.CategoryServices;
 import com.example.HealFitNest.Service.Implementation.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -54,7 +53,7 @@ public class CategoryController {
     @GetMapping("/categoryNames")
     public List<String> getAllCategories(){
         return categoryService.displayAllCategory();
-    }
+}
     @GetMapping("/categories/{CategoryName}")
     public List<String> showAllSubCategory(@PathVariable String CategoryName){
         return categoryService.displaySubCategory(CategoryName);
@@ -72,3 +71,4 @@ public class CategoryController {
 
 
 }
+

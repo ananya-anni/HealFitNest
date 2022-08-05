@@ -43,7 +43,7 @@ public class UserController {
         users.setLastName(users.getLastName());
         users.setContact(users.getContact());
         String emailreg="^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
-        Pattern pattern=Pattern.compile(emailreg);
+                Pattern pattern=Pattern.compile(emailreg);
         Matcher matcher= pattern.matcher(users.getEmail());
         if(matcher.matches()==true)
             users.setEmail(users.getEmail());
@@ -59,7 +59,7 @@ public class UserController {
         userRepo.save(users);
         return "User Added Successfully";
 
-    }
+}
     @PostMapping("/loginUser")
     private ResponseEntity<String> loginAuth(@RequestBody Users users){
         String email=users.getEmail();
@@ -74,3 +74,6 @@ public class UserController {
     }
 
 }
+
+
+

@@ -9,5 +9,4 @@ public interface ItemService {
     Item findItemById(String id);
     Item searchItem(String name);
     List<Item> getAllItem(String subId);
-    List<Item> getAllItems(String categoryId);
 }
