@@ -7,11 +7,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.HealFitNest.Handler.CartNotFoundException;
+import com.example.HealFitNest.Handler.ItemNotFoundException;
+import com.example.HealFitNest.Handler.UserNotFoundException;
 import com.example.HealFitNest.Model.Cart;
 import com.example.HealFitNest.Model.CartItem;
 import com.example.HealFitNest.Model.Item;
+import com.example.HealFitNest.Model.Users;
 import com.example.HealFitNest.Repository.CartRepo;
+import com.example.HealFitNest.Repository.UserRepo;
 import com.example.HealFitNest.Service.CartService;
+import com.example.HealFitNest.Service.InventoryService;
 import com.example.HealFitNest.Service.ItemService;
 
 @Service
@@ -22,33 +28,54 @@ public class CartServiceImp implements CartService {
     @Autowired
     private ItemService itemService;
 
-    List<CartItem> addCartItem =  new ArrayList<CartItem>();
+    @Autowired
+    private InventoryService inventService;
 
-    public void addItem(String cartId, String itemId, int quantity) {
-        try{
-            Item item = itemService.findItemById(itemId);
+    @Autowired
+    private UserRepo userRepo;
+
+    
+    public void addItem(String userId, String cartId, String itemId, int quantity) {
+        Item item = itemService.findItemById(itemId);
+        Users user = userRepo.findById(userId).orElseThrow(()-> new UserNotFoundException("User not found"));
+        boolean present = cartRepo.findById(cartId).isPresent();
+        List<CartItem> addCartItem =  new ArrayList<CartItem>();
+        if(present){
+            System.out.println(present);
+            Cart preCart = showCartofId(cartId);
+            List<CartItem> previousCartItem = preCart.getCartItems();
+            addCartItem.addAll(previousCartItem);
+        }
+        System.out.println(present);
+        if(item.getItemAvailable()){
             CartItem cartItem = new CartItem(itemId, item.getItemName(), item.getItemPrice(), quantity);
-            addCartItem.add(cartItem);
             Cart cart = new Cart();
+            addCartItem.add(cartItem);
             cart.setCartId(cartId);
             cart.setCartItems(addCartItem);
+            cart.setUserId(userId);
             cartRepo.save(cart);
             int count = countItem(cartId);
             cart.setCountItem(count);
             BigDecimal total = totalPrice(cartId);
             cart.setTotalPrice(total);
             cartRepo.save(cart);
-        } catch (Exception e){
-            System.out.println(e);
+            inventService.amountVariation(itemId, quantity);
+            boolean avail = inventService.itemAvailability(itemId);
+            item.setItemAvailable(avail);
+            itemService.saveItem(item);
+        } else {
+            throw new ItemNotFoundException("Sufficient amount of this item is not present.");
         }
     }
-
+    
     public List<Cart> showCart(){
         return cartRepo.findAll();
     }
 
-    public Cart showCartofId(String cartId){
-        return cartRepo.findById(cartId).get();
+    public Cart showCartofId(String cartId){ 
+        return cartRepo.findById(cartId)
+                .orElseThrow(() -> new CartNotFoundException("Cart does not exists."));
     }
 
     public void removeCart(String cartId){
@@ -56,7 +83,7 @@ public class CartServiceImp implements CartService {
     }
 
     public int countItem(String cartId){
-        Cart cart = cartRepo.findById(cartId).get();
+        Cart cart = cartRepo.findById(cartId).orElseThrow(() -> new CartNotFoundException("Cart does not exist."));
         List<CartItem> cartItems = cart.getCartItems();
         int count = 0;
         for(CartItem eachCartItem : cartItems){
@@ -66,7 +93,7 @@ public class CartServiceImp implements CartService {
     }
 
     public BigDecimal totalPrice(String cartId){
-        Cart cart = cartRepo.findById(cartId).get();
+        Cart cart = cartRepo.findById(cartId).orElseThrow(() -> new CartNotFoundException("Cart does not exists."));
         List<CartItem> cartItems = cart.getCartItems();
         BigDecimal price = new BigDecimal(0);
         for(CartItem eachCartItem : cartItems){
@@ -76,7 +103,8 @@ public class CartServiceImp implements CartService {
     }
 
     public void clearCart(String cartId){
-        Cart cart = cartRepo.findById(cartId).get();
+        Cart cart = cartRepo.findById(cartId)
+                .orElseThrow(() -> new CartNotFoundException("Cart does not exsists."));
         List<CartItem> cartItems = cart.getCartItems();
         cartItems.clear();
         cart.setCountItem(0);
@@ -85,49 +113,57 @@ public class CartServiceImp implements CartService {
     }
 
     public void removeItem(String cartId, String itemId){
-        try{
-            Cart cart = cartRepo.findById(cartId).get();
-            List<CartItem> cartItems = cart.getCartItems();
-            int removeIndex=0;
-            for(CartItem eachCartItem : cartItems){
-                int index  = cartItems.indexOf(eachCartItem);
-                if(eachCartItem.getItemId().equalsIgnoreCase(itemId)){
-                    removeIndex = index;
-                }
+        Cart cart = cartRepo.findById(cartId)
+                .orElseThrow(() -> new CartNotFoundException("Cart does not exsists."));;
+        List<CartItem> cartItems = cart.getCartItems();
+        for(CartItem eachCartItem : cartItems){
+            int index  = cartItems.indexOf(eachCartItem); 
+            if(eachCartItem.getItemId().equalsIgnoreCase(itemId)){
+                int removeIndex = index;
+                int quant = eachCartItem.getItemQuantity();
+                cartItems.remove(removeIndex);
+                cartRepo.save(cart);
+                int count = countItem(cartId);
+                cart.setCountItem(count);
+                BigDecimal total = totalPrice(cartId);
+                cart.setTotalPrice(total);
+                cartRepo.save(cart);
+                inventService.updateInventQuantity(itemId, quant);
+            } 
+        }
+    }
+
+    public void updateItemQuantity(String cartId, String itemId, int quantity){
+        Cart cart = cartRepo.findById(cartId)
+                .orElseThrow(() -> new CartNotFoundException("Cart does not exsist."));
+        Item item = itemService.findItemById(itemId);
+        List<CartItem> cartItems = cart.getCartItems(); 
+        int updateIndex = 0;
+        for(CartItem eachCartItem : cartItems){
+            int index  = cartItems.indexOf(eachCartItem); 
+            if(eachCartItem.getItemId().equalsIgnoreCase(itemId)){
+                updateIndex = index;
             }
-            cartItems.remove(removeIndex);
+        }
+        CartItem eachCartItem = cartItems.get(updateIndex);
+        if(item.getItemAvailable()){
+            eachCartItem.setItemQuantity(quantity);
             cartRepo.save(cart);
             int count = countItem(cartId);
             cart.setCountItem(count);
             BigDecimal total = totalPrice(cartId);
             cart.setTotalPrice(total);
             cartRepo.save(cart);
-        } catch (Exception e){
-            System.out.println(e);
-        }
-    }
-
-    public void updateItemQuantity(String cartId, String itemId, int quantity){
-        Cart cart = cartRepo.findById(cartId).get();
-        List<CartItem> cartItems = cart.getCartItems();
-        int updateIndex = 0;
-        for(CartItem eachCartItem : cartItems){
-            int index  = cartItems.indexOf(eachCartItem);
-            if(eachCartItem.getItemId().equalsIgnoreCase(itemId)){
-                updateIndex = index;
-            }
-        }
-        CartItem eachCartItem = cartItems.get(updateIndex);
-        eachCartItem.setItemQuantity(quantity);
-        cartRepo.save(cart);
-        int count = countItem(cartId);
-        cart.setCountItem(count);
-        BigDecimal total = totalPrice(cartId);
-        cart.setTotalPrice(total);
-        cartRepo.save(cart);
+            inventService.amountVariation(itemId, quantity);
+            boolean avail = inventService.itemAvailability(itemId);
+            item.setItemAvailable(avail);
+            itemService.saveItem(item);
+        } else {
+            throw new ItemNotFoundException("Inventory does not contain sufficient amount.");
+        }        
     }
 
     // public void cartCheckout() {
     //     cart.clear();
-    // }
+    // }   
 }

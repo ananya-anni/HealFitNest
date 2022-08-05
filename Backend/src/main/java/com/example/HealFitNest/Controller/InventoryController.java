@@ -18,13 +18,21 @@ public class InventoryController {
     @Autowired
     private InventoryService inventService;
 
-    @PostMapping("/addInventItem/{itemId}")
-    public void addInventItem(@PathVariable String itemId, int amount){
+    // Add item to the invetory table
+    @PostMapping("/addInventItem/{itemId}/{amount}")
+    public void addInventItem(@PathVariable String itemId, @PathVariable int amount){
         inventService.addNewItem(itemId, amount);
     }
 
+    // List all the items present in the inventory
     @GetMapping("/inventory")
     public List<Inventory> showAll(){
         return inventService.showInventory();
+    }
+
+    // Updates the item quantity present in inventory 
+    @PostMapping("/updateInventItem/{itemId}/{amount}")
+    public void updateInventItem(@PathVariable String itemId, @PathVariable int amount){
+        inventService.updateInventQuantity(itemId, amount);
     }
 }

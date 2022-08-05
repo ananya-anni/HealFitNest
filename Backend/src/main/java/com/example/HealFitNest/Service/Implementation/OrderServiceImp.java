@@ -1,4 +1,3 @@
-
 package com.example.HealFitNest.Service.Implementation;
 
 import java.util.List;
@@ -16,7 +15,7 @@ import com.example.HealFitNest.Repository.OrderRepo;
 import com.example.HealFitNest.Service.OrderService;
 
 @Service
-public class OrderServiceImpl implements OrderService{
+public class OrderServiceImp implements OrderService{
     @Autowired
     private OrderRepo orderRepo;
 
@@ -32,6 +31,4 @@ public class OrderServiceImpl implements OrderService{
     public Order showOrderbyId(String orderId) {
         return orderRepo.findById(orderId).get();
     }
-
-
 }

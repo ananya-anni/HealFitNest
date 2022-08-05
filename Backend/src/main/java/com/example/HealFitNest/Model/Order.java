@@ -9,18 +9,14 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 @Document(collection = "Order")
 public class Order {
 
     @Id
     private String orderId;
     private String userId;
-    private String cartId ;
+    private String cartId;
     private String addressId;
     private String status;
     private BigDecimal totalPrice;
-
-
 }
