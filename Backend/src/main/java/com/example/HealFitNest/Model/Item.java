@@ -21,6 +21,4 @@ public class Item {
     private BigDecimal itemPrice;
     private Boolean itemAvailable;
     private String itemImage;
-    public Object getItemPrice;
-
 }

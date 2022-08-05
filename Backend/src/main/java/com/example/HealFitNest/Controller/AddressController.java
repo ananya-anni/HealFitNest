@@ -5,6 +5,7 @@ import com.example.HealFitNest.Repository.AddressRepo;
 
 import com.example.HealFitNest.Service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,6 +49,8 @@ public class AddressController{
         addressRepo.deleteById(id);
         return "Deleted Successfully";
     }
+
+
 
     @GetMapping("/get/{userId}")
     public List<Address> getAddresses(@PathVariable String userId){

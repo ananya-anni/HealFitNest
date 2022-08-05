@@ -15,11 +15,8 @@ public class Order {
     @Id
     private String orderId;
     private String userId;
-    private String cartId ;
-    private String orderedDate;
+    private String cartId;
     private String addressId;
-    private String status;
+    private Boolean status=false;
     private BigDecimal totalPrice;
-
-
 }
