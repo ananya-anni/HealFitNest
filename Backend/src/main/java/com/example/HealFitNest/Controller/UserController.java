@@ -53,9 +53,11 @@ public class UserController {
         Pattern pat=Pattern.compile(passreg);
         Matcher mat= pat.matcher(users.getPassword());
         if(mat.matches()==true)
-            users.setPassword(passwordEncoder.encode(users.getPassword()));
+        users.setPassword(passwordEncoder.encode(users.getPassword()));
         else
             return "Enter a valid Password";
+
+
         userRepo.save(users);
         return "User Added Successfully";
 

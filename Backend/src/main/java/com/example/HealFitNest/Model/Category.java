@@ -16,7 +16,7 @@ import java.util.List;
 public class Category {
 
     @Id
-    private int categoryId;
+    private String categoryId;
     private List<String> subCategoryId;
     private String categoryName;
     private List<String> subCategoryName;
