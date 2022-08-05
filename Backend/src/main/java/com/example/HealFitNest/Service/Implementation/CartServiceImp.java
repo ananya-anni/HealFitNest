@@ -1,6 +1,5 @@
 package com.example.HealFitNest.Service.Implementation;
 
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,25 +25,29 @@ public class CartServiceImp implements CartService {
     List<CartItem> addCartItem =  new ArrayList<CartItem>();
 
     public void addItem(String cartId, String itemId, int quantity) {
-        Item item = itemService.findItemById(itemId);
-        CartItem cartItem = new CartItem(itemId, item.getItemName(), item.getItemPrice(), quantity);
-        addCartItem.add(cartItem);
-        Cart cart = new Cart();
-        cart.setCartId(cartId);
-        cart.setCartItems(addCartItem);
-        cartRepo.save(cart);
-        int count = countItem(cartId);
-        cart.setCountItem(count);
-        BigDecimal total = totalPrice(cartId);
-        cart.setTotalPrice(total);
-        cartRepo.save(cart);
+        try{
+            Item item = itemService.findItemById(itemId);
+            CartItem cartItem = new CartItem(itemId, item.getItemName(), item.getItemPrice(), quantity);
+            addCartItem.add(cartItem);
+            Cart cart = new Cart();
+            cart.setCartId(cartId);
+            cart.setCartItems(addCartItem);
+            cartRepo.save(cart);
+            int count = countItem(cartId);
+            cart.setCountItem(count);
+            BigDecimal total = totalPrice(cartId);
+            cart.setTotalPrice(total);
+            cartRepo.save(cart);
+        } catch (Exception e){
+            System.out.println(e);
+        }
     }
-    
+
     public List<Cart> showCart(){
         return cartRepo.findAll();
     }
 
-    public Cart showCartofId(String cartId){ 
+    public Cart showCartofId(String cartId){
         return cartRepo.findById(cartId).get();
     }
 
@@ -82,30 +85,34 @@ public class CartServiceImp implements CartService {
     }
 
     public void removeItem(String cartId, String itemId){
-        Cart cart = cartRepo.findById(cartId).get();
-        List<CartItem> cartItems = cart.getCartItems();
-        int removeIndex=0;
-        for(CartItem eachCartItem : cartItems){
-            int index  = cartItems.indexOf(eachCartItem); 
-            if(eachCartItem.getItemId().equalsIgnoreCase(itemId)){
-                removeIndex = index;
+        try{
+            Cart cart = cartRepo.findById(cartId).get();
+            List<CartItem> cartItems = cart.getCartItems();
+            int removeIndex=0;
+            for(CartItem eachCartItem : cartItems){
+                int index  = cartItems.indexOf(eachCartItem);
+                if(eachCartItem.getItemId().equalsIgnoreCase(itemId)){
+                    removeIndex = index;
+                }
             }
+            cartItems.remove(removeIndex);
+            cartRepo.save(cart);
+            int count = countItem(cartId);
+            cart.setCountItem(count);
+            BigDecimal total = totalPrice(cartId);
+            cart.setTotalPrice(total);
+            cartRepo.save(cart);
+        } catch (Exception e){
+            System.out.println(e);
         }
-        cartItems.remove(removeIndex);
-        cartRepo.save(cart);
-        int count = countItem(cartId);
-        cart.setCountItem(count);
-        BigDecimal total = totalPrice(cartId);
-        cart.setTotalPrice(total);
-        cartRepo.save(cart);
     }
 
     public void updateItemQuantity(String cartId, String itemId, int quantity){
         Cart cart = cartRepo.findById(cartId).get();
-        List<CartItem> cartItems = cart.getCartItems(); 
+        List<CartItem> cartItems = cart.getCartItems();
         int updateIndex = 0;
         for(CartItem eachCartItem : cartItems){
-            int index  = cartItems.indexOf(eachCartItem); 
+            int index  = cartItems.indexOf(eachCartItem);
             if(eachCartItem.getItemId().equalsIgnoreCase(itemId)){
                 updateIndex = index;
             }
@@ -120,8 +127,7 @@ public class CartServiceImp implements CartService {
         cartRepo.save(cart);
     }
 
-    // @Override
     // public void cartCheckout() {
     //     cart.clear();
-    // }   
+    // }
 }

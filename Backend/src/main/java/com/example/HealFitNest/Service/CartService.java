@@ -3,11 +3,8 @@ package com.example.HealFitNest.Service;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import com.example.HealFitNest.Model.Cart;
 
-@Service
 public interface CartService {
     public void addItem(String cartId, String itemId, int quantity);
     public List<Cart> showCart();

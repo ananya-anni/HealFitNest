@@ -3,7 +3,6 @@ package com.example.HealFitNest.Model;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,6 +12,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Getter
 @Setter
 @Document(collection = "Items")
+
+
+
 public class Item {
 
     @Id
@@ -20,7 +22,7 @@ public class Item {
     private String categoryId;
     private String subCategoryId;
     private String itemName;
-    private String itemDescription;
+    private String itemdescription;
     private BigDecimal itemPrice;
     private Boolean itemAvailable;
     private String itemImage;

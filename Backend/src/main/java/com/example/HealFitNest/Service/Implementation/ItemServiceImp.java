@@ -33,11 +33,39 @@ public class ItemServiceImp implements ItemService {
         return itemRepo.findById(id).get();
     }
 
-    public List<Item> getAllItems(String categoryId){
+
+    @Override
+    public Item searchItem(String name){
+        return itemRepo.findByitemName(name);
+
+
+    }
+    @Override
+    public List<Item> getAllItem(String subId) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("categoryId").is(categoryId));
+        query.addCriteria(Criteria.where("subCategoryId").is(subId));
         return mongoTemplate.find(query, Item.class);
     }
+
+    public List<Item> getAllItems(String categoryId){
+//        itemRepo.findAll(new QPageRequest(pageNumber,pageLimit));
+//        query.addCriteria(Criteria.where("categoryId").is(categoryId));
+        return mongoTemplate.find(new Query(Criteria.where("categoryId").is(categoryId)), Item.class);
+    }
+//    public List<Item> getFewItems(String categoryId){
+//        List<Item> list = new ArrayList<Item>();
+//        List<Item> items = itemRepo.findAll();
+//        for(Item i:items){
+////            if(categoryId == i.getCategoryId())
+//                list.add(item);
+//        }
+////        Query query = new Query();
+////        query.addCriteria(Criteria.where("categoryId").is(categoryId));
+////        for(int i=0;i<3;i++){
+////             list = mongoTemplate.find(query, Item.class);
+////        }
+//        return list;
+//    }
 
 
 
