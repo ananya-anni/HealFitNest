@@ -29,7 +29,7 @@ public class AddressServiceImp implements AddressService {
 //
     public List<Address> getAllAddress(String userId){
         Query query = new Query();
-        query.addCriteria(Criteria.where("userId").is("1Mv004"));
+        query.addCriteria(Criteria.where("userId").is(userId));
         return mongoTemplate.find(query, Address.class);
 //        Address address=addressRepo.findById(userId);
 //        return address.getAddressLine1();

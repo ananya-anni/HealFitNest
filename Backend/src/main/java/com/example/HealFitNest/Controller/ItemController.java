@@ -18,8 +18,6 @@ import java.util.List;
 public class ItemController {
 
     @Autowired
-    private ItemServiceImp itemServiceImp;
-    @Autowired
     private ItemRepo itemRepo;
     @Autowired
     private ItemService itemService;
@@ -64,13 +62,17 @@ public class ItemController {
 
     @GetMapping("/get/{categoryId}")
     public List<Item> getItems(@PathVariable String categoryId){
-        return itemServiceImp.getAllItems(categoryId);
+        return itemService.getAllItems(categoryId);
     }
     @GetMapping("/item/{name}")
     public Item searchByName(@PathVariable String name){
         return itemService.searchItem(name);
     }
 
+    @GetMapping("/search/{itemName}")
+    public List<Item> searchItems(@PathVariable String itemName){
+        return itemService.searchAllItems(itemName);
+    }
 //    @GetMapping("/item/find/{subId}")
 //    public List<Item> getAddresses(@PathVariable String subId){
 //    return itemService.getAllItem(subId);}

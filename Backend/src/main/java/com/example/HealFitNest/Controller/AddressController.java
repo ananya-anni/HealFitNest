@@ -1,5 +1,7 @@
 package com.example.HealFitNest.Controller;
 
+import com.example.HealFitNest.Config.ValidationConfig;
+import com.example.HealFitNest.Handler.NotNullException;
 import com.example.HealFitNest.Model.Address;
 import com.example.HealFitNest.Repository.AddressRepo;
 
@@ -9,12 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
+//import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("/api/v3")
 
 @RestController
 public class AddressController{
+
     @Autowired
     private AddressRepo addressRepo;
     @Autowired
@@ -22,8 +27,14 @@ public class AddressController{
 
     @PostMapping("/addAddress")
     public String saveItem(@RequestBody Address address){
-        addressRepo.save(address);
-        return "Added Successfully";
+        try{
+            addressRepo.save(address);
+            return "Added Successfully";
+        } catch (ConstraintViolationException e){
+            return e.getMessage();
+        } catch (NotNullException e){
+            return e.getMessage();
+        }
     }
 
     @PutMapping("/update/{id}")

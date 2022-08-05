@@ -26,12 +26,21 @@ public class ItemServiceImp implements ItemService {
         this.itemRepo = itemRepo;
     }
 
+    @Override
     public void saveItem(@RequestBody Item item) {
         itemRepo.save(item);
     }
 
+    @Override
     public Item findItemById(String id) {
         return itemRepo.findById(id).orElseThrow(() -> new ItemNotFoundException("Item not found of this id: "+id));
+    }
+
+    @Override
+    public List<Item> getAllItems(String categoryId){
+        Query query = new Query();
+        query.addCriteria(Criteria.where("categoryId").is(categoryId));
+        return mongoTemplate.find(query, Item.class);
     }
 
 
@@ -48,37 +57,10 @@ public class ItemServiceImp implements ItemService {
         return mongoTemplate.find(query, Item.class);
     }
 
-    public List<Item> getAllItems(String categoryId){
-//        itemRepo.findAll(new QPageRequest(pageNumber,pageLimit));
-//        query.addCriteria(Criteria.where("categoryId").is(categoryId));
-        return mongoTemplate.find(new Query(Criteria.where("categoryId").is(categoryId)), Item.class);
-    }
-//    public List<Item> getFewItems(String categoryId){
-//        List<Item> list = new ArrayList<Item>();
-//        List<Item> items = itemRepo.findAll();
-//        for(Item i:items){
-////            if(categoryId == i.getCategoryId())
-//                list.add(item);
-//        }
-////        Query query = new Query();
-////        query.addCriteria(Criteria.where("categoryId").is(categoryId));
-////        for(int i=0;i<3;i++){
-////             list = mongoTemplate.find(query, Item.class);
-////        }
-//        return list;
-//    }
-
-
     @Override
-    public Item searchItem(String name){
-        return itemRepo.findByitemName(name);
-
-
-    }
-    @Override
-    public List<Item> getAllItem(String subId) {
+    public List<Item> searchAllItems(String itemName){
         Query query = new Query();
-        query.addCriteria(Criteria.where("subCategoryId").is(subId));
+        query.addCriteria(Criteria.where("itemName").regex(itemName));
         return mongoTemplate.find(query, Item.class);
     }
 
