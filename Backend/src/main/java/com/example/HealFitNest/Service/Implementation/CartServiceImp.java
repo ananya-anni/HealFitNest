@@ -35,10 +35,42 @@ public class CartServiceImp implements CartService {
     private UserRepo userRepo;
 
     
-    public void addItem(String userId, String cartId, String itemId, int quantity) {
+    public Cart createCart(Cart cart){
+        return cartRepo.save(cart);
+    }
+
+    public void addFirstItem(String userId, String cartId, String itemId, int quantity){
         Item item = itemService.findItemById(itemId);
         Users user = userRepo.findById(userId).orElseThrow(()-> new UserNotFoundException("User not found"));
+        Cart cart = cartRepo.findById(cartId).orElseThrow(()-> new CartNotFoundException("Cart not found"));
+        List<CartItem> addCartItem =  new ArrayList<CartItem>();
+        if(item.getItemAvailable()){
+            CartItem cartItem = new CartItem(itemId, item.getItemName(), item.getItemPrice(), quantity);
+            addCartItem.add(cartItem);
+            cart.setCartId(cartId);
+            cart.setCartItems(addCartItem);
+            cart.setUserId(userId);
+            cartRepo.save(cart);
+            int count = countItem(cartId);
+            cart.setCountItem(count);
+            BigDecimal total = totalPrice(cartId);
+            cart.setTotalPrice(total);
+            cartRepo.save(cart);
+            inventService.amountVariation(itemId, quantity);
+            boolean avail = inventService.itemAvailability(itemId);
+            item.setItemAvailable(avail);
+            itemService.saveItem(item);
+        } else {
+            throw new ItemNotFoundException("Sufficient amount of this item is not present.");
+        }
+    }
+
+    public void addItem(String cartId, String itemId, int quantity) {
+        Cart cart = cartRepo.findById(cartId).orElseThrow(()-> new CartNotFoundException("Cart not found"));
+        Item item = itemService.findItemById(itemId);
+        Users user = userRepo.findById(cart.getUserId()).orElseThrow(()-> new UserNotFoundException("User not found"));
         boolean present = cartRepo.findById(cartId).isPresent();
+        //cart.setStatus(true);
         List<CartItem> addCartItem =  new ArrayList<CartItem>();
         if(present){
             System.out.println(present);
@@ -46,14 +78,10 @@ public class CartServiceImp implements CartService {
             List<CartItem> previousCartItem = preCart.getCartItems();
             addCartItem.addAll(previousCartItem);
         }
-        System.out.println(present);
         if(item.getItemAvailable()){
             CartItem cartItem = new CartItem(itemId, item.getItemName(), item.getItemPrice(), quantity);
-            Cart cart = new Cart();
             addCartItem.add(cartItem);
-            cart.setCartId(cartId);
             cart.setCartItems(addCartItem);
-            cart.setUserId(userId);
             cartRepo.save(cart);
             int count = countItem(cartId);
             cart.setCountItem(count);
@@ -78,9 +106,9 @@ public class CartServiceImp implements CartService {
                 .orElseThrow(() -> new CartNotFoundException("Cart does not exists."));
     }
 
-    public void removeCart(String cartId){
-        cartRepo.deleteById(cartId);
-    }
+    // public void removeCart(String cartId){
+    //     cartRepo.deleteById(cartId);
+    // }
 
     public int countItem(String cartId){
         Cart cart = cartRepo.findById(cartId).orElseThrow(() -> new CartNotFoundException("Cart does not exist."));
