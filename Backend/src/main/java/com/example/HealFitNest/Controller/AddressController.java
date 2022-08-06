@@ -21,7 +21,7 @@ public class AddressController{
     private AddressService addressService;
 
     @PostMapping("/addAddress")
-    public String saveItem(@RequestBody Address address){
+    public String saveAddress(@RequestBody Address address){
         addressRepo.save(address);
         return "Added Successfully";
     }

@@ -1,4 +1,4 @@
-package com.example.HealFitNest.Service.Implementation;
+package com.example.HealFitNest.Config;
 
 
 //import com.example.HealFitNest.Model.Role;

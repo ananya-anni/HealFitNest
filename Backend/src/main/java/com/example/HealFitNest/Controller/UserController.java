@@ -1,6 +1,6 @@
 package com.example.HealFitNest.Controller;
 
-import com.example.HealFitNest.Service.Implementation.UserDetailService;
+import com.example.HealFitNest.Config.UserDetailService;
 //import com.example.HealFitNest.Model.Role;
 import com.example.HealFitNest.Model.Users;
 //import com.example.HealFitNest.Repository.RoleRepo;
