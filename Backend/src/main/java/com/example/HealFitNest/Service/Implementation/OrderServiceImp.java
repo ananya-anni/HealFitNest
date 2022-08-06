@@ -1,12 +1,10 @@
 package com.example.HealFitNest.Service.Implementation;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.example.HealFitNest.Handler.OrderNotFoundException;
 import com.example.HealFitNest.Model.Address;
 import com.example.HealFitNest.Model.Cart;
-import com.example.HealFitNest.Repository.AddressRepo;
 import com.example.HealFitNest.Service.AddressService;
 import com.example.HealFitNest.Service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,18 +13,16 @@ import org.springframework.stereotype.Service;
 
 import com.example.HealFitNest.Model.Order;
 import com.example.HealFitNest.Repository.OrderRepo;
-import com.example.HealFitNest.Repository.AddressRepo;
 import com.example.HealFitNest.Service.OrderService;
 
 @Service
 public class OrderServiceImp implements OrderService{
     @Autowired
     private OrderRepo orderRepo;
-
-    @Autowired
-    private AddressRepo addressRepo;
+    
     @Autowired
     private CartService cartService;
+
     @Autowired
     private AddressService addressService;
 
@@ -56,6 +52,7 @@ public class OrderServiceImp implements OrderService{
     public String addOrderBycartId(String cartId) {
         try{
             Cart cart=cartService.showCartofId(cartId);
+            cart.setCartStatus(false);
             Order order=new Order();
             String userId=cart.getUserId();
             List<Address> address_list=addressService.getAllAddress(userId);

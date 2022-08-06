@@ -38,7 +38,7 @@ public class OrderController {
     }
 
     @PostMapping("/addToOrder/{cartId}")
-    public ResponseEntity<?> addToCart( @PathVariable String cartId){
+    public ResponseEntity<?> addToOrder( @PathVariable String cartId){
         orderService.addOrderBycartId(cartId );
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }

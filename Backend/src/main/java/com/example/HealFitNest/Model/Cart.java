@@ -19,5 +19,5 @@ public class Cart {
     private List<CartItem> cartItems;
     private int countItem;
     private BigDecimal totalPrice;
-    private boolean status;
+    private boolean cartStatus = true;
 }
