@@ -5,5 +5,8 @@ import com.example.HealFitNest.Model.Address;
 import java.util.List;
 
 public interface AddressService {
-    List<Address> getAllAddress(String userId);
+    public List<Address> getAllAddress(String userId);
+//    public String getaddressid(String userId);
+
+
 }

@@ -45,6 +45,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter{
     //     web.ignoring().antMatchers("/v3/api-docs", "/swagger-ui.html/**", "/swagger-ui/**");
     // }
 
+//"/api/v2/addUser","/api/v2/loginUser","/api/v1/item/{name}"
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
