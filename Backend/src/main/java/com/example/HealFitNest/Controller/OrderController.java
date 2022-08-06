@@ -49,13 +49,14 @@ public class OrderController {
     @PostMapping("/addToOrder/{cartId}")
     public ResponseEntity<?> addOrder( @PathVariable String cartId){
         Cart cart=cartRepo.findById(cartId).orElseThrow(()-> new CartNotFoundException("CartId not Valid"));
+        cart.setStatus(false);
         orderService.addOrderBycartId(cartId );
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 
-
-    @PutMapping("/statusChange/{orderId}")
-    public ResponseEntity<?> statuschange(@PathVariable String orderId){
+    // Order Status Change ( when order placed)
+    @PutMapping("/orderStatusChange/{orderId}")
+    public ResponseEntity<?> statusChange(@PathVariable String orderId){
         orderService.statusChange(orderId);
         return new ResponseEntity<>(null,HttpStatus.CREATED);
     }
