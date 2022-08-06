@@ -74,10 +74,6 @@ public class OrderServiceImp implements OrderService{
             String userId=cart.getUserId();
             List<Address> address_list=addressService.getAllAddress(userId);
             order.setAddressId(address_list.get(0).getAddressId());
-//            Optional<Address> address=addressRepo.findById(userId);
-//            order.setAddressId(address.);
-//            Optional<Address> address=addressService.showAddbyId(userId);
-//            order.setAddressId();
             order.setCartId(cart.getCartId());
             order.setTotalPrice(cart.getTotalPrice());
             order.setUserId(cart.getUserId());
