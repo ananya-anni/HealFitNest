@@ -26,7 +26,7 @@ public class Users  {
 
     @Indexed(unique = true)
     private String email;
-    
+
     private String password;
     private long contact;
 

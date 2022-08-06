@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -38,15 +39,19 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter{
         auth.authenticationProvider(authProvider());
 
     }
-//"/api/v2/addUser","/api/v2/loginUser","/api/v1/item/{name}"
+
+    // @Override
+    // public void configure(WebSecurity web)  {
+    //     web.ignoring().antMatchers("/v3/api-docs", "/swagger-ui.html/**", "/swagger-ui/**");
+    // }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/v9/**","/api/v1/**","/api/v6/**","/api/v4/**","/api/v2/**","/api/v3/**","/api/v7/**",
-                        "/api/v5/**")
+                .antMatchers("/api/**")
                 .permitAll()
 //                .antMatchers("/api/v1/addItem").hasRole("ADMIN")
 //                .antMatchers("/api/v3/addAddress","/api/v1/addItem").hasAuthority("USER")

@@ -37,19 +37,29 @@ public class CartController {
         return new ResponseEntity<>(cart, HttpStatus.OK);
     }
 
-    // Add item which is present in the item as well as inventory to the cart
-    @PostMapping("/addToCart/{cartId}/{itemId}")
-    public ResponseEntity<?> addToCart(@PathVariable String cartId, @PathVariable String itemId, int quantity){
+    // Add first item which is present in the item as well as inventory to the cart
+    @PostMapping("/addToCart/{userId}/{itemId}/{quantity}")
+    public ResponseEntity<?> addToCart(@PathVariable String userId, @PathVariable String itemId, @PathVariable int quantity){
+        Cart cart = new Cart();
+        cartService.createCart(cart);
+        String cartId = cart.getCartId();
+        cartService.addFirstItem(userId, cartId, itemId, quantity);
+        return new ResponseEntity<>(null, HttpStatus.CREATED);
+    }
+
+    // Add items
+    @PutMapping("/updateCart/{cartId}/{itemId}/{quantity}")
+    public ResponseEntity<?> updateCart(@PathVariable String cartId, @PathVariable String itemId, @PathVariable int quantity){
         cartService.addItem(cartId, itemId, quantity);
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 
     // Delete the cart
-    @DeleteMapping("/deleteCart/{cartId}")
-    public ResponseEntity<?> deleteCart(@PathVariable String cartId){
-        cartService.removeCart(cartId);
-        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-    }
+    // @DeleteMapping("/deleteCart/{cartId}")
+    // public ResponseEntity<?> deleteCart(@PathVariable String cartId){
+    //     cartService.removeCart(cartId);
+    //     return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+    // }
 
     // Clears the cart
     @PutMapping("/clearCart/{cartId}")
@@ -67,7 +77,7 @@ public class CartController {
 
     // Updates the quantity of an item already present in the cart
     @PutMapping("/updateCart/{cartId}/{itemId}")
-    public ResponseEntity<?> updateCart(@PathVariable String cartId, @PathVariable String itemId, int quantity){
+    public ResponseEntity<?> updateCartItem(@PathVariable String cartId, @PathVariable String itemId, int quantity){
         cartService.updateItemQuantity(cartId, itemId, quantity);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }

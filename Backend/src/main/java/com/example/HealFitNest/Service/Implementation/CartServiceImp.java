@@ -9,10 +9,13 @@ import org.springframework.stereotype.Service;
 
 import com.example.HealFitNest.Handler.CartNotFoundException;
 import com.example.HealFitNest.Handler.ItemNotFoundException;
+import com.example.HealFitNest.Handler.UserNotFoundException;
 import com.example.HealFitNest.Model.Cart;
 import com.example.HealFitNest.Model.CartItem;
 import com.example.HealFitNest.Model.Item;
+import com.example.HealFitNest.Model.Users;
 import com.example.HealFitNest.Repository.CartRepo;
+import com.example.HealFitNest.Repository.UserRepo;
 import com.example.HealFitNest.Service.CartService;
 import com.example.HealFitNest.Service.InventoryService;
 import com.example.HealFitNest.Service.ItemService;
@@ -28,15 +31,56 @@ public class CartServiceImp implements CartService {
     @Autowired
     private InventoryService inventService;
 
-    List<CartItem> addCartItem =  new ArrayList<CartItem>();
+    @Autowired
+    private UserRepo userRepo;
 
-    public void addItem(String cartId, String itemId, int quantity) {
+    
+    public Cart createCart(Cart cart){
+        return cartRepo.save(cart);
+    }
+
+    public void addFirstItem(String userId, String cartId, String itemId, int quantity){
         Item item = itemService.findItemById(itemId);
+        Users user = userRepo.findById(userId).orElseThrow(()-> new UserNotFoundException("User not found"));
+        Cart cart = cartRepo.findById(cartId).orElseThrow(()-> new CartNotFoundException("Cart not found"));
+        List<CartItem> addCartItem =  new ArrayList<CartItem>();
         if(item.getItemAvailable()){
             CartItem cartItem = new CartItem(itemId, item.getItemName(), item.getItemPrice(), quantity);
             addCartItem.add(cartItem);
-            Cart cart = new Cart();
             cart.setCartId(cartId);
+            cart.setCartItems(addCartItem);
+            cart.setUserId(userId);
+            cartRepo.save(cart);
+            int count = countItem(cartId);
+            cart.setCountItem(count);
+            BigDecimal total = totalPrice(cartId);
+            cart.setTotalPrice(total);
+            cartRepo.save(cart);
+            inventService.amountVariation(itemId, quantity);
+            boolean avail = inventService.itemAvailability(itemId);
+            item.setItemAvailable(avail);
+            itemService.saveItem(item);
+        } else {
+            throw new ItemNotFoundException("Sufficient amount of this item is not present.");
+        }
+    }
+
+    public void addItem(String cartId, String itemId, int quantity) {
+        Cart cart = cartRepo.findById(cartId).orElseThrow(()-> new CartNotFoundException("Cart not found"));
+        Item item = itemService.findItemById(itemId);
+        Users user = userRepo.findById(cart.getUserId()).orElseThrow(()-> new UserNotFoundException("User not found"));
+        boolean present = cartRepo.findById(cartId).isPresent();
+        //cart.setStatus(true);
+        List<CartItem> addCartItem =  new ArrayList<CartItem>();
+        if(present){
+            System.out.println(present);
+            Cart preCart = showCartofId(cartId);
+            List<CartItem> previousCartItem = preCart.getCartItems();
+            addCartItem.addAll(previousCartItem);
+        }
+        if(item.getItemAvailable()){
+            CartItem cartItem = new CartItem(itemId, item.getItemName(), item.getItemPrice(), quantity);
+            addCartItem.add(cartItem);
             cart.setCartItems(addCartItem);
             cartRepo.save(cart);
             int count = countItem(cartId);
@@ -62,9 +106,9 @@ public class CartServiceImp implements CartService {
                 .orElseThrow(() -> new CartNotFoundException("Cart does not exists."));
     }
 
-    public void removeCart(String cartId){
-        cartRepo.deleteById(cartId);
-    }
+    // public void removeCart(String cartId){
+    //     cartRepo.deleteById(cartId);
+    // }
 
     public int countItem(String cartId){
         Cart cart = cartRepo.findById(cartId).orElseThrow(() -> new CartNotFoundException("Cart does not exist."));

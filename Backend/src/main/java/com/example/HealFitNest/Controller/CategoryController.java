@@ -6,6 +6,7 @@ import com.example.HealFitNest.Model.Item;
 import com.example.HealFitNest.Repository.CategoryRepo;
 import com.example.HealFitNest.Service.Implementation.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,13 +44,18 @@ public class CategoryController {
         return ResponseEntity.ok(category);
     }
     @PutMapping("/update/{id}")
-    public ResponseEntity<Category> updateItem(@PathVariable String id, @RequestBody Category updatedCategory){
-        Category updateCategory = categoryRepo.findById(id).orElse(null);
-        updateCategory.setCategoryName(updatedCategory.getCategoryName());
-        updateCategory.setSubCategoryName(updatedCategory.getSubCategoryName());
+    public ResponseEntity<?> updateItem(@PathVariable String id, @RequestBody Category updatedCategory){
+        try{
+            Category updateCategory = categoryRepo.findById(id).orElse(null);
+            updateCategory.setCategoryName(updatedCategory.getCategoryName());
+            updateCategory.setSubCategoryName(updatedCategory.getSubCategoryName());
 
-        categoryRepo.save(updateCategory);
-        return ResponseEntity.ok(updateCategory);
+            categoryRepo.save(updateCategory);
+            return ResponseEntity.ok(updateCategory);
+        } catch (ConstraintViolationException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
     }
     @DeleteMapping("/delete/{id}")
     public String deleteCategory(@PathVariable String id){

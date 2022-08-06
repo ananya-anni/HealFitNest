@@ -24,6 +24,7 @@ public class AddressController{
     private AddressService addressService;
 
     @PostMapping("/addAddress")
+
     public ResponseEntity<?> saveAddress(@RequestBody Address address){
         try{
             addressService.saveAddress(address);
@@ -33,11 +34,7 @@ public class AddressController{
         }
     }
 
-    /*@PostMapping("/addAddress")
-    public String saveItem(@RequestBody Address address){
-        addressRepo.save(address);
-        return "Added Successfully";
-    }*/
+
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Address> updateAddress(@PathVariable String id, @RequestBody Address updatedAddress){

@@ -2,7 +2,6 @@ package com.example.HealFitNest.Handler;
 
 import java.util.Date;
 
-import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -22,15 +21,10 @@ public class GlobalExceptionHandler {
         ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
-    @ExceptionHandler(OrderNotFoundException.class)
-    public ResponseEntity<?> OrderNotFound(OrderNotFoundException ex, WebRequest request) {
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<?> UsertNotFound(UserNotFoundException ex, WebRequest request) {
         ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
-//    @ExceptionHandler(NotNullException.class)
-//    public ResponseEntity<?> NotNullException(NotNullException ex, WebRequest request){
-//        ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
-//        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
-//    }
-
 }

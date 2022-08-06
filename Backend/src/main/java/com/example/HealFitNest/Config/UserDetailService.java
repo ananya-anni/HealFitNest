@@ -36,7 +36,6 @@ public class UserDetailService implements UserDetailsService {
             String name=users.getEmail();
             String pwd=users.getPassword();
             return new User(name,pwd,new ArrayList<>());
-
         }
         else
         {
