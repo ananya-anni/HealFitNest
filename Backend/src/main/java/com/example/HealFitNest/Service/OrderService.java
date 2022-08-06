@@ -10,6 +10,6 @@ public interface OrderService {
     public Order showOrderbyId(String orderId) ;
     public List<Order> showOrderByUserId(String userId);
     public String addOrderBycartId(String cartId);
-    public String statusChange(String orderId);
+    public String statusChange(String orderId,String UserId);
 
 }
