@@ -8,9 +8,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @Document(collection = "Inventory")
 
-public class Inventory {
+public class Inventory implements Comparable <Inventory> {
     @Id
     private String itemId;
     private String itemName;
+    private int itemQuantity;
     private int amountPresent;
+    private int soldItem;
+
+    @Override
+    public int compareTo(Inventory inventory) {
+        return this.soldItem;
+    }
 }

@@ -11,8 +11,15 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableWebMvc
 public class HealFitNestApplication {
 
+//	@Autowired
+//	private EmailSenderService emailSenderService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(HealFitNestApplication.class, args);
 	}
 
+//	@EventListener(ApplicationReadyEvent.class)
+//	public void sendEmail(){
+//		emailSenderService.sendEmail("ish.asthana@gmail.com","Demo","Hello isha");
+//	}
 }

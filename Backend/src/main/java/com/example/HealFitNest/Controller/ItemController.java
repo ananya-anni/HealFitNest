@@ -1,5 +1,7 @@
 package com.example.HealFitNest.Controller;
 
+import com.example.HealFitNest.Model.Inventory;
+import com.example.HealFitNest.Service.Implementation.EmailSenderService;
 import com.example.HealFitNest.Handler.ItemNotFoundException;
 import com.example.HealFitNest.Model.Item;
 import com.example.HealFitNest.Repository.ItemRepo;
@@ -23,11 +25,17 @@ public class ItemController {
     private ItemRepo itemRepo;
     @Autowired
     private ItemService itemService;
+    @Autowired
+    private EmailSenderService emailSenderService;
 
+//    @EventListener(ApplicationReadyEvent.class)
+//    public void sendEmail(){
 
+//    }
     @PostMapping("/addItem")
     public String saveItem(@RequestBody Item item){
         itemRepo.save(item);
+        emailSenderService.sendEmail("ish.asthana@gmail.com","Demo","Hello isha");
         return "Item Added Successfully";
     }
 
@@ -70,6 +78,13 @@ public class ItemController {
     public Item searchByName(@PathVariable String name){
         return itemService.searchItem(name);
     }
+
+    @GetMapping("/getBestSeller")
+    public List<Inventory> BestSellerItems(){
+        return itemServiceImp.BestSeller();
+    }
+
+
 
 //    @GetMapping("/item/find/{subId}")
 //    public List<Item> getAddresses(@PathVariable String subId){

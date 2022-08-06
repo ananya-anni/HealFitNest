@@ -22,7 +22,7 @@ public class InventoryServiceImp implements InventoryService {
 
     public void addNewItem(String itemId, int amount){
         Item item = itemService.findItemById(itemId);
-        Inventory inventItem = new Inventory(itemId, item.getItemName(), amount);
+        Inventory inventItem = new Inventory(itemId, item.getItemName(), amount,amount,0);
         inventRepo.save(inventItem);
         boolean avail = itemAvailability(itemId);
         item.setItemAvailable(avail);
@@ -55,6 +55,8 @@ public class InventoryServiceImp implements InventoryService {
     
     public void updateInventQuantity(String itemId, int quantity){
         Inventory inventItem = showInventoryItem(itemId);
+        int itemQuantity=inventItem.getItemQuantity()+quantity;
+        inventItem.setItemQuantity(itemQuantity);
         int amount  = inventItem.getAmountPresent() + quantity;
         inventItem.setAmountPresent(amount);
         inventRepo.save(inventItem);
