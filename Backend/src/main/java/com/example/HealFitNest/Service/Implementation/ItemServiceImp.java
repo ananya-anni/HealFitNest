@@ -35,16 +35,21 @@ public class ItemServiceImp implements ItemService {
         this.itemRepo = itemRepo;
     }
 
+
     List<Integer> soldItemList=new ArrayList<Integer>();
 
+
+    @Override
     public void saveItem(@RequestBody Item item) {
         itemRepo.save(item);
     }
 
+    @Override
     public Item findItemById(String id) {
         return itemRepo.findById(id).orElseThrow(() -> new ItemNotFoundException("Item not found of this id: "+id));
     }
 
+    @Override
     public List<Item> getAllItems(String categoryId){
         Query query = new Query();
         query.addCriteria(Criteria.where("categoryId").is(categoryId));
@@ -66,18 +71,25 @@ public class ItemServiceImp implements ItemService {
         return mongoTemplate.find(query, Item.class);
     }
 
-    public List<Inventory> BestSeller(){
-        List<Inventory> itemList=inventoryRepo.findAll();
-        for (Inventory eachInventory:itemList) {
+
+    public List<Inventory> BestSeller() {
+        List<Inventory> itemList = inventoryRepo.findAll();
+        for (Inventory eachInventory : itemList) {
 
             int itemQuantity = eachInventory.getItemQuantity();
-            int amountPresent= eachInventory.getAmountPresent();
-            int soldItem=itemQuantity-amountPresent;
+            int amountPresent = eachInventory.getAmountPresent();
+            int soldItem = itemQuantity - amountPresent;
             eachInventory.setSoldItem(soldItem);
         }
         Collections.sort(itemList);
         return itemList;
+    }
 
+    @Override
+    public List<Item> searchAllItems(String itemName){
+        Query query = new Query();
+        query.addCriteria(Criteria.where("itemName").regex(itemName));
+        return mongoTemplate.find(query, Item.class);
     }
 
 

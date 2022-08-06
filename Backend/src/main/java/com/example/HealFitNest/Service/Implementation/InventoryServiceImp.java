@@ -13,7 +13,8 @@ import com.example.HealFitNest.Service.InventoryService;
 import com.example.HealFitNest.Service.ItemService;
 
 @Service
-public class InventoryServiceImp implements InventoryService {
+public class
+InventoryServiceImp implements InventoryService {
     @Autowired
     private ItemService itemService;
 
