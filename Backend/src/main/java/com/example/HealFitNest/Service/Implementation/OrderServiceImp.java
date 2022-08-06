@@ -62,7 +62,7 @@ public class OrderServiceImp implements OrderService{
 
     public String statusChange(String orderId) {
         Order order =orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException("OrderId not found"));
-        order.setStatus(true);
+        order.setOrderStatus(true);
         orderRepo.save(order);
         return "Status Changed";
     }

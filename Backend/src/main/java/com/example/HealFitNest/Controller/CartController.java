@@ -42,7 +42,6 @@ public class CartController {
     public ResponseEntity<?> addToCart(@PathVariable String userId, @PathVariable String itemId, @PathVariable int quantity){
         Cart cart = new Cart();
         cartService.createCart(cart);
-        cart.setStatus(true);
         String cartId = cart.getCartId();
         cartService.addFirstItem(userId, cartId, itemId, quantity);
         return new ResponseEntity<>(null, HttpStatus.CREATED);
