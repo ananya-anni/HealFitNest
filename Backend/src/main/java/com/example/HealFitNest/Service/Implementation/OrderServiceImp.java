@@ -9,6 +9,9 @@ import com.example.HealFitNest.Repository.AddressRepo;
 import com.example.HealFitNest.Service.AddressService;
 import com.example.HealFitNest.Service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 
@@ -28,6 +31,14 @@ public class OrderServiceImp implements OrderService{
     private CartService cartService;
     @Autowired
     private AddressService addressService;
+    @Autowired
+    MongoTemplate mongoTemplate;
+
+//    public List<Address> getAllAddress(String userId){
+//        Query query = new Query();
+//        query.addCriteria(Criteria.where("userId").is("62ee2d1fec74e75beb7ea5dd"));
+//        return mongoTemplate.find(query, Address.class);
+//    }
 
 
     public List<Order> showOrder() {
@@ -42,8 +53,11 @@ public class OrderServiceImp implements OrderService{
         return orderRepo.findById(orderId).orElseThrow(()-> new OrderNotFoundException("Order Does Not Exist"));
     }
 
-    public Order showOrderByUserId(String userId){
-        return orderRepo.findById(userId).orElseThrow(()-> new OrderNotFoundException("User Does Not Exist"));
+    public List<Order> showOrderByUserId(String userId){
+        Query query = new Query();
+        query.addCriteria(Criteria.where("userId").is(userId));
+        return mongoTemplate.find(query, Order.class);
+//        return orderRepo.findById(userId).orElseThrow(()-> new OrderNotFoundException("User Does Not Exist"));
     }
 
     public String statusChange(String orderId) {
