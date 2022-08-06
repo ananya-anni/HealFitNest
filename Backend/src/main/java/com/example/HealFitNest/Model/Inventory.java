@@ -18,6 +18,6 @@ public class Inventory implements Comparable <Inventory> {
 
     @Override
     public int compareTo(Inventory inventory) {
-        return this.soldItem;
+        return inventory.getSoldItem()-this.soldItem;
     }
 }

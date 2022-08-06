@@ -62,6 +62,7 @@ public class ItemServiceImp implements ItemService {
     public List<Item> getAllItem(String subId) {
         Query query = new Query();
         query.addCriteria(Criteria.where("subCategoryId").is(subId));
+//        query.limit(3);
         return mongoTemplate.find(query, Item.class);
     }
 
