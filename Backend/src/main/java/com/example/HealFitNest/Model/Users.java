@@ -7,7 +7,8 @@ import org.springframework.data.mongodb.core.index.Indexed;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.Valid;
+
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -18,15 +19,15 @@ import javax.validation.constraints.NotNull;
 public class Users  {
     @Id
     private String userId;
-    @NotNull(message = "First Name cannot be null!")
+
+    @NotBlank(message = "First Name cannot be null!")
     private String firstName;
     private String lastName;
-    @NotNull(message = "Email cannot be null!")
+
     @Indexed(unique = true)
     private String email;
-    @NotNull(message = "Password cannot be null!")
+    
     private String password;
-    @NotNull(message = "Contact cannot be null!")
-    private String contact;
+    private long contact;
 
 }

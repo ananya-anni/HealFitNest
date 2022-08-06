@@ -4,11 +4,12 @@ import com.example.HealFitNest.Handler.ItemNotFoundException;
 import com.example.HealFitNest.Model.Item;
 import com.example.HealFitNest.Repository.ItemRepo;
 import com.example.HealFitNest.Service.ItemService;
-import com.example.HealFitNest.Service.Implementation.ItemServiceImp;
+//import com.example.HealFitNest.Service.Implementation.ItemServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 @RequestMapping("/api/v1")
@@ -25,8 +26,12 @@ public class ItemController {
 
     @PostMapping("/addItem")
     public String saveItem(@RequestBody Item item){
-        itemRepo.save(item);
-        return "Item Added Successfully";
+        try{
+            itemRepo.save(item);
+            return "Item Added Successfully";
+        } catch (ConstraintViolationException e){
+            return e.getMessage();
+        }
     }
 
     @GetMapping("/items")

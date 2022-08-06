@@ -3,7 +3,7 @@ package com.example.HealFitNest.Controller;
 import com.example.HealFitNest.Config.UserDetailService;
 //import com.example.HealFitNest.Model.Role;
 import com.example.HealFitNest.Config.ValidationConfig;
-import com.example.HealFitNest.Handler.NotNullException;
+//import com.example.HealFitNest.Handler.NotNullException;
 import com.example.HealFitNest.Model.Users;
 //import com.example.HealFitNest.Repository.RoleRepo;
 import com.example.HealFitNest.Repository.UserRepo;
@@ -27,9 +27,6 @@ import java.util.regex.Pattern;
 
 @RestController
 public class UserController {
-
-    @Autowired
-    private ValidationConfig validationConfig;
 
     @Autowired
     private UserDetailService userService;
@@ -67,12 +64,11 @@ public class UserController {
             return "User Added Successfully";
         } catch (ConstraintViolationException e){
             return e.getMessage();
-        } catch (NotNullException e){
-            return e.getMessage();
+        } catch (NullPointerException e){
+            return "Email/password is null!";
         }
+    }
 
-
-}
     @PostMapping("/loginUser")
     private ResponseEntity<String> loginAuth(@RequestBody Users users){
         String email=users.getEmail();

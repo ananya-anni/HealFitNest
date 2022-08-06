@@ -1,5 +1,6 @@
 package com.example.HealFitNest.Controller;
 
+//import com.example.HealFitNest.Handler.NotNullException;
 import com.example.HealFitNest.Model.Category;
 import com.example.HealFitNest.Model.Item;
 import com.example.HealFitNest.Repository.CategoryRepo;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 @RequestMapping("/api/v7")
@@ -22,8 +24,13 @@ public class CategoryController {
 
     @PostMapping("/addCategory")
     public String addCategory(@RequestBody Category category){
-        categoryRepo.save(category);
-        return "Category added successfully";
+        try{
+            categoryRepo.save(category);
+            return "Category added successfully";
+        } catch(ConstraintViolationException e){
+            return e.getMessage();
+        }
+
     }
     @GetMapping("/categories")
     public List<Category> findAllCategories(){
