@@ -26,14 +26,17 @@ public class ItemServiceImp implements ItemService {
         this.itemRepo = itemRepo;
     }
 
+    @Override
     public void saveItem(@RequestBody Item item) {
         itemRepo.save(item);
     }
 
+    @Override
     public Item findItemById(String id) {
         return itemRepo.findById(id).orElseThrow(() -> new ItemNotFoundException("Item not found of this id: "+id));
     }
 
+    @Override
     public List<Item> getAllItems(String categoryId){
         Query query = new Query();
         query.addCriteria(Criteria.where("categoryId").is(categoryId));
@@ -51,6 +54,13 @@ public class ItemServiceImp implements ItemService {
     public List<Item> getAllItem(String subId) {
         Query query = new Query();
         query.addCriteria(Criteria.where("subCategoryId").is(subId));
+        return mongoTemplate.find(query, Item.class);
+    }
+
+    @Override
+    public List<Item> searchAllItems(String itemName){
+        Query query = new Query();
+        query.addCriteria(Criteria.where("itemName").regex(itemName));
         return mongoTemplate.find(query, Item.class);
     }
 
