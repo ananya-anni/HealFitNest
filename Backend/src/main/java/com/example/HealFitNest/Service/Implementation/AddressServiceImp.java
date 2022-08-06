@@ -26,13 +26,32 @@ public class AddressServiceImp implements AddressService {
     private AddressRepo addressRepo;
 
 
-//
     public List<Address> getAllAddress(String userId){
         Query query = new Query();
         query.addCriteria(Criteria.where("userId").is("1Mv004"));
         return mongoTemplate.find(query, Address.class);
 //        Address address=addressRepo.findById(userId);
 //        return address.getAddressLine1();
+    }
+
+    @Override
+    public void saveAddress(Address address) {
+        addressRepo.save(address);
+    }
+
+    @Override
+    public List<Address> findAllAddress() {
+        return addressRepo.findAll();
+    }
+
+    @Override
+    public void deleteAddressById(String id) {
+        addressRepo.deleteById(id);
+    }
+
+    @Override
+    public void updateAddressValues(Address address) {
+        addressRepo.save(address);
     }
 
 //

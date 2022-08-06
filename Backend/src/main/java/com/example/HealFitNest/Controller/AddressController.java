@@ -6,6 +6,7 @@ import com.example.HealFitNest.Repository.AddressRepo;
 import com.example.HealFitNest.Service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,10 +22,16 @@ public class AddressController{
     private AddressService addressService;
 
     @PostMapping("/addAddress")
+    public ResponseEntity<Address> saveItem(@RequestBody Address address){
+        addressService.saveAddress(address);
+        return new ResponseEntity<>(address, HttpStatus.CREATED);
+    }
+
+    /*@PostMapping("/addAddress")
     public String saveItem(@RequestBody Address address){
         addressRepo.save(address);
         return "Added Successfully";
-    }
+    }*/
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Address> updateAddress(@PathVariable String id, @RequestBody Address updatedAddress){
@@ -36,21 +43,45 @@ public class AddressController{
         updateAddress.setCountry(updatedAddress.getCountry());
         updateAddress.setPostalCode(updatedAddress.getPostalCode());
 
+        addressService.updateAddressValues(updatedAddress);
+        return new ResponseEntity<>(null,HttpStatus.OK);
+    }
+    /*@PutMapping("/update/{id}")
+    public ResponseEntity<Address> updateAddress(@PathVariable String id, @RequestBody Address updatedAddress){
+        Address updateAddress = addressRepo.findById(id).orElse(null);
+        updateAddress.setAddressLine1(updatedAddress.getAddressLine1());
+        updateAddress.setAddressLine2((updatedAddress.getAddressLine2()));
+        updateAddress.setCity(updatedAddress.getCity());
+        updateAddress.setState(updatedAddress.getState());
+        updateAddress.setCountry(updatedAddress.getCountry());
+        updateAddress.setPostalCode(updatedAddress.getPostalCode());
+
         addressRepo.save(updateAddress);
         return ResponseEntity.ok(updateAddress);
-    }
+    }*/
 
     @GetMapping("/address")
     public List<Address> getAddress(){
-        return addressRepo.findAll();
+
+        return addressService.findAllAddress();
     }
+
+    /*@GetMapping("/address")
+    public List<Address> getAddress(){
+        return addressRepo.findAll();
+    }*/
+
     @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Address> deleteProduct(@PathVariable String id){
+        addressService.deleteAddressById(id);
+        return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
+    }
+
+    /*@DeleteMapping("/delete/{id}")
     public String deleteProduct(@PathVariable String id){
         addressRepo.deleteById(id);
         return "Deleted Successfully";
-    }
-
-
+    }*/
 
     @GetMapping("/get/{userId}")
     public List<Address> getAddresses(@PathVariable String userId){
