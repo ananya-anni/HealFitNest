@@ -45,22 +45,6 @@ public class PayPalController {
             return  "payment success";
         }
 
-        /*@PostMapping("/pay")
-        public String payment(@RequestBody Order order) {
-            try {
-                Payment payment = service.createPayment(order.getTotalPrice(),);
-                //for(Links link:payment.getLinks()) {
-                    //if(link.getRel().equals("approval_url")) {
-                       //// return "redirect:"+link.getHref();
-                    //}
-                //}
-
-            } catch (PayPalRESTException e) {
-
-                e.printStackTrace();
-            }
-            return "Payment done";
-        }*/
 
         @GetMapping( "/pay/cancel")
         public String cancelPay() {
