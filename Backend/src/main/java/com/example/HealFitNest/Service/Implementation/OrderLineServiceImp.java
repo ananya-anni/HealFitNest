@@ -1,18 +1,23 @@
 package com.example.HealFitNest.Service.Implementation;
 
 
+import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.List;
 
 import com.example.HealFitNest.Model.*;
 import com.example.HealFitNest.Service.CartService;
 import com.example.HealFitNest.Service.OrderService;
+import com.example.HealFitNest.Model.Cart;
+import com.example.HealFitNest.Repository.OrderLineRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.example.HealFitNest.Service.OrderLineService;
 
-public class OrderLineServiceImp implements OrderLineService{
+@Service
+public class OrderLineServiceImp implements OrderLineService {
 
     @Autowired
     private CartService cartService;
@@ -20,48 +25,27 @@ public class OrderLineServiceImp implements OrderLineService{
     @Autowired
     private OrderService orderService;
 
-//    public String addOrderLineByOrdertId(String cartId) {
-//
-//
-////        try{
-////            Cart cart=cartService.showCartofId(cartId);
-////            Order order=new Order();
-////            String userId=cart.getUserId();
-////            List<Address> address_list=addressService.getAllAddress(userId);
-////            order.setAddressId(address_list.get(0).getAddressId());
-//////            Optional<Address> address=addressRepo.findById(userId);
-//////            order.setAddressId(address.);
-//////            Optional<Address> address=addressService.showAddbyId(userId);
-//////            order.setAddressId();
-////            order.setCartId(cart.getCartId());
-////            order.setTotalPrice(cart.getTotalPrice());
-////            order.setUserId(cart.getUserId());
-////            orderRepo.save(order);
-////            return "ADDED";
-////        }
-////        catch ( OrderNotFoundException e){
-////            return "Cart Id Not Exist";
-////        }
-//    }
+    @Autowired
+    private OrderLineRepo orderLineRepo;
+
 
     public String addOrderLineByOrderId(String orderId) {
 
-        Order order=orderService.showOrderbyId(orderId);
-        String cartid=order.getCartId();
-        Cart cart =cartService.showCartofId(cartid);
-        List<CartItem> cartItems=cart.getCartItems();
-        Iterator<CartItem> cartItemIterate=cartItems.iterator();
-        OrderLine orderline=new OrderLine();
-        while (cartItemIterate.hasNext()){
+        Order order = orderService.showOrderbyId(orderId);
+        String cartid = order.getCartId();
+        Cart cart = cartService.showCartofId(cartid);
+        List<CartItem> cartItems = cart.getCartItems();
+        Iterator<CartItem> cartItemIterate = cartItems.iterator();
+
+        for (CartItem eachCartItem : cartItems) {
+//            price = price.add(eachCartItem.getItemPrice().multiply(BigDecimal.valueOf(eachCartItem.getItemQuantity())));
+            OrderLine orderline = new OrderLine();
             orderline.setOrderId(orderId);
-//            orderline.setOrderLineId();
-//            orderline.setItemId();
-//            orderline.setItemQuantity();
-//            orderLineRepo.save(orderline);
-
-
-
+            orderline.setItemId(eachCartItem.getItemId());
+            orderline.setItemQuantity(eachCartItem.getItemQuantity());
+            orderLineRepo.save(orderline);
         }
         return null;
     }
 }
+

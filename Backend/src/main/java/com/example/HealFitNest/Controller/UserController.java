@@ -41,6 +41,7 @@ public class UserController {
 
     @PostMapping("/addUser")
     private String registerUser(@RequestBody Users users){
+
         try{
             users.setFirstName(users.getFirstName());
             users.setUserId(users.getUserId());
