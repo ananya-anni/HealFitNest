@@ -1,26 +1,38 @@
 package com.example.HealFitNest.Controller;
 
+import java.util.List;
 
+import com.example.HealFitNest.Handler.CartNotFoundException;
+import com.example.HealFitNest.Model.Cart;
+import com.example.HealFitNest.Repository.CartRepo;
+import com.example.HealFitNest.Repository.OrderRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.example.HealFitNest.Model.OrderLine;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import com.example.HealFitNest.Model.Order;
 import com.example.HealFitNest.Service.OrderLineService;
 
+import com.example.HealFitNest.Model.Order;
+import com.example.HealFitNest.Service.OrderService;
+import com.example.HealFitNest.Model.Cart;
+import com.example.HealFitNest.Repository.CartRepo;
+
 @RestController
-@RequestMapping("/api/v8")
+@RequestMapping("/api/v9")
+
 public class OrderLineController {
+
     @Autowired
-    private OrderLineService orderLineService;
+    private OrderLineService orderlineService;
 
-    /*@PostMapping("/addItemsToOrderLine")
-    public String addItemsToOrderLine(@RequestBody OrderLine orderLine){
-        orderLineService.saveItemstoOrderLine(orderLine);
-        return "items added successfully to the order line";
-    }*/
+
+    //Add orderline
+    @PostMapping("/addOrderLine/{orderId}")
+    public ResponseEntity<?> addOrder( @PathVariable String orderId){
+        orderlineService.addOrderLineByOrderId(orderId);
+        return new ResponseEntity<>(null, HttpStatus.CREATED);
+    }
+
+
 }
-
-

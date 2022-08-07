@@ -6,10 +6,12 @@ import com.example.HealFitNest.Repository.AddressRepo;
 import com.example.HealFitNest.Service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.mongodb.core.aggregation.ArithmeticOperators;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 @RequestMapping("/api/v3")
@@ -22,28 +24,21 @@ public class AddressController{
     private AddressService addressService;
 
     @PostMapping("/addAddress")
-    public ResponseEntity<Address> saveItem(@RequestBody Address address){
-        addressService.saveAddress(address);
-        return new ResponseEntity<>(address, HttpStatus.CREATED);
+
+    public ResponseEntity<?> saveAddress(@RequestBody Address address){
+        try{
+            addressService.saveAddress(address);
+            return new ResponseEntity<>(address, HttpStatus.CREATED);
+            } catch (ConstraintViolationException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+        }
     }
 
-    /*@PostMapping("/addAddress")
-    public String saveItem(@RequestBody Address address){
-        addressRepo.save(address);
-        return "Added Successfully";
-    }*/
+
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Address> updateAddress(@PathVariable String id, @RequestBody Address updatedAddress){
-        Address updateAddress = addressRepo.findById(id).orElse(null);
-        updateAddress.setAddressLine1(updatedAddress.getAddressLine1());
-        updateAddress.setAddressLine2((updatedAddress.getAddressLine2()));
-        updateAddress.setCity(updatedAddress.getCity());
-        updateAddress.setState(updatedAddress.getState());
-        updateAddress.setCountry(updatedAddress.getCountry());
-        updateAddress.setPostalCode(updatedAddress.getPostalCode());
-
-        addressService.updateAddressValues(updatedAddress);
+        addressService.updateAddressValues(id,updatedAddress);
         return new ResponseEntity<>(null,HttpStatus.OK);
     }
     /*@PutMapping("/update/{id}")
@@ -62,7 +57,6 @@ public class AddressController{
 
     @GetMapping("/address")
     public List<Address> getAddress(){
-
         return addressService.findAllAddress();
     }
 
