@@ -68,7 +68,6 @@ public class PayPalController {
 
 }
 
-
 //order.getIntent(), order.getDescription(),
 //"http://localhost:8989/api/v12" + CANCEL_URL,
 //                        "http://localhost:8989/api/v12" + SUCCESS_URL
