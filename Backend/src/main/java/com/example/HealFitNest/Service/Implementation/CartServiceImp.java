@@ -190,8 +190,4 @@ public class CartServiceImp implements CartService {
             throw new ItemNotFoundException("Inventory does not contain sufficient amount.");
         }        
     }
-
-    // public void cartCheckout() {
-    //     cart.clear();
-    // }   
 }

@@ -19,12 +19,8 @@ public class ItemServiceImp implements ItemService {
     @Autowired
     MongoTemplate mongoTemplate;
 
-    private final ItemRepo itemRepo;
-
     @Autowired
-    public ItemServiceImp(ItemRepo itemRepo) {
-        this.itemRepo = itemRepo;
-    }
+    private ItemRepo itemRepo;
 
     @Override
     public void saveItem(@RequestBody Item item) {
@@ -43,13 +39,11 @@ public class ItemServiceImp implements ItemService {
         return mongoTemplate.find(query, Item.class);
     }
 
-
     @Override
     public Item searchItem(String name){
         return itemRepo.findByitemName(name);
-
-
     }
+
     @Override
     public List<Item> getAllItem(String subId) {
         Query query = new Query();

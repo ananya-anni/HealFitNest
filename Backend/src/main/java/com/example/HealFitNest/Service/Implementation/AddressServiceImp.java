@@ -1,7 +1,5 @@
 package com.example.HealFitNest.Service.Implementation;
 
-
-import com.example.HealFitNest.Config.ValidationConfig;
 import com.example.HealFitNest.Model.Address;
 import com.example.HealFitNest.Repository.AddressRepo;
 import com.example.HealFitNest.Service.AddressService;
@@ -14,7 +12,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Service
@@ -24,10 +21,6 @@ public class AddressServiceImp implements AddressService {
 
     @Autowired
     private AddressRepo addressRepo;
-
-    @Autowired
-    private ValidationConfig validationConfig;
-
 
     public List<Address> getAllAddress(String userId){
         Query query = new Query();
@@ -39,7 +32,6 @@ public class AddressServiceImp implements AddressService {
     @Override
     public void saveAddress(Address address) {
             addressRepo.save(address);
-
     }
 
     @Override
