@@ -5,8 +5,13 @@ import java.util.List;
 import com.example.HealFitNest.Handler.OrderNotFoundException;
 import com.example.HealFitNest.Model.Address;
 import com.example.HealFitNest.Model.Cart;
+import com.example.HealFitNest.Model.CartItem;
+import com.example.HealFitNest.Model.Item;
 import com.example.HealFitNest.Service.AddressService;
 import com.example.HealFitNest.Service.CartService;
+import com.example.HealFitNest.Service.InventoryService;
+import com.example.HealFitNest.Service.ItemService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -25,6 +30,12 @@ public class OrderServiceImp implements OrderService{
     
     @Autowired
     private CartService cartService;
+
+    @Autowired
+    private InventoryService inventService;
+
+    @Autowired
+    private ItemService itemService;
 
     @Autowired
     private AddressService addressService;
@@ -70,6 +81,7 @@ public class OrderServiceImp implements OrderService{
             Order order=new Order();
             String userId=cart.getUserId();
             List<Address> address_list=addressService.getAllAddress(userId);
+            System.out.println(address_list);
             order.setAddressId(address_list.get(0).getAddressId());
 //            Optional<Address> address=addressRepo.findById(userId);
 //            order.setAddressId(address.);
@@ -78,6 +90,14 @@ public class OrderServiceImp implements OrderService{
             order.setCartId(cart.getCartId());
             order.setTotalPrice(cart.getTotalPrice());
             order.setUserId(cart.getUserId());
+            List<CartItem> cartItems = cart.getCartItems();
+            for(CartItem eachCartItem : cartItems){
+                inventService.amountVariation(eachCartItem.getItemId(), eachCartItem.getItemQuantity());
+                boolean avail = inventService.itemAvailability(eachCartItem.getItemId());
+                Item item = itemService.findItemById(eachCartItem.getItemId());
+                item.setItemAvailable(avail);
+                itemService.saveItem(item);
+            }
             orderRepo.save(order);
             return "ADDED";
         }
