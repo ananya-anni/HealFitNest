@@ -1,0 +1,179 @@
+package com.example.HealFitNest.Service;
+
+import com.example.HealFitNest.Config.UserDetailService;
+import com.example.HealFitNest.Model.Address;
+import com.example.HealFitNest.Model.Cart;
+import com.example.HealFitNest.Model.CartItem;
+import com.example.HealFitNest.Repository.CartRepo;
+import com.example.HealFitNest.Repository.UserRepo;
+import com.example.HealFitNest.Service.Implementation.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
+import com.example.HealFitNest.Model.Order;
+import com.example.HealFitNest.Service.OrderService;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import com.example.HealFitNest.Repository.OrderRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.test.context.ContextConfiguration;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+public class OrderServiceTest {
+
+
+    OrderRepo orderRepo=mock(OrderRepo.class);
+    CartRepo cartRepo=mock(CartRepo.class);
+    UserRepo userRepo=mock(UserRepo.class);
+
+    @BeforeEach
+    public void beforeEach(){
+        MockitoAnnotations.initMocks(this);
+    }
+
+
+    @InjectMocks
+    OrderServiceImp orderServiceImp;
+
+    @InjectMocks
+    CartServiceImp cartServiceImp;
+
+    @InjectMocks
+    UserDetailService userDetailService;
+
+    @Test
+    public void showOrder() {
+        List<Order> order=new ArrayList<>();
+        Order order1=new Order();
+        order1.setUserId("62ee2d1fec74e75beb7ea5dd");
+        order1.setCartId("123");
+        order1.setAddressId("123456");
+        order1.setTotalPrice(BigDecimal.valueOf(40));
+
+        Order order2=new Order();
+        order2.setUserId("62ee2d1fec74e75beb7ea5dd");
+        order2.setCartId("62ee9c90a05e8e657c087cc8");
+        order2.setAddressId("123456");
+        order2.setTotalPrice(BigDecimal.valueOf(120));
+
+        order.add(order1);
+        order.add(order2);
+
+        when(orderRepo.findAll()).thenReturn(order);
+        List<Order> orders=orderServiceImp.showOrder();
+        assertEquals(2,orders.size());
+
+
+    }
+
+    @Test
+    public void showOrderbyId(){
+        Order order1=new Order();
+        order1.setUserId("62ee2d1fec74e75beb7ea5dd");
+        order1.setCartId("62ee9e89a05e8e657c087ccc");
+        order1.setAddressId("123456");
+        order1.setTotalPrice(BigDecimal.valueOf(20));
+
+        when(orderRepo.findById(any())).thenReturn(Optional.of(order1));
+        Order orders=orderServiceImp.showOrderbyId(order1.getOrderId());
+        assertEquals("62ee9e89a05e8e657c087ccc",orders.getCartId());
+
+    }
+
+//
+//    @Test
+//    public void addOrderBycartId(){
+//        List<Cart> carts=new ArrayList<>();
+//        Cart cart =new Cart();
+//        cart.setCartId("567");
+//        cart.setCartStatus(false);
+//        cart.setTotalPrice(BigDecimal.valueOf(100));
+//        cart.setUserId("62ee2d1fec74e75beb7ea5dd");
+//        cart.setCountItem(1);
+//        List<CartItem> cartItems=new ArrayList<>();
+//        CartItem cartItem=new CartItem("100301","Toor Dal",BigDecimal.valueOf(100),1);
+//        cartItems.add(cartItem);
+//        cart.setCartItems(cartItems);
+//        carts.add(cart);
+//
+//        List<Order> order=new ArrayList<>();
+//        Order order1=new Order();
+//        order1.setUserId(cart.getUserId());
+//        order1.setCartId(cart.getCartId());
+//        order1.setAddressId("123456");
+//        order1.setOrderStatus(true);
+//        order1.setTotalPrice(cart.getTotalPrice());
+//
+//        order.add(order1);
+//        when(orderRepo.findById(any())).thenReturn(Optional.of(order1));
+//        Order orders=orderServiceImp.addOrderBycartId(carts.get(0).getCartId());
+//        assertNotNull(orders);
+//    }
+
+
+    @Test
+    public void statusChange(){
+        List<Order> order=new ArrayList<>();
+        Order order1=new Order();
+//        order1.setOrderId("23456");
+        order1.setUserId("62ee2d1fec74e75beb7ea5dd");
+        order1.setCartId("62ee9e89a05e8e657c087ccc");
+        order1.setAddressId("123456");
+        order1.setOrderStatus(true);
+        order1.setTotalPrice(BigDecimal.valueOf(20));
+
+        order.add(order1);
+
+        when(orderRepo.findById(any())).thenReturn(Optional.of(order1));
+        Order orders=orderServiceImp.statusChange(order1.getOrderId());
+        assertEquals(true,orders.getOrderStatus());
+
+    }
+
+    @Test
+    public void showOrderByUserId(){
+        List<Order> order=new ArrayList<>();
+        Order order1=new Order();
+        order1.setUserId("62ee2d1fec74e75beb7ea5dd");
+        order1.setCartId("123");
+        order1.setAddressId("123456");
+        order1.setTotalPrice(BigDecimal.valueOf(40));
+
+        Order order2=new Order();
+        order2.setUserId("62ee2d1fec74e75beb7ea5dd");
+        order2.setCartId("62ee9c90a05e8e657c087cc8");
+        order2.setAddressId("123456");
+        order2.setTotalPrice(BigDecimal.valueOf(120));
+
+        order.add(order1);
+        order.add(order2);
+
+        when(orderRepo.findAllByUserId(any())).thenReturn(order);
+        List<Order> orders=orderServiceImp.showOrderByUserId(order1.getUserId());
+        assertEquals(2,orders.size());
+
+    }
+
+
+
+}
+
+
+
+
+
+

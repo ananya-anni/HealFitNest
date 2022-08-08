@@ -23,8 +23,8 @@ public class AddressController{
     @Autowired
     private AddressService addressService;
 
+    //Adding Address
     @PostMapping("/addAddress")
-
     public ResponseEntity<?> saveAddress(@RequestBody Address address){
         try{
             addressService.saveAddress(address);
@@ -35,7 +35,7 @@ public class AddressController{
     }
 
 
-
+    //Updating new Address via userId
     @PutMapping("/update/{id}")
     public ResponseEntity<Address> updateAddress(@PathVariable String id, @RequestBody Address updatedAddress){
         addressService.updateAddressValues(id,updatedAddress);
