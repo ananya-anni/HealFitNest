@@ -56,10 +56,6 @@ public class CartServiceImp implements CartService {
             BigDecimal total = totalPrice(cartId);
             cart.setTotalPrice(total);
             cartRepo.save(cart);
-            inventService.amountVariation(itemId, quantity);
-            boolean avail = inventService.itemAvailability(itemId);
-            item.setItemAvailable(avail);
-            itemService.saveItem(item);
         } else {
             throw new ItemNotFoundException("Sufficient amount of this item is not present.");
         }
