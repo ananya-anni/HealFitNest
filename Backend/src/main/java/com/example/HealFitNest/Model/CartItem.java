@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 import lombok.*;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 public class CartItem {
     private String itemId;
