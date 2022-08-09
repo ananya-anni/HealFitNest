@@ -80,7 +80,8 @@ public class UserController {
         catch(Exception ex){
             return  new ResponseEntity<>("Unauthenticated", HttpStatus.UNAUTHORIZED);
         }
-        return ResponseEntity.ok("Authenticated");
+        Users user = userRepo.findByEmail(email);
+        return new ResponseEntity<>(user.getUserId(), HttpStatus.OK);
     }
 
 }
