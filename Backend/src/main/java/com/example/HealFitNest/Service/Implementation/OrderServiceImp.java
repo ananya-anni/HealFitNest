@@ -1,4 +1,3 @@
-
 package com.example.HealFitNest.Service.Implementation;
 
 import java.util.List;
@@ -38,8 +37,8 @@ public class OrderServiceImp implements OrderService{
     MongoTemplate mongoTemplate;
     @Autowired
     private CartRepo cartRepo;
-    @Autowired
-    private EmailSenderService emailSenderService;
+    //@Autowired
+    //private EmailSenderService emailSenderService;
     @Autowired
     private UserRepo userRepo;
 
@@ -79,8 +78,8 @@ public class OrderServiceImp implements OrderService{
         Cart cart=cartRepo.findById(cartId).orElseThrow(() -> new CartNotFoundException("Cart does not exsists."));;
         List<CartItem> cartItems=cart.getCartItems();
         Users users=userRepo.findById(userId).orElseThrow(() -> new UserNotFoundException("User  not found"));;
-        String email=users.getEmail();
-        emailSenderService.sendEmail("ish.asthana@gmail.com","Order Summary",emailSenderService.sendBody(userId,cartItems,orderId));
+       // String email=users.getEmail();
+       // emailSenderService.sendEmail("ish.asthana@gmail.com","Order Summary",emailSenderService.sendBody(userId,cartItems,orderId));
         return "Status Changed";
     }
 
@@ -106,6 +105,3 @@ public class OrderServiceImp implements OrderService{
 
 
 }
-
-
-

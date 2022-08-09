@@ -14,7 +14,6 @@ import com.example.HealFitNest.Model.Item;
 import com.example.HealFitNest.Repository.ItemRepo;
 import com.example.HealFitNest.Service.ItemService;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,6 +26,9 @@ public class ItemServiceImp implements ItemService {
 
     @Autowired
     private ItemRepo itemRepo;
+
+    @Autowired
+    private InventoryRepo inventoryRepo;
 
     @Override
     public void saveItem(@RequestBody Item item) {

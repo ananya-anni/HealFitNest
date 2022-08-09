@@ -35,10 +35,7 @@ public class OrderLineServiceImp implements OrderLineService {
         String cartid = order.getCartId();
         Cart cart = cartService.showCartofId(cartid);
         List<CartItem> cartItems = cart.getCartItems();
-        Iterator<CartItem> cartItemIterate = cartItems.iterator();
-
         for (CartItem eachCartItem : cartItems) {
-//            price = price.add(eachCartItem.getItemPrice().multiply(BigDecimal.valueOf(eachCartItem.getItemQuantity())));
             OrderLine orderline = new OrderLine();
             orderline.setOrderId(orderId);
             orderline.setItemId(eachCartItem.getItemId());
