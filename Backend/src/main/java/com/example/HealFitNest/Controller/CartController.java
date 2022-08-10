@@ -44,7 +44,7 @@ public class CartController {
         cartService.createCart(cart);
         String cartId = cart.getCartId();
         cartService.addFirstItem(userId, cartId, itemId, quantity);
-        return new ResponseEntity<>(null, HttpStatus.CREATED);
+        return new ResponseEntity<>(cart.getCartId(), HttpStatus.CREATED);
     }
 
     // Add items
