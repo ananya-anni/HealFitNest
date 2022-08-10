@@ -16,7 +16,6 @@ import java.util.List;
 public class Category {
 
     @Id
-
     @NotBlank(message = "Category Id cannot be blank!")
     private String categoryId;
 

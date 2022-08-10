@@ -81,7 +81,7 @@ public class CartController {
         cartService.updateItemQuantity(cartId, itemId, quantity);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
-    
+
     // @GetMapping("/cart/checkout")
     // public String cartCheckout(){
     //     cartService.cartCheckout();

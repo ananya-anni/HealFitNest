@@ -34,7 +34,7 @@ public class CartServiceImp implements CartService {
     @Autowired
     private UserRepo userRepo;
 
-    
+
     public Cart createCart(Cart cart){
         return cartRepo.save(cart);
     }
@@ -56,10 +56,6 @@ public class CartServiceImp implements CartService {
             BigDecimal total = totalPrice(cartId);
             cart.setTotalPrice(total);
             cartRepo.save(cart);
-            inventService.amountVariation(itemId, quantity);
-            boolean avail = inventService.itemAvailability(itemId);
-            item.setItemAvailable(avail);
-            itemService.saveItem(item);
         } else {
             throw new ItemNotFoundException("Sufficient amount of this item is not present.");
         }
@@ -96,12 +92,12 @@ public class CartServiceImp implements CartService {
             throw new ItemNotFoundException("Sufficient amount of this item is not present.");
         }
     }
-    
+
     public List<Cart> showCart(){
         return cartRepo.findAll();
     }
 
-    public Cart showCartofId(String cartId){ 
+    public Cart showCartofId(String cartId){
         return cartRepo.findById(cartId)
                 .orElseThrow(() -> new CartNotFoundException("Cart does not exists."));
     }
@@ -145,7 +141,7 @@ public class CartServiceImp implements CartService {
                 .orElseThrow(() -> new CartNotFoundException("Cart does not exsists."));;
         List<CartItem> cartItems = cart.getCartItems();
         for(CartItem eachCartItem : cartItems){
-            int index  = cartItems.indexOf(eachCartItem); 
+            int index  = cartItems.indexOf(eachCartItem);
             if(eachCartItem.getItemId().equalsIgnoreCase(itemId)){
                 int removeIndex = index;
                 int quant = eachCartItem.getItemQuantity();
@@ -157,7 +153,7 @@ public class CartServiceImp implements CartService {
                 cart.setTotalPrice(total);
                 cartRepo.save(cart);
                 inventService.updateInventQuantity(itemId, quant);
-            } 
+            }
         }
     }
 
@@ -165,10 +161,10 @@ public class CartServiceImp implements CartService {
         Cart cart = cartRepo.findById(cartId)
                 .orElseThrow(() -> new CartNotFoundException("Cart does not exsist."));
         Item item = itemService.findItemById(itemId);
-        List<CartItem> cartItems = cart.getCartItems(); 
+        List<CartItem> cartItems = cart.getCartItems();
         int updateIndex = 0;
         for(CartItem eachCartItem : cartItems){
-            int index  = cartItems.indexOf(eachCartItem); 
+            int index  = cartItems.indexOf(eachCartItem);
             if(eachCartItem.getItemId().equalsIgnoreCase(itemId)){
                 updateIndex = index;
             }
@@ -188,8 +184,10 @@ public class CartServiceImp implements CartService {
             itemService.saveItem(item);
         } else {
             throw new ItemNotFoundException("Inventory does not contain sufficient amount.");
-        }        
+        }
     }
+
+
 
     // public void cartCheckout() {
     //     cart.clear();

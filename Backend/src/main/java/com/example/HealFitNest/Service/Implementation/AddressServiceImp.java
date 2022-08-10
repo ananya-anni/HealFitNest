@@ -14,7 +14,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Service
@@ -32,7 +31,7 @@ public class AddressServiceImp implements AddressService {
     public List<Address> getAllAddress(String userId){
         Query query = new Query();
         query.addCriteria(Criteria.where("userId").is(userId));
-        query.addCriteria(Criteria.where("userId").is("62ee2d1fec74e75beb7ea5dd"));
+
         return mongoTemplate.find(query, Address.class);
     }
 
