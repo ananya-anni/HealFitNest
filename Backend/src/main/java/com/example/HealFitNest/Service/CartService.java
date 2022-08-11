@@ -17,4 +17,5 @@ public interface CartService {
     public void clearCart(String cartId);
     public void removeItem(String cartId, String itemId);
     public void updateItemQuantity(String cartId, String itemId, int quantity);
+    public String showCurrentCart(String userId);
 }

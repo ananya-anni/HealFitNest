@@ -82,6 +82,13 @@ public class CartController {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
+    @GetMapping("/myCart/{userId}")
+    public ResponseEntity<Cart> showCurrentCart( @PathVariable String userId){
+        String cartId = cartService.showCurrentCart(userId);
+        Cart cart = cartService.showCartofId(cartId);
+        return new ResponseEntity<>(cart, HttpStatus.OK);
+    }
+
     // @GetMapping("/cart/checkout")
     // public String cartCheckout(){
     //     cartService.cartCheckout();

@@ -55,6 +55,7 @@ public class OrderController {
     public ResponseEntity<?> addOrder( @PathVariable String cartId){
         Cart cart=cartRepo.findById(cartId).orElseThrow(()-> new CartNotFoundException("CartId not Valid"));
         cart.setCartStatus(false);
+        cartRepo.save(cart);
         orderService.addOrderBycartId(cartId );
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
