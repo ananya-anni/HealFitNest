@@ -1,8 +1,11 @@
 package com.example.HealFitNest.Controller;
 
+import com.example.HealFitNest.Model.Inventory;
+//import com.example.HealFitNest.Service.Implementation.EmailSenderService;
 import com.example.HealFitNest.Handler.ItemNotFoundException;
 import com.example.HealFitNest.Model.Item;
 import com.example.HealFitNest.Repository.ItemRepo;
+import com.example.HealFitNest.Service.Implementation.ItemServiceImp;
 import com.example.HealFitNest.Service.ItemService;
 //import com.example.HealFitNest.Service.Implementation.ItemServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +25,13 @@ public class ItemController {
     private ItemRepo itemRepo;
     @Autowired
     private ItemService itemService;
+    @Autowired
+    private ItemServiceImp itemServiceImp;
 
+//    @EventListener(ApplicationReadyEvent.class)
+//    public void sendEmail(){
 
+//    }
     @PostMapping("/addItem")
     public String saveItem(@RequestBody Item item){
         try{
@@ -74,10 +82,20 @@ public class ItemController {
         return itemService.searchItem(name);
     }
 
+
+    @GetMapping("/getBestSeller")
+    public List<Inventory> BestSellerItems(){
+        return itemServiceImp.BestSeller();
+    }
+
+
+
+
     @GetMapping("/search/{itemName}")
     public List<Item> searchItems(@PathVariable String itemName){
         return itemService.searchAllItems(itemName);
     }
+
 //    @GetMapping("/item/find/{subId}")
 //    public List<Item> getAddresses(@PathVariable String subId){
 //    return itemService.getAllItem(subId);}

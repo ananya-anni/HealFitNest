@@ -14,5 +14,5 @@ public class OrderLine {
     private String orderLineId;
     private String orderId;
     private String itemId;
-    private String itemQuantity;
+    private int itemQuantity;
 }

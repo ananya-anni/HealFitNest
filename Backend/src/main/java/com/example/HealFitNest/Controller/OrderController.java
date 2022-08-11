@@ -4,6 +4,8 @@ package com.example.HealFitNest.Controller;
 import java.util.List;
 
 import com.example.HealFitNest.Handler.CartNotFoundException;
+import com.example.HealFitNest.Handler.UserNotFoundException;
+import com.example.HealFitNest.Repository.OrderRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,9 @@ public class OrderController {
 
     @Autowired
     private CartRepo cartRepo;
+
+    @Autowired
+    private OrderRepo orderRepo;
 
     // Show All Order
     @GetMapping ("/order")
@@ -50,15 +55,33 @@ public class OrderController {
     public ResponseEntity<?> addOrder( @PathVariable String cartId){
         Cart cart=cartRepo.findById(cartId).orElseThrow(()-> new CartNotFoundException("CartId not Valid"));
         cart.setCartStatus(false);
+        cartRepo.save(cart);
         orderService.addOrderBycartId(cartId );
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 
+
     // Order Status Change ( when order placed)
     @PutMapping("/orderStatusChange/{orderId}")
     public ResponseEntity<?> statusChange(@PathVariable String orderId){
-        orderService.statusChange(orderId);
+        Order order=orderRepo.findById(orderId).orElseThrow(() -> new UserNotFoundException("User  not found"));;
+        String userId=order.getUserId();
+        orderService.statusChange(orderId,userId);
         return new ResponseEntity<>(null,HttpStatus.CREATED);
     }
 
+
 }
+
+
+//    @PutMapping("/statusChange/{orderId}")
+//    public ResponseEntity<?> statuschange(@PathVariable String orderId){
+//        orderService.statusChange(orderId);
+//        Order order =orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException("OrderId not found"));
+//        String userId=order.getUserId();
+//        emailSenderService.sendEmail("ish.asthana@gmail.com","Order Summary",sendBody(userId));
+//        return new ResponseEntity<>(null,HttpStatus.CREATED);
+//    }
+
+
+

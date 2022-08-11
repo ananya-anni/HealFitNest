@@ -2,10 +2,13 @@ package com.example.HealFitNest.Service.Implementation;
 
 import java.util.List;
 
+import com.example.HealFitNest.Handler.CartNotFoundException;
 import com.example.HealFitNest.Handler.OrderNotFoundException;
-import com.example.HealFitNest.Model.Address;
-import com.example.HealFitNest.Model.Cart;
+import com.example.HealFitNest.Handler.UserNotFoundException;
+import com.example.HealFitNest.Model.*;
 import com.example.HealFitNest.Repository.AddressRepo;
+import com.example.HealFitNest.Repository.CartRepo;
+import com.example.HealFitNest.Repository.UserRepo;
 import com.example.HealFitNest.Service.AddressService;
 import com.example.HealFitNest.Service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +18,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 
-import com.example.HealFitNest.Model.Order;
 import com.example.HealFitNest.Repository.OrderRepo;
 import com.example.HealFitNest.Service.OrderService;
 
@@ -33,40 +35,43 @@ public class OrderServiceImp implements OrderService{
     private AddressService addressService;
     @Autowired
     MongoTemplate mongoTemplate;
+    @Autowired
+    private CartRepo cartRepo;
+    //@Autowired
+    //private EmailSenderService emailSenderService;
+    @Autowired
+    private UserRepo userRepo;
 
-//    public List<Address> getAllAddress(String userId){
-//        Query query = new Query();
-//        query.addCriteria(Criteria.where("userId").is("62ee2d1fec74e75beb7ea5dd"));
-//        return mongoTemplate.find(query, Address.class);
-//    }
-
-
+    //shows list of all orders.
     public List<Order> showOrder() {
         return orderRepo.findAll();
     }
 
-//    public Cart showCartofId(String cartId){
-//        return cartRepo.findById(cartId).get();
-//    }
-
+    //
     public Order showOrderbyId(String orderId) {
         return orderRepo.findById(orderId).orElseThrow(()-> new OrderNotFoundException("Order Does Not Exist"));
     }
 
+    //shows all the orders of a particular user
     public List<Order> showOrderByUserId(String userId){
         Query query = new Query();
         query.addCriteria(Criteria.where("userId").is(userId));
         return mongoTemplate.find(query, Order.class);
-//        return orderRepo.findById(userId).orElseThrow(()-> new OrderNotFoundException("User Does Not Exist"));
     }
 
-    public String statusChange(String orderId) {
+    //stutus is changed when order is placed
+    public String statusChange(String orderId,String userId) {
         Order order =orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException("OrderId not found"));
-        order.setOrderStatus(true);
+      order.setOrderStatus(true);
         orderRepo.save(order);
+        String cartId=order.getCartId();
+        Cart cart=cartRepo.findById(cartId).orElseThrow(() -> new CartNotFoundException("Cart does not exsists."));;
+        List<CartItem> cartItems=cart.getCartItems();
+        Users users=userRepo.findById(userId).orElseThrow(() -> new UserNotFoundException("User  not found"));
         return "Status Changed";
     }
 
+    //cart items move to order on selecting Proceed to Payment
     public String addOrderBycartId(String cartId) {
         try{
             Cart cart=cartService.showCartofId(cartId);
@@ -77,12 +82,15 @@ public class OrderServiceImp implements OrderService{
             order.setCartId(cart.getCartId());
             order.setTotalPrice(cart.getTotalPrice());
             order.setUserId(cart.getUserId());
+
             orderRepo.save(order);
+
             return "ADDED";
         }
         catch ( OrderNotFoundException e){
             return "Cart Id Not Exist";
         }
     }
+
 
 }
