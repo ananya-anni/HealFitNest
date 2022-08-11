@@ -3,6 +3,7 @@ package com.example.HealFitNest.Controller;
 import com.example.HealFitNest.Config.UserDetailService;
 //import com.example.HealFitNest.Model.Role;
 import com.example.HealFitNest.Config.ValidationConfig;
+import com.example.HealFitNest.Model.UserProfile;
 //import com.example.HealFitNest.Handler.NotNullException;
 import com.example.HealFitNest.Model.Users;
 //import com.example.HealFitNest.Repository.RoleRepo;
@@ -84,6 +85,12 @@ public class UserController {
         return new ResponseEntity<>(user.getUserId(), HttpStatus.OK);
     }
 
+    @GetMapping("/myProfile/{userId}")
+    private ResponseEntity<UserProfile> myProfile(@RequestBody Users userId){
+        Users user = userRepo.findById(userId);
+        UserProfile userProfile = new UserProfile(user.getFirstName(), user.getLastName(), user.getContact(), user.getEmail());
+        return new ResponseEntity<>(userProfile, HttpStatus.OK);
+    }
 }
 
 
