@@ -3,6 +3,8 @@ package com.example.HealFitNest.Controller;
 import com.example.HealFitNest.Config.UserDetailService;
 //import com.example.HealFitNest.Model.Role;
 import com.example.HealFitNest.Config.ValidationConfig;
+import com.example.HealFitNest.Handler.UserNotFoundException;
+import com.example.HealFitNest.Model.UserProfile;
 //import com.example.HealFitNest.Handler.NotNullException;
 import com.example.HealFitNest.Model.Users;
 //import com.example.HealFitNest.Repository.RoleRepo;
@@ -80,9 +82,16 @@ public class UserController {
         catch(Exception ex){
             return  new ResponseEntity<>("Unauthenticated", HttpStatus.UNAUTHORIZED);
         }
-        return ResponseEntity.ok("Authenticated");
+        Users user = userRepo.findByEmail(email);
+        return new ResponseEntity<>(user.getUserId(), HttpStatus.OK);
     }
 
+    @GetMapping("/myProfile/{userId}")
+    private ResponseEntity<UserProfile> myProfile(@PathVariable String userId){
+        Users user = userRepo.findById(userId).orElseThrow(()-> new UserNotFoundException("User not found."));
+        UserProfile userProfile = new UserProfile(user.getFirstName(), user.getLastName(), user.getContact(), user.getEmail());
+        return new ResponseEntity<>(userProfile, HttpStatus.OK);
+    }
 }
 
 
