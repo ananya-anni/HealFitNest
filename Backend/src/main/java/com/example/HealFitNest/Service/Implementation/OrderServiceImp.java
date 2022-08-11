@@ -42,34 +42,24 @@ public class OrderServiceImp implements OrderService{
     @Autowired
     private UserRepo userRepo;
 
-//    public List<Address> getAllAddress(String userId){
-//        Query query = new Query();
-//        query.addCriteria(Criteria.where("userId").is("62ee2d1fec74e75beb7ea5dd"));
-//        return mongoTemplate.find(query, Address.class);
-//    }
-
-
+    //shows list of all orders.
     public List<Order> showOrder() {
         return orderRepo.findAll();
     }
 
-//    public Cart showCartofId(String cartId){
-//        return cartRepo.findById(cartId).get();
-//    }
-
+    //
     public Order showOrderbyId(String orderId) {
         return orderRepo.findById(orderId).orElseThrow(()-> new OrderNotFoundException("Order Does Not Exist"));
     }
 
+    //shows all the orders of a particular user
     public List<Order> showOrderByUserId(String userId){
         Query query = new Query();
         query.addCriteria(Criteria.where("userId").is(userId));
         return mongoTemplate.find(query, Order.class);
-//        return orderRepo.findById(userId).orElseThrow(()-> new OrderNotFoundException("User Does Not Exist"));
     }
 
-
-
+    //stutus is changed when order is placed
     public String statusChange(String orderId,String userId) {
         Order order =orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException("OrderId not found"));
       order.setOrderStatus(true);
@@ -77,12 +67,11 @@ public class OrderServiceImp implements OrderService{
         String cartId=order.getCartId();
         Cart cart=cartRepo.findById(cartId).orElseThrow(() -> new CartNotFoundException("Cart does not exsists."));;
         List<CartItem> cartItems=cart.getCartItems();
-        Users users=userRepo.findById(userId).orElseThrow(() -> new UserNotFoundException("User  not found"));;
-       // String email=users.getEmail();
-       // emailSenderService.sendEmail("ish.asthana@gmail.com","Order Summary",emailSenderService.sendBody(userId,cartItems,orderId));
+        Users users=userRepo.findById(userId).orElseThrow(() -> new UserNotFoundException("User  not found"));
         return "Status Changed";
     }
 
+    //cart items move to order on selecting Proceed to Payment
     public String addOrderBycartId(String cartId) {
         try{
             Cart cart=cartService.showCartofId(cartId);
