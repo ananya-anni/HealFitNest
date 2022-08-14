@@ -19,4 +19,13 @@ public class Order {
     private String addressId;
     private Boolean orderStatus=false;
     private BigDecimal totalPrice;
+
+    public Order(String orderId, String userId, String cartId, String addressId, boolean orderStatus, int i) {
+        this.orderId=orderId;
+        this.userId=userId;
+        this.cartId=cartId;
+        this.addressId=addressId;
+        this.orderStatus=orderStatus;
+        this.totalPrice= BigDecimal.valueOf(i);
+    }
 }

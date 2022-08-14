@@ -32,7 +32,7 @@ public class UserController {
 
     @Autowired
     private UserDetailService userService;
-    
+
     @Autowired
     private UserRepo userRepo;
 
@@ -93,8 +93,6 @@ public class UserController {
         UserProfile userProfile =new UserProfile(user.getFirstName(), user.getLastName(),user.getContact(),user.getEmail());
         return new ResponseEntity<>(userProfile,HttpStatus.OK);
     }
-
-
 }
 
 

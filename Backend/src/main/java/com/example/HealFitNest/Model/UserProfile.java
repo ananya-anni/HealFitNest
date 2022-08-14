@@ -9,6 +9,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.apache.catalina.User;
+
+import lombok.Data;
+
 @Data
 public class UserProfile {
     private String firstName;
@@ -22,5 +26,4 @@ public class UserProfile {
         this.contact = contact;
         this.email = email;
     }
-    
 }
