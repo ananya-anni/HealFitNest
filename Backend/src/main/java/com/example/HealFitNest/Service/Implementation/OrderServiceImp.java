@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.example.HealFitNest.Handler.CartNotFoundException;
 import com.example.HealFitNest.Handler.OrderNotFoundException;
-import com.example.HealFitNest.Handler.UserNotFoundException;
 import com.example.HealFitNest.Model.*;
 import com.example.HealFitNest.Repository.AddressRepo;
 import com.example.HealFitNest.Repository.CartRepo;
@@ -54,21 +53,21 @@ public class OrderServiceImp implements OrderService{
 
     //shows all the orders of a particular user
     public List<Order> showOrderByUserId(String userId){
-        Query query = new Query();
-        query.addCriteria(Criteria.where("userId").is(userId));
-        return mongoTemplate.find(query, Order.class);
+        // Query query = new Query();
+        // query.addCriteria(Criteria.where("userId").is(userId));
+        // return mongoTemplate.find(query, Order.class);
+        return orderRepo.findAllByUserId(userId);
     }
 
     //stutus is changed when order is placed
-    public String statusChange(String orderId,String userId) {
+    public Order statusChange(String orderId) {
         Order order =orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException("OrderId not found"));
-      order.setOrderStatus(true);
+        order.setOrderStatus(true);
         orderRepo.save(order);
-        String cartId=order.getCartId();
-        Cart cart=cartRepo.findById(cartId).orElseThrow(() -> new CartNotFoundException("Cart does not exsists."));;
-        List<CartItem> cartItems=cart.getCartItems();
-        Users users=userRepo.findById(userId).orElseThrow(() -> new UserNotFoundException("User  not found"));
-        return "Status Changed";
+        // String cartId=order.getCartId();
+        // Cart cart=cartRepo.findById(cartId).orElseThrow(() -> new CartNotFoundException("Cart does not exsists."));;
+        // List<CartItem> cartItems=cart.getCartItems();
+        return order;
     }
 
     //cart items move to order on selecting Proceed to Payment

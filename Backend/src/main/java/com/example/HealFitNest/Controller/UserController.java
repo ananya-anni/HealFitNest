@@ -32,9 +32,7 @@ public class UserController {
 
     @Autowired
     private UserDetailService userService;
-
-    @Autowired
-    private UserProfile userProfile;
+    
     @Autowired
     private UserRepo userRepo;
 

@@ -10,26 +10,15 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Document(collection = "RegisteredUsers")
-
 public class UserProfile {
-    @Id
-    private String userId;
-
-    @NotBlank(message = "First Name cannot be null!")
     private String firstName;
     private String lastName;
-
-    @Indexed(unique = true)
+    private long contact;
     private String email;
 
-    private long contact;
-
-    public UserProfile(String firstName, String lasString, long contact, String email){
+    public UserProfile(String firstName, String lastName, long contact, String email){
         this.firstName = firstName;
-        this.lastName = lasString;
+        this.lastName = lastName;
         this.contact = contact;
         this.email = email;
     }
