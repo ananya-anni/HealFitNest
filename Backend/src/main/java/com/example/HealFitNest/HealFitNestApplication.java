@@ -22,7 +22,7 @@ public class HealFitNestApplication {
 	}
 
 	@Bean
-	public WebMvcConfigurer  corsConfigurer() {
+	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
