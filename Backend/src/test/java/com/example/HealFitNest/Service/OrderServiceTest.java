@@ -1,9 +1,6 @@
 package com.example.HealFitNest.Service;
 
 import com.example.HealFitNest.Config.UserDetailService;
-import com.example.HealFitNest.Model.Address;
-import com.example.HealFitNest.Model.Cart;
-import com.example.HealFitNest.Model.CartItem;
 import com.example.HealFitNest.Repository.CartRepo;
 import com.example.HealFitNest.Repository.UserRepo;
 import com.example.HealFitNest.Service.Implementation.*;
@@ -12,23 +9,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import com.example.HealFitNest.Model.Order;
-import com.example.HealFitNest.Service.OrderService;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.example.HealFitNest.Repository.OrderRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.test.context.ContextConfiguration;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

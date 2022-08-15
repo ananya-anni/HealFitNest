@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 
-import com.example.HealFitNest.Handler.CartNotFoundException;
 import com.example.HealFitNest.Model.Cart;
 import com.example.HealFitNest.Model.CartItem;
 import com.example.HealFitNest.Repository.CartRepo;
@@ -47,8 +46,8 @@ public class CartServiceTest {
     public void createCart(){
         Cart cart = new Cart();
         cart.setCartId("123");
-        CartItem cartItem1 = new CartItem("abc", "tealeaf", BigDecimal.valueOf(150), 2);
-        CartItem cartItem2 = new CartItem("def", "sugar", BigDecimal.valueOf(100), 2);
+        CartItem cartItem1 = new CartItem("abc", "tealeaf", BigDecimal.valueOf(150), 2, "https://www.narayanahealth.org/blog/coconut-benefits/");
+        CartItem cartItem2 = new CartItem("def", "sugar", BigDecimal.valueOf(100), 2, "https://www.narayanahealth.org/blog/coconut-benefits/");
         List<CartItem> cartItems = new ArrayList<CartItem>();
         cartItems.add(cartItem1);
         cartItems.add(cartItem2);
@@ -66,8 +65,8 @@ public class CartServiceTest {
     public void showCart(){
         List<Cart> carts = new ArrayList<>();
         Cart cart1 = new Cart();
-        CartItem cartItem1 = new CartItem("abc", "tealeaf", BigDecimal.valueOf(150), 2);
-        CartItem cartItem2 = new CartItem("def", "sugar", BigDecimal.valueOf(100), 2);
+        CartItem cartItem1 = new CartItem("abc", "tealeaf", BigDecimal.valueOf(150), 2, "https://www.narayanahealth.org/blog/coconut-benefits/");
+        CartItem cartItem2 = new CartItem("def", "sugar", BigDecimal.valueOf(100), 2, "https://www.narayanahealth.org/blog/coconut-benefits/");
         List<CartItem> cartItems = new ArrayList<CartItem>();
         cartItems.add(cartItem1);
         cartItems.add(cartItem2);
@@ -77,8 +76,8 @@ public class CartServiceTest {
         cart1.setUserId("123");
 
         Cart cart2 = new Cart();
-        CartItem cartItem3 = new CartItem("ghi", "coffee", BigDecimal.valueOf(100), 1);
-        CartItem cartItem4 = new CartItem("jkl", "water", BigDecimal.valueOf(50), 2);
+        CartItem cartItem3 = new CartItem("ghi", "coffee", BigDecimal.valueOf(100), 1, "https://www.narayanahealth.org/blog/coconut-benefits/");
+        CartItem cartItem4 = new CartItem("jkl", "water", BigDecimal.valueOf(50), 2, "https://www.narayanahealth.org/blog/coconut-benefits/");
         List<CartItem> cartItems2 = new ArrayList<CartItem>();
         cartItems2.add(cartItem3);
         cartItems2.add(cartItem4);
@@ -99,8 +98,8 @@ public class CartServiceTest {
     public void showCartofId(){
         Cart cart = new Cart();
         cart.setCartId("123");
-        CartItem cartItem1 = new CartItem("abc", "tealeaf", BigDecimal.valueOf(150), 2);
-        CartItem cartItem2 = new CartItem("def", "sugar", BigDecimal.valueOf(100), 2);
+        CartItem cartItem1 = new CartItem("abc", "tealeaf", BigDecimal.valueOf(150), 2, "https://www.narayanahealth.org/blog/coconut-benefits/");
+        CartItem cartItem2 = new CartItem("def", "sugar", BigDecimal.valueOf(100), 2, "https://www.narayanahealth.org/blog/coconut-benefits/");
         List<CartItem> cartItems = new ArrayList<CartItem>();
         cartItems.add(cartItem1);
         cartItems.add(cartItem2);

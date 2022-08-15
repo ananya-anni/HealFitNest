@@ -1,11 +1,9 @@
 package com.example.HealFitNest.Controller;
 
-
 import java.util.List;
 
 import com.example.HealFitNest.Handler.CartNotFoundException;
 import com.example.HealFitNest.Handler.OrderNotFoundException;
-import com.example.HealFitNest.Handler.UserNotFoundException;
 import com.example.HealFitNest.Repository.OrderRepo;
 import com.example.HealFitNest.Service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +67,7 @@ public class OrderController {
     public ResponseEntity<?> showOrderHistory(@PathVariable String orderId) {
         Order order = orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException("Order not found"));
         String cartId = order.getCartId();
-        Cart cart = cartService.showCartofId(cartId);
+        cartService.showCartofId(cartId);
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 
@@ -78,21 +76,12 @@ public class OrderController {
     @PutMapping("/orderStatusChange/{orderId}")
     public ResponseEntity<?> statusChange(@PathVariable String orderId) {
         Order order = orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException("Order not found"));
-        String userId = order.getUserId();
+        order.getUserId();
         orderService.statusChange(orderId);
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 }
 
-
-//    @PutMapping("/statusChange/{orderId}")
-//    public ResponseEntity<?> statuschange(@PathVariable String orderId){
-//        orderService.statusChange(orderId);
-//        Order order =orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException("OrderId not found"));
-//        String userId=order.getUserId();
-//        emailSenderService.sendEmail("ish.asthana@gmail.com","Order Summary",sendBody(userId));
-//        return new ResponseEntity<>(null,HttpStatus.CREATED);
-//    }
 
 
 
