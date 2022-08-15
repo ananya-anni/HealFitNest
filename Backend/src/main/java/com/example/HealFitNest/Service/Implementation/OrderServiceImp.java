@@ -65,9 +65,7 @@ public class OrderServiceImp implements OrderService{
             order.setCartId(cart.getCartId());
             order.setTotalPrice(cart.getTotalPrice());
             order.setUserId(cart.getUserId());
-
             orderRepo.save(order);
-
             return order;
         }
         catch ( OrderNotFoundException e){

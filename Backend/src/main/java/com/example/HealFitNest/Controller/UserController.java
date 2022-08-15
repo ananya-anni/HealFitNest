@@ -24,7 +24,7 @@ public class UserController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @PostMapping("/addUser")
+    @PostMapping("/registerUser")
     private String registerUser(@RequestBody Users user){
         userService.registerUser(user);
         return "User added successfully";

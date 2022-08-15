@@ -54,7 +54,7 @@ public class ItemController {
         return ResponseEntity.ok(item);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/update/{itemId}")
     public ResponseEntity<Item> updateItem(@PathVariable String id, @RequestBody Item updatedItem){
         Item updateItem = itemRepo.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException("Item with the Id : " + id + " was not found!"));
@@ -67,7 +67,7 @@ public class ItemController {
         return ResponseEntity.ok(updateItem);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/{itemId}")
     public String deleteProduct(@PathVariable String id){
         itemRepo.deleteById(id);
         return "Item Deleted Successfully";
@@ -77,19 +77,16 @@ public class ItemController {
     public List<Item> getItems(@PathVariable String categoryId){
         return itemService.getAllItems(categoryId);
     }
+
     @GetMapping("/item/{name}")
     public Item searchByName(@PathVariable String name){
         return itemService.searchItem(name);
     }
 
-
     @GetMapping("/getBestSeller")
     public List<Inventory> BestSellerItems(){
         return itemServiceImp.BestSeller();
     }
-
-
-
 
     @GetMapping("/search/{itemName}")
     public List<Item> searchItems(@PathVariable String itemName){

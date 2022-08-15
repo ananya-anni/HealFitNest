@@ -58,17 +58,18 @@ public class OrderController {
     public ResponseEntity<?> addOrder(@PathVariable String cartId) {
         Cart cart = cartRepo.findById(cartId).orElseThrow(() -> new CartNotFoundException("CartId not Valid"));
         cart.setCartStatus(false);
+        cartRepo.save(cart);
         orderService.addOrderBycartId(cartId);
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 
     // Show Orders in "My Orders"
     @GetMapping("/showOrderHistory/{orderId}")
-    public ResponseEntity<?> showOrderHistory(@PathVariable String orderId) {
+    public ResponseEntity<Cart> showOrderHistory(@PathVariable String orderId) {
         Order order = orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException("Order not found"));
         String cartId = order.getCartId();
-        cartService.showCartofId(cartId);
-        return new ResponseEntity<>(null, HttpStatus.CREATED);
+        Cart cart  = cartService.showCartofId(cartId);
+        return new ResponseEntity<>(cart, HttpStatus.CREATED);
     }
 
 

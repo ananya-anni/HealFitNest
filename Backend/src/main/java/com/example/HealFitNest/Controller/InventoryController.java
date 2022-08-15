@@ -27,7 +27,7 @@ public class InventoryController {
     }
 
     // Updates the item quantity present in inventory
-    @PostMapping("/updateInventItem/{itemId}/{amount}")
+    @PutMapping("/updateInventItem/{itemId}/{amount}")
     public void updateInventItem(@PathVariable String itemId, @PathVariable int amount){
         inventService.updateInventQuantity(itemId, amount);
     }

@@ -60,9 +60,8 @@ public class ItemServiceImp implements ItemService {
     @Override
     public Item searchItem(String name){
         return itemRepo.findByitemName(name);
-
-
     }
+
     @Override
     public List<Item> getAllItem(String subId) {
         Query query = new Query();
@@ -70,7 +69,6 @@ public class ItemServiceImp implements ItemService {
 //        query.limit(3);
         return mongoTemplate.find(query, Item.class);
     }
-
 
     public List<Inventory> BestSeller() {
         List<Inventory> itemList = inventoryRepo.findAll();
@@ -91,6 +89,4 @@ public class ItemServiceImp implements ItemService {
         query.addCriteria(Criteria.where("itemName").regex(itemName));
         return mongoTemplate.find(query, Item.class);
     }
-
-
 }

@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.example.HealFitNest.Handler.CartNotFoundException;
@@ -32,6 +35,9 @@ public class CartServiceImp implements CartService {
 
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
 
     public Cart createCart(Cart cart){
@@ -180,4 +186,15 @@ public class CartServiceImp implements CartService {
             throw new ItemNotFoundException("Inventory does not contain sufficient amount.");
         }
     } 
+
+    public String showCurrentStatus(String userId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("userId").is(userId));
+        List<Cart> cartList = mongoTemplate.find(query, Cart.class);
+        for(Cart eachCart : cartList){
+            if(eachCart.isCartStatus() == true)
+                return eachCart.getCartId();
+        }
+        return "Cart does not exists.";
+    }
 }

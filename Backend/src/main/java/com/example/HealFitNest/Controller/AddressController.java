@@ -49,7 +49,7 @@ public class AddressController{
     }
 
     // get addresses of particular user
-    @GetMapping("/get/{userId}")
+    @GetMapping("/getAddresses/{userId}")
     public List<Address> getAddresses(@PathVariable String userId){
         return addressService.getAllAddress(userId);
     }
