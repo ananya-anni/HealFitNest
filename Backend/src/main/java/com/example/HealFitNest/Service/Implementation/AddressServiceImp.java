@@ -29,23 +29,19 @@ public class AddressServiceImp implements AddressService {
         return mongoTemplate.find(query, Address.class);
     }
 
-    @Override
     public void saveAddress(Address address, String userId) {
             address.setUserId(userId);
             addressRepo.save(address);
     }
 
-    @Override
     public List<Address> findAllAddress() {
         return addressRepo.findAll();
     }
 
-    @Override
     public void deleteAddressById(String id) {
         addressRepo.deleteById(id);
     }
 
-    @Override
     public void updateAddressValues(String userId, String addressId, Address updatedAddress) {
         Address updateAddress = addressRepo.findById(addressId).orElse(null);
         updateAddress.setAddressLine1(updatedAddress.getAddressLine1());
