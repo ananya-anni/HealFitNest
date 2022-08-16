@@ -15,6 +15,7 @@ public interface CartService {
     public BigDecimal totalPrice(String cartId);
     public void clearCart(String cartId);
     public void removeItem(String cartId, String itemId);
-    public void updateItemQuantity(String cartId, String itemId, int quantity);
+    public void updateItemQuantityAdd(String cartId, String itemId);
+    public void updateItemQuantitySub(String cartId, String itemId);
     public String showCurrentStatus(String userId);
 }
