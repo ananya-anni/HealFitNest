@@ -1,6 +1,5 @@
 package com.example.HealFitNest.Controller;
 
-//import com.example.HealFitNest.Handler.NotNullException;
 import com.example.HealFitNest.Model.Category;
 import com.example.HealFitNest.Model.Item;
 import com.example.HealFitNest.Repository.CategoryRepo;
@@ -19,9 +18,9 @@ public class CategoryController {
 
     @Autowired
     private CategoryRepo categoryRepo;
+
     @Autowired
     private CategoryService categoryService;
-
 
     @PostMapping("/addCategory")
     public String addCategory(@RequestBody Category category){
@@ -31,25 +30,25 @@ public class CategoryController {
         } catch(ConstraintViolationException e){
             return e.getMessage();
         }
-
     }
+
     @GetMapping("/categories")
     public List<Category> findAllCategories(){
         return categoryRepo.findAll();
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Category> getItemsById(@PathVariable String id){
-        Category category = categoryRepo.findById(id).orElse(null);
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<Category> getItemsById(@PathVariable String categoryId){
+        Category category = categoryRepo.findById(categoryId).orElse(null);
         return ResponseEntity.ok(category);
     }
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateItem(@PathVariable String id, @RequestBody Category updatedCategory){
+
+    @PutMapping("/category/update/{categoryId}")
+    public ResponseEntity<?> updateCategory(@PathVariable String categoryId, @RequestBody Category updatedCategory){
         try{
-            Category updateCategory = categoryRepo.findById(id).orElse(null);
+            Category updateCategory = categoryRepo.findById(categoryId).orElse(null);
             updateCategory.setCategoryName(updatedCategory.getCategoryName());
             updateCategory.setSubCategoryName(updatedCategory.getSubCategoryName());
-
             categoryRepo.save(updateCategory);
             return ResponseEntity.ok(updateCategory);
         } catch (ConstraintViolationException e){
@@ -57,9 +56,9 @@ public class CategoryController {
         }
 
     }
-    @DeleteMapping("/delete/{id}")
-    public String deleteCategory(@PathVariable String id){
-        categoryRepo.deleteById(id);
+    @DeleteMapping("/category/delete/{categoryId}")
+    public String deleteCategory(@PathVariable String categoryId){
+        categoryRepo.deleteById(categoryId);
         return "Category Deleted Successfully";
     }
 
@@ -71,6 +70,7 @@ public class CategoryController {
     public List<String> showAllSubCategory(@PathVariable String CategoryName){
         return categoryService.displaySubCategory(CategoryName);
     }
+
 //    @GetMapping("/categories/{CategoryName}/{subCategoryName}")
 //    public List<Item> showAllItemsInASubcategory(@PathVariable String CategoryName,@PathVariable String subCategoryName){
 //        return categoryService.displayItemsInASubcategory(CategoryName,subCategoryName);
@@ -81,7 +81,5 @@ public class CategoryController {
         return categoryService.displayItemInASubcategory(CategoryName,SubCategoryName);
 
     }
-
-
 }
 

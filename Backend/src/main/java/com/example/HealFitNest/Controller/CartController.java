@@ -76,15 +76,23 @@ public class CartController {
     }
 
     // Updates the quantity of an item already present in the cart
-    @PutMapping("/updateCart/{cartId}/{itemId}")
-    public ResponseEntity<?> updateCartItem(@PathVariable String cartId, @PathVariable String itemId, int quantity){
-        cartService.updateItemQuantity(cartId, itemId, quantity);
+    @PutMapping("/updateCartItemAdd/{cartId}/{itemId}")
+    public ResponseEntity<?> updateCartItemAdd(@PathVariable String cartId, @PathVariable String itemId){
+        cartService.updateItemQuantityAdd(cartId, itemId);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-    // @GetMapping("/cart/checkout")
-    // public String cartCheckout(){
-    //     cartService.cartCheckout();
-    //     return "Proceeding to checkout";
-    // }
+    @PutMapping("/updateCartItemSub/{cartId}/{itemId}")
+    public ResponseEntity<?> updateCartItemSub(@PathVariable String cartId, @PathVariable String itemId){
+        cartService.updateItemQuantitySub(cartId, itemId);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/myCart/{userId}")
+    public ResponseEntity<Cart> showCurrentCart(@PathVariable String userId){
+        String cartId = cartService.showCurrentStatus(userId);
+        Cart cart = cartService.showCartofId(cartId);
+        return new ResponseEntity<>(cart, HttpStatus.OK);
+    }
 }
