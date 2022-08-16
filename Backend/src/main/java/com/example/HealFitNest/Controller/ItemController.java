@@ -47,7 +47,7 @@ public class ItemController {
         return itemRepo.findAll();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("{itemId}")
     public ResponseEntity<Item> getItemsById(@PathVariable String id){
         Item item = itemRepo.findById(id)
                .orElseThrow(() -> new ItemNotFoundException("Item with the Id : " + id + " was not found!"));
