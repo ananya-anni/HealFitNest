@@ -44,7 +44,7 @@ public class EmailSenderService {
         MailBody body=new MailBody();
        body.setCartItems(cartItems);
        body.setOrderId(orderId);
-        body.setMessage("Congratulations!"+firstName+"\n"+ "Your Order Summary is Ready");
+        body.setMessage("Congratulations! "+firstName+"\n"+ "Your Order Summary is Ready\n");
         return body;
 
 

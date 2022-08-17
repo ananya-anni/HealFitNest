@@ -12,6 +12,7 @@ import com.example.HealFitNest.Repository.UserRepo;
 //import com.example.HealFitNest.event.RegistrationComplete;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.http.ResponseEntity;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -71,16 +72,18 @@ public class UserController {
     }
 
     @PostMapping("/loginUser")
-    private ResponseEntity<String> loginAuth(@RequestBody Users users){
+    private String loginAuth(@RequestBody Users users){
         String email=users.getEmail();
         String pass=users.getPassword();
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, pass));
         }
         catch(Exception ex){
-            return  new ResponseEntity<>("Unauthenticated", HttpStatus.UNAUTHORIZED);
+            return "Unauthenticated";
+//            return  new ResponseEntity<>("Unauthenticated", HttpStatus.UNAUTHORIZED);
         }
-        return ResponseEntity.ok("Authenticated");
+       // return ResponseEntity.ok("Authenticated");
+        return email;
     }
 
 }
