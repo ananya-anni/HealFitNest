@@ -3,7 +3,7 @@ package com.example.HealFitNest.Controller;
 import com.example.HealFitNest.Model.Category;
 import com.example.HealFitNest.Model.Item;
 import com.example.HealFitNest.Repository.CategoryRepo;
-import com.example.HealFitNest.Service.Implementation.CategoryService;
+import com.example.HealFitNest.Service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

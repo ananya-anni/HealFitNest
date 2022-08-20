@@ -3,6 +3,7 @@ package com.example.HealFitNest.Service.Implementation;
 import com.example.HealFitNest.Model.Category;
 import com.example.HealFitNest.Model.Item;
 import com.example.HealFitNest.Repository.CategoryRepo;
+import com.example.HealFitNest.Service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 @Service
-public class CategoryService {
+public class CategoryServiceImp implements CategoryService {
 
     @Autowired
     private CategoryRepo categoryRepo;
