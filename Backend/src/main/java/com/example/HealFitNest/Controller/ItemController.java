@@ -48,14 +48,14 @@ public class ItemController {
         return itemRepo.findAll();
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Item> getItemsById(@PathVariable String id){
-        Item item = itemRepo.findById(id)
-               .orElseThrow(() -> new ItemNotFoundException("Item with the Id : " + id + " was not found!"));
+    @GetMapping("{itemId}")
+    public ResponseEntity<Item> getItemsById(@PathVariable String itemId){
+        Item item = itemRepo.findById(itemId)
+               .orElseThrow(() -> new ItemNotFoundException("Item with the Id : " + itemId + " was not found!"));
         return ResponseEntity.ok(item);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/update/{itemId}")
     public ResponseEntity<Item> updateItem(@PathVariable String id, @RequestBody Item updatedItem){
         Item updateItem = itemRepo.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException("Item with the Id : " + id + " was not found!"));
@@ -68,7 +68,7 @@ public class ItemController {
         return ResponseEntity.ok(updateItem);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/{itemId}")
     public String deleteProduct(@PathVariable String id){
         itemRepo.deleteById(id);
         return "Item Deleted Successfully";

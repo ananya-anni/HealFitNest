@@ -48,12 +48,12 @@ InventoryServiceImp implements InventoryService {
     }
 
     public void amountVariation(String itemId, int quantity){
-         Inventory inventItem = showInventoryItem(itemId);
-         int amount  = inventItem.getAmountPresent() - quantity;
-         inventItem.setAmountPresent(amount);
-         inventRepo.save(inventItem);
+        Inventory inventItem = showInventoryItem(itemId);
+        int amount  = inventItem.getAmountPresent() - quantity;
+        inventItem.setAmountPresent(amount);
+        inventRepo.save(inventItem);
     }
-    
+
     public void updateInventQuantity(String itemId, int quantity){
         Inventory inventItem = showInventoryItem(itemId);
         int itemQuantity=inventItem.getItemQuantity()+quantity;

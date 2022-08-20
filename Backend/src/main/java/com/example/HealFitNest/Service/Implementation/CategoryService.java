@@ -1,16 +1,10 @@
 package com.example.HealFitNest.Service.Implementation;
 
-
-import com.example.HealFitNest.Model.Address;
 import com.example.HealFitNest.Model.Category;
 import com.example.HealFitNest.Model.Item;
 import com.example.HealFitNest.Repository.CategoryRepo;
-import com.example.HealFitNest.Repository.ItemRepo;
-import com.example.HealFitNest.Service.Implementation.ItemServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,9 +14,6 @@ public class CategoryService {
 
     @Autowired
     private CategoryRepo categoryRepo;
-
-    @Autowired
-    private ItemRepo itemRepo;
 
     @Autowired
     private ItemServiceImp itemService;
