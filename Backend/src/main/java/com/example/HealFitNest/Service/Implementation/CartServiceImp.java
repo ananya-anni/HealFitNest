@@ -173,6 +173,8 @@ public class CartServiceImp implements CartService {
         if(item.getItemAvailable()){
             int quantity = eachCartItem.getItemQuantity() + 1;
             eachCartItem.setItemQuantity(quantity);
+            cartItems.set(updateIndex,eachCartItem);
+            cart.setCartItems(cartItems);
             cartRepo.save(cart);
             int count = countItem(cartId);
             cart.setCountItem(count);
