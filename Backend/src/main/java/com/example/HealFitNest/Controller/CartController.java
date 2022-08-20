@@ -79,7 +79,7 @@ public class CartController {
     @PutMapping("/updateCartItemAdd/{cartId}/{itemId}")
     public ResponseEntity<?> updateCartItemAdd(@PathVariable String cartId, @PathVariable String itemId){
         cartService.updateItemQuantityAdd(cartId, itemId);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 
     @PutMapping("/updateCartItemSub/{cartId}/{itemId}")
