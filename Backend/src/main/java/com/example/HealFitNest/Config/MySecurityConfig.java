@@ -76,6 +76,13 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter{
 
         return authProvider;
     }
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/v2/api-docs",
+                "/v3/api-docs",
+                "/swagger-resources/**",
+                "/swagger-ui/**");
+    }
 
 
 }

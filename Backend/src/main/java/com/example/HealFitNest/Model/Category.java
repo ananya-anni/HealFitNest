@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Data
@@ -14,10 +15,17 @@ import java.util.List;
 public class Category {
 
     @Id
-    private int categoryId;
+    @NotBlank(message = "Category Id cannot be blank!")
+    private String categoryId;
+
     private List<String> subCategoryId;
+
+    @NotBlank(message = "Category Name cannot be blank!")
     private String categoryName;
+
     private List<String> subCategoryName;
+
+    @NotBlank(message = "Category Image cannot be blank!")
     private String categoryImage;
 
 }
