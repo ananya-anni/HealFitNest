@@ -2,6 +2,8 @@ package com.example.HealFitNest.Controller;
 
 import java.util.List;
 
+import javax.mail.MessagingException;
+
 import com.example.HealFitNest.Handler.CartNotFoundException;
 import com.example.HealFitNest.Handler.OrderNotFoundException;
 import com.example.HealFitNest.Repository.OrderRepo;
@@ -75,7 +77,7 @@ public class OrderController {
 
     // Order Status Change ( when order placed)
     @PutMapping("/orderStatusChange/{orderId}")
-    public ResponseEntity<?> statusChange(@PathVariable String orderId) {
+    public ResponseEntity<?> statusChange(@PathVariable String orderId) throws MessagingException {
         Order order = orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException("Order not found"));
         order.getUserId();
         orderService.statusChange(orderId);

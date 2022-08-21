@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.mail.MessagingException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.example.HealFitNest.Repository.OrderRepo;
 
@@ -114,7 +116,7 @@ public class OrderServiceTest {
 
 
     @Test
-    public void statusChange(){
+    public void statusChange() throws MessagingException{
         List<Order> order=new ArrayList<>();
         Order order1=new Order();
 //        order1.setOrderId("23456");

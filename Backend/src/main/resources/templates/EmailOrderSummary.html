@@ -1,0 +1,35 @@
+<html
+  lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org"
+>
+  <head>
+    <title>Order Summary</title>
+  </head>
+  <body>
+    <h1>Congratulations, your order has been placed!</h1>
+    <div>Thank you for ordering, <b th:text="${firstname}">firstname</b>!</div>
+    <p>
+      Your order summary in given below:
+      <br /><br />
+      Email address : <span th:text="${email}">email </span> <br />
+      <br />
+      Date : <span th:text="${date}">date </span> <br /><br />
+      Address : <span th:text="${addressline1}">, </span>
+      <span th:text="${addressline2}">, </span>
+      <span th:text="${city}">, </span>
+      <span th:text="${state}">, </span>
+      <span th:text="${pin}"> </span>
+      <br /><br />
+      Total Price : <span th:text="${totalPrice}">totalPrice </span>
+      <br /><br />
+      Number of items orderd : <span th:text="${items}">item </span>
+      <br /><br />
+    </p>
+    <img src="images/logo.png" height="80" , width="120" />
+    <p>
+      Regards, <br />
+      <em>HealFitNest Team</em>
+    </p>
+  </body>
+</html>

@@ -2,10 +2,15 @@ package com.example.HealFitNest.Service.Implementation;
 
 import java.util.List;
 
+import javax.mail.MessagingException;
+
+import com.example.HealFitNest.Handler.AddressNotFoundException;
 import com.example.HealFitNest.Handler.OrderNotFoundException;
+import com.example.HealFitNest.Handler.UserNotFoundException;
 import com.example.HealFitNest.Model.Address;
 import com.example.HealFitNest.Model.Cart;
 import com.example.HealFitNest.Model.Order;
+import com.example.HealFitNest.Model.Users;
 import com.example.HealFitNest.Service.AddressService;
 import com.example.HealFitNest.Service.CartService;
 
@@ -13,7 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
+import com.example.HealFitNest.Repository.AddressRepo;
+import com.example.HealFitNest.Repository.CartRepo;
 import com.example.HealFitNest.Repository.OrderRepo;
+import com.example.HealFitNest.Repository.UserRepo;
 import com.example.HealFitNest.Service.OrderService;
 
 @Service
@@ -28,10 +36,17 @@ public class OrderServiceImp implements OrderService{
     private AddressService addressService;
     
     @Autowired
-    MongoTemplate mongoTemplate;
+    private UserRepo userRepo;
     
-    // @Autowired
-    // private EmailSenderService emailSenderService;
+    @Autowired
+    MongoTemplate mongoTemplate;
+
+    
+    @Autowired
+    private AddressRepo addressRepo;
+    
+    @Autowired
+    private EmailSenderService emailSenderService;
 
     public List<Order> showOrder() {
         return orderRepo.findAll();
@@ -45,12 +60,14 @@ public class OrderServiceImp implements OrderService{
         return orderRepo.findAllByUserId(userId);
     }
 
-    public Order statusChange(String orderId) {
+    public Order statusChange(String orderId) throws MessagingException {
         Order order =orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException("OrderId not found"));
         order.setOrderStatus(true);
         orderRepo.save(order);
-////        String email=users.getEmail();
-//        emailSenderService.sendEmail("ish.asthana@gmail.com","Order Summary",emailSenderService.sendBody(userId,cartItems,orderId));
+        String subject = "Order Summary";
+        Address address  = addressRepo.findById(order.getAddressId()).orElseThrow(()-> new AddressNotFoundException("Address does not exists."));
+        Users user = userRepo.findById(order.getUserId()).orElseThrow(()-> new UserNotFoundException("User does not exists."));
+        emailSenderService.sendHtmlMessage(orderId, subject, user, address);
         return order;
     }
 
@@ -58,6 +75,7 @@ public class OrderServiceImp implements OrderService{
         try{
             Cart cart=cartService.showCartofId(cartId);
             cart.setCartStatus(false);
+            cartService.createCart(cart);
             Order order=new Order();
             String userId=cart.getUserId();
             List<Address> address_list=addressService.getAllAddress(userId);
