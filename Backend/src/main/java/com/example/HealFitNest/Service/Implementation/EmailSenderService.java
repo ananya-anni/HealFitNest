@@ -1,15 +1,11 @@
 package com.example.HealFitNest.Service.Implementation;
 
-import com.example.HealFitNest.Handler.AddressNotFoundException;
 import com.example.HealFitNest.Handler.CartNotFoundException;
 import com.example.HealFitNest.Handler.OrderNotFoundException;
-import com.example.HealFitNest.Handler.UserNotFoundException;
 import com.example.HealFitNest.Model.*;
-import com.example.HealFitNest.Repository.AddressRepo;
 import com.example.HealFitNest.Repository.OrderRepo;
 import com.example.HealFitNest.Repository.UserRepo;
 import com.example.HealFitNest.Service.CartService;
-import com.example.HealFitNest.Service.OrderService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
