@@ -1,7 +1,5 @@
 package com.example.HealFitNest.Service.Implementation;
 
-
-import com.example.HealFitNest.Config.ValidationConfig;
 import com.example.HealFitNest.Model.Address;
 import com.example.HealFitNest.Repository.AddressRepo;
 import com.example.HealFitNest.Service.AddressService;
@@ -14,7 +12,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Service
@@ -25,36 +22,28 @@ public class AddressServiceImp implements AddressService {
     @Autowired
     private AddressRepo addressRepo;
 
-    @Autowired
-    private ValidationConfig validationConfig;
-
-
     public List<Address> getAllAddress(String userId){
         Query query = new Query();
         query.addCriteria(Criteria.where("userId").is(userId));
-        query.addCriteria(Criteria.where("userId").is("62ee2d1fec74e75beb7ea5dd"));
+
         return mongoTemplate.find(query, Address.class);
     }
 
-    @Override
-    public void saveAddress(Address address) {
-            addressRepo.save(address);
-
+    public void saveAddress(Address address, String userId) {
+        address.setUserId(userId);
+        addressRepo.save(address);
     }
 
-    @Override
     public List<Address> findAllAddress() {
         return addressRepo.findAll();
     }
 
-    @Override
     public void deleteAddressById(String id) {
         addressRepo.deleteById(id);
     }
 
-    @Override
-    public void updateAddressValues(String id, Address updatedAddress) {
-        Address updateAddress = addressRepo.findById(id).orElse(null);
+    public void updateAddressValues(String userId, String addressId, Address updatedAddress) {
+        Address updateAddress = addressRepo.findById(addressId).orElse(null);
         updateAddress.setAddressLine1(updatedAddress.getAddressLine1());
         updateAddress.setAddressLine2((updatedAddress.getAddressLine2()));
         updateAddress.setCity(updatedAddress.getCity());

@@ -35,7 +35,7 @@ public class Item {
     @NotNull(message = "Item price cannot be null!")
     private BigDecimal itemPrice;
 
-//    @NotBlank(message = "Item availability cannot be null!")
+    //    @NotBlank(message = "Item availability cannot be null!")
     private Boolean itemAvailable;
 
     @NotBlank(message = "Item image cannot be null!")

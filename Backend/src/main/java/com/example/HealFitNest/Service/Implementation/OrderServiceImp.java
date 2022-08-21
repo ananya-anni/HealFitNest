@@ -1,3 +1,4 @@
+
 package com.example.HealFitNest.Service.Implementation;
 
 import java.util.List;
@@ -5,17 +6,14 @@ import java.util.List;
 import com.example.HealFitNest.Handler.OrderNotFoundException;
 import com.example.HealFitNest.Model.Address;
 import com.example.HealFitNest.Model.Cart;
-import com.example.HealFitNest.Repository.AddressRepo;
+import com.example.HealFitNest.Model.Order;
 import com.example.HealFitNest.Service.AddressService;
 import com.example.HealFitNest.Service.CartService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-
-import com.example.HealFitNest.Model.Order;
 import com.example.HealFitNest.Repository.OrderRepo;
 import com.example.HealFitNest.Service.OrderService;
 
@@ -24,52 +22,43 @@ public class OrderServiceImp implements OrderService{
     @Autowired
     private OrderRepo orderRepo;
 
-
-    @Autowired
-    private AddressRepo addressRepo;
     @Autowired
     private CartService cartService;
+
     @Autowired
     private AddressService addressService;
+
     @Autowired
     MongoTemplate mongoTemplate;
 
-//    public List<Address> getAllAddress(String userId){
-//        Query query = new Query();
-//        query.addCriteria(Criteria.where("userId").is("62ee2d1fec74e75beb7ea5dd"));
-//        return mongoTemplate.find(query, Address.class);
-//    }
-
+    // @Autowired
+    // private EmailSenderService emailSenderService;
 
     public List<Order> showOrder() {
         return orderRepo.findAll();
     }
-
-//    public Cart showCartofId(String cartId){
-//        return cartRepo.findById(cartId).get();
-//    }
 
     public Order showOrderbyId(String orderId) {
         return orderRepo.findById(orderId).orElseThrow(()-> new OrderNotFoundException("Order Does Not Exist"));
     }
 
     public List<Order> showOrderByUserId(String userId){
-        Query query = new Query();
-        query.addCriteria(Criteria.where("userId").is(userId));
-        return mongoTemplate.find(query, Order.class);
-//        return orderRepo.findById(userId).orElseThrow(()-> new OrderNotFoundException("User Does Not Exist"));
+        return orderRepo.findAllByUserId(userId);
     }
 
-    public String statusChange(String orderId) {
+    public Order statusChange(String orderId) {
         Order order =orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException("OrderId not found"));
         order.setOrderStatus(true);
         orderRepo.save(order);
-        return "Status Changed";
+////        String email=users.getEmail();
+//        emailSenderService.sendEmail("ish.asthana@gmail.com","Order Summary",emailSenderService.sendBody(userId,cartItems,orderId));
+        return order;
     }
 
-    public String addOrderBycartId(String cartId) {
+    public Order addOrderBycartId(String cartId) {
         try{
             Cart cart=cartService.showCartofId(cartId);
+            cart.setCartStatus(false);
             Order order=new Order();
             String userId=cart.getUserId();
             List<Address> address_list=addressService.getAllAddress(userId);
@@ -78,11 +67,11 @@ public class OrderServiceImp implements OrderService{
             order.setTotalPrice(cart.getTotalPrice());
             order.setUserId(cart.getUserId());
             orderRepo.save(order);
-            return "ADDED";
+            return order;
         }
         catch ( OrderNotFoundException e){
-            return "Cart Id Not Exist";
+            return null;
         }
     }
-
 }
+
