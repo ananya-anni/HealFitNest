@@ -2,18 +2,17 @@ package com.example.HealFitNest.Service.Implementation;
 
 import com.example.HealFitNest.Model.Inventory;
 import com.example.HealFitNest.Repository.InventoryRepo;
+import com.paypal.api.payments.Search;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import com.example.HealFitNest.Handler.ItemNotFoundException;
 import com.example.HealFitNest.Model.Item;
 import com.example.HealFitNest.Repository.ItemRepo;
 import com.example.HealFitNest.Service.ItemService;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -48,7 +47,7 @@ public class ItemServiceImp implements ItemService {
     public Item findItemById(String id) {
         return itemRepo.findById(id).orElseThrow(() -> new ItemNotFoundException("Item not found of this id: "+id));
     }
-
+    //Get items by its category
     @Override
     public List<Item> getAllItems(String categoryId){
         Query query = new Query();
@@ -56,13 +55,14 @@ public class ItemServiceImp implements ItemService {
         return mongoTemplate.find(query, Item.class);
     }
 
-
+    //Search item by name
     @Override
     public Item searchItem(String name){
         return itemRepo.findByitemName(name);
 
 
     }
+    //Get items by its subcategory
     @Override
     public List<Item> getAllItem(String subId) {
         Query query = new Query();
@@ -84,7 +84,7 @@ public class ItemServiceImp implements ItemService {
         Collections.sort(itemList);
         return itemList;
     }
-
+//    Search items using regex
     @Override
     public List<Item> searchAllItems(String itemName){
         Query query = new Query();

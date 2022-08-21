@@ -1,82 +1,63 @@
-package com.example.HealFitNest.Controller;
+package com.example.HealFitNest.Service.Implementation;
 
-import com.example.HealFitNest.Config.UserDetailService;
 import com.example.HealFitNest.Model.Users;
 import com.example.HealFitNest.Repository.UserRepo;
 import com.example.HealFitNest.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+
 import javax.validation.ConstraintViolationException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@RequestMapping("/api/v2")
+public class UserServiceImp implements UserService {
 
-@RestController
-public class UserController {
-
-    @Autowired
-    private UserDetailService userService;
     @Autowired
     private UserRepo userRepo;
     @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private UserService usersService;
 
-    @PostMapping("/addUser")
-    private String registerUser(@RequestBody Users users){
-//        return usersService.registeredUser(users);}
+    public String registeredUser(Users users){
+
         try{
             users.setFirstName(users.getFirstName());
             users.setUserId(users.getUserId());
             users.setLastName(users.getLastName());
             users.setContact(users.getContact());
+
+
             String emailreg="^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
             Pattern pattern=Pattern.compile(emailreg);
             Matcher matcher= pattern.matcher(users.getEmail());
-            if(matcher.matches()==true)
+            if(matcher.matches())
                 users.setEmail(users.getEmail());
             else
                 return "Enter a valid email Id";
-            String passreg= "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$";
+
+            //Atleast one digit and one lowercase and one uppercase and one symbol should be present
+            //length should be between 8 and 20 characters
+            String passreg= "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()]).{8,20}$";
+//            Compile the ReGex
             Pattern pat=Pattern.compile(passreg);
+            // Pattern class contains matcher() method
+            // to find matching between given password
+            // and regular expression.
             Matcher mat= pat.matcher(users.getPassword());
-            if(mat.matches()==true)
+            if(mat.matches())//Password matches the regex
                 users.setPassword(passwordEncoder.encode(users.getPassword()));
             else
                 return "Enter a valid Password";
+
+
             userRepo.save(users);
             return "User Added Successfully";
+
+
         } catch (ConstraintViolationException e){
             return e.getMessage();
+
         } catch (NullPointerException e){
             return "Email/password is null!";
         }
     }
-
-    @PostMapping("/loginUser")
-    private ResponseEntity<String> loginAuth(@RequestBody Users users){
-        String email=users.getEmail();
-        String pass=users.getPassword();
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, pass));
-        }
-        catch(Exception ex){
-            return  new ResponseEntity<>("Unauthenticated", HttpStatus.UNAUTHORIZED);
-        }
-//        Users user = userRepo.findByEmail(email);
-        return new ResponseEntity<>(users.getUserId(), HttpStatus.OK);
-    }
-
 }
-
-
-

@@ -3,14 +3,18 @@ package com.example.HealFitNest.Service.Implementation;
 import com.example.HealFitNest.Model.Category;
 import com.example.HealFitNest.Model.Item;
 import com.example.HealFitNest.Repository.CategoryRepo;
+import com.example.HealFitNest.Service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
 @Service
-public class CategoryService {
+public class CategoryServiceImp implements CategoryService {
 
     @Autowired
     private CategoryRepo categoryRepo;
@@ -23,12 +27,27 @@ public class CategoryService {
     List<Item> items=new ArrayList<Item>();
     List<String> category=new ArrayList<String>();
 
+    @Override
+    public Category addCategory(Category category) {
+        return categoryRepo.save(category);
+    }
+
+    @Override
+    public List<Category> findAllCategories(){
+        List<Category> categories = new ArrayList<>();
+        categories = categoryRepo.findAll();
+        return categories;
+    }
+
+    //This displays all subcategory of a particular category
+    @Override
     public List<String> displaySubCategory(String categoryName){
         Category category=categoryRepo.findBycategoryName(categoryName);
         List<String> list1=category.getSubCategoryName();
         return list1;
     }
-
+    //This displays all items in a subcategory of a particular category
+    @Override
     public List<Item> displayItemInASubcategory(String CategoryName, String SubCategoryName){
         Category category=categoryRepo.findBycategoryName(CategoryName);
         List<String> list1=category.getSubCategoryName();
@@ -39,7 +58,8 @@ public class CategoryService {
         return itemService.getAllItem(subId);
 
     }
-
+    //This displays all categories by its names
+    @Override
     public List<String> displayAllCategory(){
         List<Category> category1=categoryRepo.findAll();
         for(Category cat:category1){
