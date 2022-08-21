@@ -8,10 +8,6 @@ import java.util.List;
 public class MailBody {
     private String message;
     private String orderId;
-//    private String userId;
     private List<CartItem> cartItems;
-//    private String ImageUrl;
 
-
-//    private String message;
 }

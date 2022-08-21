@@ -39,12 +39,12 @@ public class CartController {
 
     // Add first item which is present in the item as well as inventory to the cart
     @PostMapping("/addToCart/{userId}/{itemId}/{quantity}")
-    public ResponseEntity<?> addToCart(@PathVariable String userId, @PathVariable String itemId, @PathVariable int quantity){
+    public ResponseEntity<String> addToCart(@PathVariable String userId, @PathVariable String itemId, @PathVariable int quantity){
         Cart cart = new Cart();
         cartService.createCart(cart);
         String cartId = cart.getCartId();
         cartService.addFirstItem(userId, cartId, itemId, quantity);
-        return new ResponseEntity<>(null, HttpStatus.CREATED);
+        return new ResponseEntity<>(cartId, HttpStatus.CREATED);
     }
 
     // Add items
@@ -76,15 +76,23 @@ public class CartController {
     }
 
     // Updates the quantity of an item already present in the cart
-    @PutMapping("/updateCart/{cartId}/{itemId}")
-    public ResponseEntity<?> updateCartItem(@PathVariable String cartId, @PathVariable String itemId, int quantity){
-        cartService.updateItemQuantity(cartId, itemId, quantity);
+    @PutMapping("/updateCartItemAdd/{cartId}/{itemId}")
+    public ResponseEntity<?> updateCartItemAdd(@PathVariable String cartId, @PathVariable String itemId){
+        cartService.updateItemQuantityAdd(cartId, itemId);
+        return new ResponseEntity<>(null, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/updateCartItemSub/{cartId}/{itemId}")
+    public ResponseEntity<?> updateCartItemSub(@PathVariable String cartId, @PathVariable String itemId){
+        cartService.updateItemQuantitySub(cartId, itemId);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-    // @GetMapping("/cart/checkout")
-    // public String cartCheckout(){
-    //     cartService.cartCheckout();
-    //     return "Proceeding to checkout";
-    // }
+
+    @GetMapping("/myCart/{userId}")
+    public ResponseEntity<Cart> showCurrentCart(@PathVariable String userId){
+        String cartId = cartService.showCurrentStatus(userId);
+        Cart cart = cartService.showCartofId(cartId);
+        return new ResponseEntity<>(cart, HttpStatus.OK);
+    }
 }
