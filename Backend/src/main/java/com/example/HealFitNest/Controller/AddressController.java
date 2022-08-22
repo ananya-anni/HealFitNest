@@ -19,9 +19,9 @@ public class AddressController{
 
     //Adding Address
     @PostMapping("/addAddress/{userId}")
-    public ResponseEntity<?> saveAddress(@PathVariable String userId, @RequestBody Address address){
+    public ResponseEntity<?> saveAddress(@RequestBody Address address,@PathVariable String userId){
         try{
-            addressService.saveAddress(address, userId);
+            addressService.saveAddress(address,userId);
             return new ResponseEntity<>(address, HttpStatus.CREATED);
         } catch (ConstraintViolationException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);

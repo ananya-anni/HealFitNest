@@ -1,37 +1,17 @@
-
 package com.example.HealFitNest.Service.Implementation;
 
 import java.util.List;
 
 import com.example.HealFitNest.Handler.OrderNotFoundException;
-<<<<<<< HEAD
-import com.example.HealFitNest.Handler.UserNotFoundException;
-import com.example.HealFitNest.Model.Address;
-import com.example.HealFitNest.Model.Cart;
-import com.example.HealFitNest.Model.CartItem;
-import com.example.HealFitNest.Model.Item;
-import com.example.HealFitNest.Model.Order;
-import com.example.HealFitNest.Model.Users;
-import com.example.HealFitNest.Service.AddressService;
-import com.example.HealFitNest.Service.CartService;
-import com.example.HealFitNest.Service.InventoryService;
-import com.example.HealFitNest.Service.ItemService;
-=======
 import com.example.HealFitNest.Model.Address;
 import com.example.HealFitNest.Model.Cart;
 import com.example.HealFitNest.Model.Order;
 import com.example.HealFitNest.Service.AddressService;
 import com.example.HealFitNest.Service.CartService;
->>>>>>> 5253fce9ef2fc6823ce2276883d6328e156a06c1
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
-
-<<<<<<< HEAD
 import com.example.HealFitNest.Repository.CartRepo;
-=======
->>>>>>> 5253fce9ef2fc6823ce2276883d6328e156a06c1
 import com.example.HealFitNest.Repository.OrderRepo;
 import com.example.HealFitNest.Repository.UserRepo;
 import com.example.HealFitNest.Service.OrderService;
@@ -40,35 +20,20 @@ import com.example.HealFitNest.Service.OrderService;
 public class OrderServiceImp implements OrderService{
     @Autowired
     private OrderRepo orderRepo;
-<<<<<<< HEAD
-    
-    @Autowired
-    private CartService cartService;
-
-    @Autowired
-    private InventoryService inventService;
-
-    @Autowired
-    private ItemService itemService;
-
-=======
 
     @Autowired
     private CartService cartService;
 
->>>>>>> 5253fce9ef2fc6823ce2276883d6328e156a06c1
     @Autowired
     private AddressService addressService;
 
     @Autowired
     MongoTemplate mongoTemplate;
 
-<<<<<<< HEAD
-=======
+
     // @Autowired
     // private EmailSenderService emailSenderService;
 
->>>>>>> 5253fce9ef2fc6823ce2276883d6328e156a06c1
     public List<Order> showOrder() {
         return orderRepo.findAll();
     }
@@ -109,10 +74,6 @@ public class OrderServiceImp implements OrderService{
             return null;
         }
     }
-<<<<<<< HEAD
 
 }
-=======
-}
 
->>>>>>> 5253fce9ef2fc6823ce2276883d6328e156a06c1

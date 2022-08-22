@@ -54,13 +54,13 @@ public class ItemServiceImp implements ItemService {
 //        Query query = new Query();
 //        query.addCriteria(Criteria.where("categoryId").is(categoryId));
 //        return mongoTemplate.find(query, Item.class);
-        return itemRepo.findBycategoryId(categoryId);
+        return itemRepo.findByCategoryId(categoryId);
     }
 
     //Search item by name
     @Override
     public Item searchItem(String name){
-        return itemRepo.findByitemName(name).orElseThrow(() -> new ItemNotFoundException("Item not found of this name: "+name));
+        return itemRepo.findByItemName(name).orElseThrow(() -> new ItemNotFoundException("Item not found of this name: "+name));
 
 
     }
@@ -71,7 +71,7 @@ public class ItemServiceImp implements ItemService {
 //        query.addCriteria(Criteria.where("subCategoryId").is(subId));
 ////        query.limit(3);
 //        return mongoTemplate.find(query, Item.class);
-        return itemRepo.findBysubCategoryId(subId);
+        return itemRepo.findBySubCategoryId(subId);
     }
 
 

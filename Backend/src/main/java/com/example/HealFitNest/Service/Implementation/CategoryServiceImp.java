@@ -41,16 +41,16 @@ public class CategoryServiceImp implements CategoryService {
     //This displays all subcategory of a particular category
     @Override
     public List<String> displaySubCategory(String categoryName){
-        Category category=categoryRepo.findBycategoryName(categoryName);
+        Category category=categoryRepo.findByCategoryName(categoryName);
         List<String> list1=category.getSubCategoryName();
         return list1;
     }
     //This displays all items in a subcategory of a particular category
     @Override
-    public List<Item> displayItemInASubcategory(String CategoryName, String SubCategoryName){
-        Category category=categoryRepo.findBycategoryName(CategoryName);
+    public List<Item> displayItemInASubcategory(String categoryName, String subCategoryName){
+        Category category=categoryRepo.findByCategoryName(categoryName);
         List<String> list1=category.getSubCategoryName();
-        int index=list1.indexOf(SubCategoryName);
+        int index=list1.indexOf(subCategoryName);
 
         List<String> subCategoryId=category.getSubCategoryId();
         String subId=subCategoryId.get(index);

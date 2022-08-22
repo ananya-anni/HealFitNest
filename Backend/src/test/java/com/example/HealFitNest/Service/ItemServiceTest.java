@@ -2,12 +2,12 @@ package com.example.HealFitNest.Service;
 
 import com.example.HealFitNest.Model.Item;
 import com.example.HealFitNest.Repository.ItemRepo;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.example.HealFitNest.Service.Implementation.ItemServiceImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -78,13 +79,13 @@ public class ItemServiceTest {
         item.setItemDescription("Tasty");
         item.setItemPrice(BigDecimal.valueOf(143));
 
-        when(itemRepo.findByitemName(item.getItemName())).thenReturn(Optional.of(item));
+        when(itemRepo.findByItemName(item.getItemName())).thenReturn(Optional.of(item));
         assertEquals(item,itemServiceImp.searchItem(item.getItemName()));
     }
 
     @Test
     public void getAllItems(){
-        List<Item> i=new ArrayList<Item>();
+        List<Item> i=new ArrayList<>();
 
         Item item1=new Item();
         item1.setItemId("I1234");
@@ -97,7 +98,7 @@ public class ItemServiceTest {
         Item item2=new Item();
         item2.setItemId("I12345");
         item2.setItemName("Orange");
-        item2.setCategoryId("C12345");
+        item2.setCategoryId("C1234");
         item2.setSubCategoryId("S123456");
         item2.setItemDescription("Tasty");
         item2.setItemPrice(BigDecimal.valueOf(132));
@@ -105,8 +106,9 @@ public class ItemServiceTest {
         i.add(item1);
         i.add(item2);
 
-        when(itemRepo.findBycategoryId("C12345")).thenReturn(i);
-        assertEquals(2,itemServiceImp.getAllItems("C12345").size());
+        when(itemRepo.findByCategoryId("C12345")).thenReturn(i);
+        List<Item> itemList = itemServiceImp.getAllItems("C12345");
+        assertEquals(1,itemList.size());
 
 
 
@@ -133,8 +135,9 @@ public class ItemServiceTest {
         i.add(item1);
         i.add(item2);
 
-        when(itemRepo.findBysubCategoryId("S123456")).thenReturn(i);
-        assertEquals(2,itemServiceImp.getAllItem("S123456").size());
+        when(itemRepo.findBySubCategoryId("S123456")).thenReturn(i);
+        List<Item> itemList = itemServiceImp.getAllItem("S123456");
+        assertNotNull(itemList);
 
     }
 }
