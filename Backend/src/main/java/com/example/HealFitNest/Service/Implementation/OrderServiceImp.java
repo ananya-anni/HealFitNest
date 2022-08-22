@@ -1,4 +1,3 @@
-
 package com.example.HealFitNest.Service.Implementation;
 
 import java.util.List;
@@ -9,12 +8,12 @@ import com.example.HealFitNest.Model.Cart;
 import com.example.HealFitNest.Model.Order;
 import com.example.HealFitNest.Service.AddressService;
 import com.example.HealFitNest.Service.CartService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
-
+import com.example.HealFitNest.Repository.CartRepo;
 import com.example.HealFitNest.Repository.OrderRepo;
+import com.example.HealFitNest.Repository.UserRepo;
 import com.example.HealFitNest.Service.OrderService;
 
 @Service
@@ -30,6 +29,7 @@ public class OrderServiceImp implements OrderService{
 
     @Autowired
     MongoTemplate mongoTemplate;
+
 
     // @Autowired
     // private EmailSenderService emailSenderService;
@@ -62,6 +62,7 @@ public class OrderServiceImp implements OrderService{
             Order order=new Order();
             String userId=cart.getUserId();
             List<Address> address_list=addressService.getAllAddress(userId);
+            System.out.println(address_list);
             order.setAddressId(address_list.get(0).getAddressId());
             order.setCartId(cart.getCartId());
             order.setTotalPrice(cart.getTotalPrice());
@@ -73,5 +74,6 @@ public class OrderServiceImp implements OrderService{
             return null;
         }
     }
+
 }
 

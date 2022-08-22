@@ -25,7 +25,7 @@ public class CategoryController {
     @PostMapping("/addCategory")
     public String addCategory(@RequestBody Category category){
         try{
-            categoryRepo.save(category);
+            categoryService.addCategory(category);
             return "Category added successfully";
         } catch(ConstraintViolationException e){
             return e.getMessage();

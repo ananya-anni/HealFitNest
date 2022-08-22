@@ -1,29 +1,18 @@
 package com.example.HealFitNest.Config;
 
 
-//import com.example.HealFitNest.Model.Role;
 import com.example.HealFitNest.Model.Users;
-//import com.example.HealFitNest.Repository.RoleRepo;
 import com.example.HealFitNest.Repository.UserRepo;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.*;
+import java.util.ArrayList;
 
 
 @Service
-
 public class UserDetailService implements UserDetailsService {
     @Autowired
     private UserRepo userRepo;
@@ -35,7 +24,7 @@ public class UserDetailService implements UserDetailsService {
         if(users!=null){
             String name=users.getEmail();
             String pwd=users.getPassword();
-            return new User(name,pwd,new ArrayList<>());
+            return new User(name,pwd,new ArrayList<>());//Here the user is of spring security
         }
         else
         {

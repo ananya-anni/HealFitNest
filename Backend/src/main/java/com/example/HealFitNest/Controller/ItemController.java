@@ -32,7 +32,7 @@ public class ItemController {
 //    @EventListener(ApplicationReadyEvent.class)
 //    public void sendEmail(){
 
-//    }
+    //    }
     @PostMapping("/addItem")
     public String saveItem(@RequestBody Item item){
         try{
@@ -51,7 +51,7 @@ public class ItemController {
     @GetMapping("{itemId}")
     public ResponseEntity<Item> getItemsById(@PathVariable String itemId){
         Item item = itemRepo.findById(itemId)
-               .orElseThrow(() -> new ItemNotFoundException("Item with the Id : " + itemId + " was not found!"));
+                .orElseThrow(() -> new ItemNotFoundException("Item with the Id : " + itemId + " was not found!"));
         return ResponseEntity.ok(item);
     }
 
