@@ -1,8 +1,11 @@
 package com.example.HealFitNest.Controller;
-
+import com.example.HealFitNest.Model.Cart;
+import com.example.HealFitNest.Model.UserLogin;
 import com.example.HealFitNest.Model.UserProfile;
 import com.example.HealFitNest.Model.Users;
+import com.example.HealFitNest.Repository.CartRepo;
 import com.example.HealFitNest.Repository.UserRepo;
+import com.example.HealFitNest.Service.CartService;
 import com.example.HealFitNest.Service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,12 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private CartRepo cartRepo;
+
+    @Autowired
+    private CartService cartService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -31,7 +40,7 @@ public class UserController {
     }
 
     @PostMapping("/loginUser")
-    private ResponseEntity<String> loginAuth(@RequestBody Users logUser){
+    private ResponseEntity<?> loginAuth(@RequestBody Users logUser){
         String email=logUser.getEmail();
         String pass=logUser.getPassword();
         try {
@@ -41,7 +50,12 @@ public class UserController {
             return  new ResponseEntity<>("Unauthenticated", HttpStatus.UNAUTHORIZED);
         }
         Users loggedUser = userRepo.findByEmail(email);
-        return new ResponseEntity<>(loggedUser.getUserId(), HttpStatus.OK);
+        UserLogin userLogin=new UserLogin();
+        userLogin.setUserId(loggedUser.getUserId());
+      String cartId=cartService.showCurrentStatus(loggedUser.getUserId());
+        userLogin.setCartId(cartId);
+        return new ResponseEntity<>(userLogin, HttpStatus.OK);
+       
     }
 
     @GetMapping("/myProfile/{userId}")
