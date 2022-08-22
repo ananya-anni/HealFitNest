@@ -3,6 +3,7 @@ package com.example.HealFitNest.Service;
 import java.util.List;
 
 import com.example.HealFitNest.Model.Inventory;
+import com.example.HealFitNest.Model.Item;
 
 public interface InventoryService {
     public void addNewItem(String itemId, int amount);
