@@ -20,32 +20,29 @@ public class AddressServiceImp implements AddressService {
     MongoTemplate mongoTemplate;
 
     @Autowired
-    private AddressRepo addressRepo;
+    public AddressRepo addressRepo;
 
     public List<Address> getAllAddress(String userId){
-        Query query = new Query();
-        query.addCriteria(Criteria.where("userId").is(userId));
-
-        return mongoTemplate.find(query, Address.class);
+//        Query query = new Query();
+//        query.addCriteria(Criteria.where("userId").is(userId));
+//
+//        return mongoTemplate.find(query, Address.class);
+        return addressRepo.findByUserId(userId);
     }
 
-    @Override
-    public void saveAddress(Address address, String userId) {
-            address.setUserId(userId);
-            addressRepo.save(address);
+    public Address saveAddress(Address address, String userId) {
+        address.setUserId(userId);
+        return addressRepo.save(address);
     }
 
-    @Override
     public List<Address> findAllAddress() {
         return addressRepo.findAll();
     }
 
-    @Override
     public void deleteAddressById(String id) {
         addressRepo.deleteById(id);
     }
 
-    @Override
     public void updateAddressValues(String userId, String addressId, Address updatedAddress) {
         Address updateAddress = addressRepo.findById(addressId).orElse(null);
         updateAddress.setAddressLine1(updatedAddress.getAddressLine1());

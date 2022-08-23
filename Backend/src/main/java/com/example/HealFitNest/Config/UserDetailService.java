@@ -1,5 +1,6 @@
 package com.example.HealFitNest.Config;
 
+
 import com.example.HealFitNest.Model.Users;
 import com.example.HealFitNest.Repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
 
-import java.util.*;
 
 @Service
 public class UserDetailService implements UserDetailsService {
@@ -23,7 +24,7 @@ public class UserDetailService implements UserDetailsService {
         if(users!=null){
             String name=users.getEmail();
             String pwd=users.getPassword();
-            return new User(name,pwd,new ArrayList<>());
+            return new User(name,pwd,new ArrayList<>());//Here the user is of spring security
         }
         else
         {

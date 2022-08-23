@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolationException;
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("/api/v1")
 
@@ -31,7 +32,7 @@ public class ItemController {
 //    @EventListener(ApplicationReadyEvent.class)
 //    public void sendEmail(){
 
-//    }
+    //    }
     @PostMapping("/addItem")
     public String saveItem(@RequestBody Item item){
         try{
@@ -48,9 +49,9 @@ public class ItemController {
     }
 
     @GetMapping("{itemId}")
-    public ResponseEntity<Item> getItemsById(@PathVariable String id){
-        Item item = itemRepo.findById(id)
-               .orElseThrow(() -> new ItemNotFoundException("Item with the Id : " + id + " was not found!"));
+    public ResponseEntity<Item> getItemsById(@PathVariable String itemId){
+        Item item = itemRepo.findById(itemId)
+                .orElseThrow(() -> new ItemNotFoundException("Item with the Id : " + itemId + " was not found!"));
         return ResponseEntity.ok(item);
     }
 
@@ -77,16 +78,19 @@ public class ItemController {
     public List<Item> getItems(@PathVariable String categoryId){
         return itemService.getAllItems(categoryId);
     }
-
     @GetMapping("/item/{name}")
     public Item searchByName(@PathVariable String name){
         return itemService.searchItem(name);
     }
 
+
     @GetMapping("/getBestSeller")
     public List<Inventory> BestSellerItems(){
         return itemServiceImp.BestSeller();
     }
+
+
+
 
     @GetMapping("/search/{itemName}")
     public List<Item> searchItems(@PathVariable String itemName){

@@ -11,7 +11,7 @@ public class CartItem {
     private BigDecimal itemPrice;
     private int itemQuantity;
     private String itemImage;
-    
+
 
     public CartItem(String itemId, String itemName, BigDecimal itemPrice, int itemQuantity, String itemImage){
         this.itemId = itemId;
