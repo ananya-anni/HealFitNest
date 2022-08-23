@@ -14,5 +14,5 @@ public interface CategoryRepo extends MongoRepository<Category,String> {
     @Autowired
     ItemRepo itemRepo = null;
     Category findByCategoryName(String categoryName);
-    List<Category> findBySubCategoryId(String subCategoryId);
+    List<Item> findBySubCategoryId(String subCategoryId);
 }

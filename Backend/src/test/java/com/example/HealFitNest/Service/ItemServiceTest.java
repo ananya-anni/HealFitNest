@@ -98,7 +98,7 @@ public class ItemServiceTest {
         Item item2=new Item();
         item2.setItemId("I12345");
         item2.setItemName("Orange");
-        item2.setCategoryId("C1234");
+        item2.setCategoryId("C12345");
         item2.setSubCategoryId("S123456");
         item2.setItemDescription("Tasty");
         item2.setItemPrice(BigDecimal.valueOf(132));
@@ -108,7 +108,7 @@ public class ItemServiceTest {
 
         when(itemRepo.findByCategoryId("C12345")).thenReturn(i);
         List<Item> itemList = itemServiceImp.getAllItems("C12345");
-        assertEquals(1,itemList.size());
+        assertEquals(2,itemList.size());
 
 
 

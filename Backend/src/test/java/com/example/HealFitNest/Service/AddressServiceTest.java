@@ -52,14 +52,16 @@ public class AddressServiceTest {
             address.setAddressLine1("CyberHub");
             address.setAddressLine2("asgs");
             address.setCity("Noida");
-            address.setState("Haryana");
+            address.setState("UP");
             address.setCountry("India");
+            address.setPostalCode("122004");
+
 
             allAddress.add(address);
 
-            when(addressRepo.findByUserId("UI22")).thenReturn(allAddress);
-            List<Address> getAddresses = addressServiceImp.getAllAddress("UI22");
-            assertEquals("UI5",allAddress.get(0).getUserId());
+            when(addressRepo.findByUserId("UI5")).thenReturn(allAddress);
+            List<Address> getAddresses = addressServiceImp.getAllAddress("UI5");
+            assertEquals("UI5",getAddresses.get(0).getUserId());
         }
 
         @Test
