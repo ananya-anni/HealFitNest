@@ -13,6 +13,8 @@ import com.example.HealFitNest.Handler.UserNotFoundException;
 import com.example.HealFitNest.Model.Users;
 import com.example.HealFitNest.Repository.UserRepo;
 import com.example.HealFitNest.Service.UserService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 
 @Service
 public class UserServiceImp implements UserService {
@@ -36,8 +38,11 @@ public class UserServiceImp implements UserService {
                 regUser.setEmail(user.getEmail());
             else
                 throw new UserNotFoundException("Email not valid");
-            if(user.getPassword().length()>=8)
-                regUser.setPassword(passwordEncoder.encode(user.getPassword()));
+            if(user.getPassword().length()>=8) {
+                BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12); // Strength set as 12
+                String encodedPassword = encoder.encode(user.getPassword());
+                regUser.setPassword(encodedPassword);
+            }
             else
                 throw new UserNotFoundException("Enter a password of lenght 8.");
             if(String.valueOf(user.getContact()).length()==10)
@@ -51,9 +56,11 @@ public class UserServiceImp implements UserService {
         } catch (NullPointerException e){
             throw new UserNotFoundException("Email/Password is null");
         }
-    }
 
+
+    }
     public Users findUser(String userId){
         return userRepo.findById(userId).orElseThrow(()-> new UserNotFoundException("User not found."));
     }
 }
+

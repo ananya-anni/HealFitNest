@@ -88,7 +88,6 @@ public class CartController {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-
     @GetMapping("/myCart/{userId}")
     public ResponseEntity<Cart> showCurrentCart(@PathVariable String userId){
         String cartId = cartService.showCurrentStatus(userId);

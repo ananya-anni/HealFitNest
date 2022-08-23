@@ -20,14 +20,13 @@ public class AddressServiceImp implements AddressService {
     MongoTemplate mongoTemplate;
 
     @Autowired
-    public AddressRepo addressRepo;
+    private AddressRepo addressRepo;
 
     public List<Address> getAllAddress(String userId){
-//        Query query = new Query();
-//        query.addCriteria(Criteria.where("userId").is(userId));
-//
-//        return mongoTemplate.find(query, Address.class);
-        return addressRepo.findByUserId(userId);
+        Query query = new Query();
+        query.addCriteria(Criteria.where("userId").is(userId));
+
+        return mongoTemplate.find(query, Address.class);
     }
 
     public Address saveAddress(Address address, String userId) {

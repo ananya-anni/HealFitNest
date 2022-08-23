@@ -74,7 +74,6 @@ public class ItemServiceImp implements ItemService {
         return itemRepo.findBySubCategoryId(subId);
     }
 
-
     public List<Inventory> BestSeller() {
         List<Inventory> itemList = inventoryRepo.findAll();
         for (Inventory eachInventory : itemList) {
@@ -94,6 +93,4 @@ public class ItemServiceImp implements ItemService {
         query.addCriteria(Criteria.where("itemName").regex(itemName));
         return mongoTemplate.find(query, Item.class);
     }
-
-
 }
