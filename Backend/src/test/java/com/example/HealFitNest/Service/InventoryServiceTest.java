@@ -34,32 +34,32 @@ public class InventoryServiceTest {
     @InjectMocks
     InventoryServiceImp inventoryServiceImp;
 
-    @Test
-    public void addNewItem(){
-        Inventory inventory1=new Inventory();
-        Item item=new Item();
-        item.setItemId("I123");
-        item.setItemName("Mango");
-        item.setCategoryId("C1234");
-        item.setSubCategoryId("S1234");
-        item.setItemDescription("Tasty");
-        item.setItemPrice(BigDecimal.valueOf(143));
-        itemRepo.save(item);
-
-        inventory1.setItemId(item.getItemId());
-        inventory1.setItemName(item.getItemName());
-        inventory1.setItemQuantity(100);
-        inventory1.setAmountPresent(100);
-        inventory1.setSoldItem(0);
-
-        when(inventoryRepo.save(any())).thenReturn((inventory1));
-        inventoryServiceImp.addNewItem(inventory1.getItemId(),inventory1.getAmountPresent());
-        //doNothing().when(inventoryRepo.save(inventory1));
-        //inventoryServiceImp.addNewItem(inventory1.getItemId(),inventory1.getItemQuantity()))
-        verify(inventoryRepo,times(1)).save(inventory1);
-
-
-    }
+//    @Test
+//    public void addNewItem(){
+//        Inventory inventory1=new Inventory();
+//        Item item=new Item();
+//        item.setItemId("I123");
+//        item.setItemName("Mango");
+//        item.setCategoryId("C1234");
+//        item.setSubCategoryId("S1234");
+//        item.setItemDescription("Tasty");
+//        item.setItemPrice(BigDecimal.valueOf(143));
+//        itemRepo.save(item);
+//
+//        inventory1.setItemId(item.getItemId());
+//        inventory1.setItemName(item.getItemName());
+//        inventory1.setItemQuantity(100);
+//        inventory1.setAmountPresent(100);
+//        inventory1.setSoldItem(0);
+//
+//        when(inventoryRepo.save(any())).thenReturn((inventory1));
+//        inventoryServiceImp.addNewItem(inventory1.getItemId(),inventory1.getAmountPresent());
+//        //doNothing().when(inventoryRepo.save(inventory1));
+//        //inventoryServiceImp.addNewItem(inventory1.getItemId(),inventory1.getItemQuantity()))
+//        verify(inventoryRepo,times(1)).save(inventory1);
+//
+//
+//    }
 
     @Test
     public void showInventory(){

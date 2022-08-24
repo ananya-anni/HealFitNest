@@ -8,4 +8,7 @@ import com.example.HealFitNest.Model.Cart;
 @Repository
 public interface CartRepo extends MongoRepository<Cart,String> {
 
+    Cart findByCartStatus();
+
+
 }
