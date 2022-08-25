@@ -2,7 +2,6 @@ package com.example.HealFitNest.Service.Implementation;
 
 import com.example.HealFitNest.Model.Inventory;
 import com.example.HealFitNest.Repository.InventoryRepo;
-import com.paypal.api.payments.Search;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -74,7 +73,6 @@ public class ItemServiceImp implements ItemService {
         return itemRepo.findBySubCategoryId(subId);
     }
 
-
     public List<Inventory> BestSeller() {
         List<Inventory> itemList = inventoryRepo.findAll();
         for (Inventory eachInventory : itemList) {
@@ -94,6 +92,4 @@ public class ItemServiceImp implements ItemService {
         query.addCriteria(Criteria.where("itemName").regex(itemName));
         return mongoTemplate.find(query, Item.class);
     }
-
-
 }
