@@ -43,8 +43,8 @@ public class AddressController{
 
     // Delete a particular address
     @DeleteMapping("/delete/{addressId}")
-    public ResponseEntity<Address> deleteProduct(@PathVariable String id){
-        addressService.deleteAddressById(id);
+    public ResponseEntity<Address> deleteProduct(@PathVariable String addressId){
+        addressService.deleteAddressById(addressId);
         return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
     }
 
