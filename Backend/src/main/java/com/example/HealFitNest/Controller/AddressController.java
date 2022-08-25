@@ -17,7 +17,7 @@ public class AddressController{
     @Autowired
     private AddressService addressService;
 
-    //Adding Address
+    //Adding Address/add
     @PostMapping("/addAddress/{userId}")
     public ResponseEntity<?> saveAddress(@RequestBody Address address,@PathVariable String userId){
         try{

@@ -17,6 +17,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -101,40 +102,40 @@ public class CategoryServiceTest {
         assertEquals(2, categoryServiceImp.displaySubCategory("Ready to eat").size());
     }
 
-//    @Test
-//    public void displayItemInASubCategory(){
-//        Category category = new Category();
-//        List<String> subCat = new ArrayList<>();
-//        List<String> subName = new ArrayList<>();
-//        subCat.add("SCI22");
-////        subCat.add("SCI2");
-//        subName.add("Fruits and Vegetables");
-//        subName.add("Snacks");
-//        category.setCategoryId("CI1");
-//        category.setSubCategoryId(subCat);
-//        category.setCategoryName("Ready to eat");
-//        category.setSubCategoryName(subName);
-//
-//        List<Item> items = new ArrayList<>();
-//        item.setSubCategoryId("SCI22");
-//        item.setCategoryId("CI1");
-//        item.setItemName("Mango");
-//        item.setItemId("II1");
-//        item.setItemDescription("Juicy and tasty");
-//        item.setItemPrice(BigDecimal.valueOf(30));
-//        item.setItemAvailable(true);
-//        item.setItemImage("avx");
-//        items.add(item);
-//
-//        List<Category> categories = new ArrayList<>();
-//        categories.add(category);
-//
-//
-//        when(categoryRepo.findBySubCategoryId("SCI22")).thenReturn(items);
-//        when(itemRepo.findBySubCategoryId("SCI22")).thenReturn(items);
-//        List<Item> itemsInSubCategory = categoryService.displayItemInASubcategory(categories.get(0).getCategoryName(),categories.get(0).getSubCategoryName().get(0));
-//        assertEquals(items, itemsInSubCategory);
-//    }
+    @Test
+    public void displayItemInASubCategory(){
+        Category category = new Category();
+        List<String> subCat = new ArrayList<>();
+        List<String> subName = new ArrayList<>();
+        subCat.add("SCI22");
+        subCat.add("SCI2");
+        subName.add("Fruits and Vegetables");
+        subName.add("Snacks");
+        category.setCategoryId("CI1");
+        category.setSubCategoryId(subCat);
+        category.setCategoryName("Ready to eat");
+        category.setSubCategoryName(subName);
+        categoryRepo.save(category);
+
+        List<Item> items = new ArrayList<>();
+        item.setSubCategoryId("SCI9");
+        item.setCategoryId("CI6");
+        item.setItemName("Mango");
+        item.setItemId("II1");
+        item.setItemDescription("Juicy and tasty");
+        item.setItemPrice(BigDecimal.valueOf(30));
+        item.setItemAvailable(true);
+        item.setItemImage("avx");
+        itemRepo.save(item);
+
+        List<Category> categories = new ArrayList<>();
+        categories.add(category);
+
+
+        when(categoryRepo.findById(any())).thenReturn(Optional.of(category));
+        List<Item> itemsInSubCategory = categoryService.displayItemInASubcategory("Ready to eat","Fruits and Vegetables");
+        assertEquals(0, itemsInSubCategory.size());
+    }
 
 
 }
