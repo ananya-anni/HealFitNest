@@ -74,11 +74,11 @@ public class OrderController {
 
 
     // Order Status Change ( when order placed)
-    @PutMapping("/orderStatusChange/{orderId}")
+  @PutMapping("/orderStatusChange/{orderId}")
     public ResponseEntity<?> statusChange(@PathVariable String orderId) {
         Order order = orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException("Order not found"));
-        order.getUserId();
-        orderService.statusChange(orderId);
+        String userId=order.getUserId();
+        orderService.statusChange(orderId,userId);
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 }
