@@ -46,12 +46,18 @@ public class OrderServiceImp implements OrderService{
         return orderRepo.findAllByUserId(userId);
     }
 
-    public Order statusChange(String orderId) {
+   public Order statusChange(String orderId,String userId) {
         Order order =orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException("OrderId not found"));
         order.setOrderStatus(true);
         orderRepo.save(order);
+        String cartId=order.getCartId();
+        String totalPrice=order.getTotalPrice().toString();
+        Cart cart=cartRepo.findById(cartId).orElseThrow(() -> new CartNotFoundException("Cart does not exsists."));;
+        List<CartItem> cartItems=cart.getCartItems();
+        Users users=userRepo.findById(userId).orElseThrow(() -> new UserNotFoundException("User  not found"));;
+//        String email=users.getEmail();
 ////        String email=users.getEmail();
-//        emailSenderService.sendEmail("ish.asthana@gmail.com","Order Summary",emailSenderService.sendBody(userId,cartItems,orderId));
+  emailSenderService.sendEmail("ish.asthana@gmail.com","Order Summary",userId,cartItems,orderId,totalPrice);
         return order;
     }
 
