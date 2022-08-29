@@ -69,8 +69,8 @@ public class ItemController {
     }
 
     @DeleteMapping("/delete/{itemId}")
-    public String deleteProduct(@PathVariable String id){
-        itemRepo.deleteById(id);
+    public String deleteProduct(@PathVariable String itemId){
+        itemRepo.deleteById(itemId);
         return "Item Deleted Successfully";
     }
 

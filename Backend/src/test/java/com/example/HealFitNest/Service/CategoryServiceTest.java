@@ -82,6 +82,7 @@ public class CategoryServiceTest {
 
         when(categoryRepo.findByCategoryName("Ready to eat")).thenReturn(category);
         assertEquals(2, categoryServiceImp.displaySubCategory("Ready to eat").size());
+
     }
 
 //    @Test

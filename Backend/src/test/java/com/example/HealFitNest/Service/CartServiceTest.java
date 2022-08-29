@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.HealFitNest.Model.Order;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -108,5 +109,29 @@ public class CartServiceTest {
         when(cartRepo.findById(any())).thenReturn(Optional.of(cart));
         Cart cart2 = cartServiceImp.showCartofId(cart.getCartId());
         assertEquals("123", cart2.getCartId());
+    }
+
+
+    @Test
+    public void showCurrentStatus(){
+        List<Cart> carts = new ArrayList<>();
+        Cart cart1 = new Cart();
+        cart1.setCartId("CI1");
+        CartItem cartItem1 = new CartItem("abc", "tealeaf", BigDecimal.valueOf(150), 2, "https://www.narayanahealth.org/blog/coconut-benefits/");
+        CartItem cartItem2 = new CartItem("def", "sugar", BigDecimal.valueOf(100), 2, "https://www.narayanahealth.org/blog/coconut-benefits/");
+        List<CartItem> cartItems = new ArrayList<CartItem>();
+        cartItems.add(cartItem1);
+        cartItems.add(cartItem2);
+        cart1.setCartItems(cartItems);
+        cart1.setCountItem(4);
+        cart1.setTotalPrice(BigDecimal.valueOf(250));
+        cart1.setUserId("123");
+        cart1.setCartStatus(true);
+
+        carts.add(cart1);
+
+        when(cartRepo.findById(any())).thenReturn(Optional.of(cart1));
+        String status=cartServiceImp.showCurrentStatus(cart1.getCartId());
+        assertEquals("CI1",status);
     }
 }

@@ -6,6 +6,7 @@ import com.example.HealFitNest.Model.Order;
 import com.example.HealFitNest.Repository.InventoryRepo;
 import com.example.HealFitNest.Repository.ItemRepo;
 import com.example.HealFitNest.Service.Implementation.InventoryServiceImp;
+import com.example.HealFitNest.Service.Implementation.ItemServiceImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -33,6 +34,9 @@ public class InventoryServiceTest {
 
     @InjectMocks
     InventoryServiceImp inventoryServiceImp;
+
+    @InjectMocks
+    ItemService itemService;
 
     @Test
     public void addNewItem(){
