@@ -102,40 +102,5 @@ public class CategoryServiceTest {
         assertEquals(2, categoryServiceImp.displaySubCategory("Ready to eat").size());
     }
 
-    @Test
-    public void displayItemInASubCategory(){
-        Category category = new Category();
-        List<String> subCat = new ArrayList<>();
-        List<String> subName = new ArrayList<>();
-        subCat.add("SCI22");
-        subCat.add("SCI2");
-        subName.add("Fruits and Vegetables");
-        subName.add("Snacks");
-        category.setCategoryId("CI1");
-        category.setSubCategoryId(subCat);
-        category.setCategoryName("Ready to eat");
-        category.setSubCategoryName(subName);
-        categoryRepo.save(category);
-
-        List<Item> items = new ArrayList<>();
-        item.setSubCategoryId("SCI9");
-        item.setCategoryId("CI6");
-        item.setItemName("Mango");
-        item.setItemId("II1");
-        item.setItemDescription("Juicy and tasty");
-        item.setItemPrice(BigDecimal.valueOf(30));
-        item.setItemAvailable(true);
-        item.setItemImage("avx");
-        itemRepo.save(item);
-
-        List<Category> categories = new ArrayList<>();
-        categories.add(category);
-
-
-        when(categoryRepo.findById(any())).thenReturn(Optional.of(category));
-        List<Item> itemsInSubCategory = categoryService.displayItemInASubcategory("Ready to eat","Fruits and Vegetables");
-        assertEquals(0, itemsInSubCategory.size());
-    }
-
 
 }
