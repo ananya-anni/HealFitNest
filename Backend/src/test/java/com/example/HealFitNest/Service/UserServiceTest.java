@@ -55,7 +55,7 @@ public class UserServiceTest {
         user1.setPassword("$2a$10$Yeg.ZI6.SKTW/DGT1lQSTOw1MXV7JcAXVFwTA/6CRfGCzcAHCUlrC");
         user1.setContact(Long.valueOf("9876543211"));
 
-        when(userRepo.findById(any())).thenReturn(Optional.of(user1));
+        when(userRepo.findById(user1.getUserId())).thenReturn(Optional.of(user1));
         Users users= userServiceImp.findUser(user1.getUserId());
         assertEquals("Isha",users.getFirstName());
     }

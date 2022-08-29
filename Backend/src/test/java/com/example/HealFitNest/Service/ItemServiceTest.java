@@ -48,7 +48,6 @@ public class ItemServiceTest {
         item.setItemDescription("Tasty");
         item.setItemPrice(BigDecimal.valueOf(143));
 
-        when(itemRepo.save(any())).thenReturn(item);
         itemServiceImp.saveItem(item);
         verify(itemRepo,times(1)).save(item);
     }

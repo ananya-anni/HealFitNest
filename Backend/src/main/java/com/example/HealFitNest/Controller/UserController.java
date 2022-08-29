@@ -23,7 +23,7 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-    
+
     @Autowired
     private CartRepo cartRepo;
 
@@ -52,10 +52,10 @@ public class UserController {
         Users loggedUser = userRepo.findByEmail(email);
         UserLogin userLogin=new UserLogin();
         userLogin.setUserId(loggedUser.getUserId());
-      String cartId=cartService.showCurrentStatus(loggedUser.getUserId());
+        String cartId=cartService.showCurrentStatus(loggedUser.getUserId());
         userLogin.setCartId(cartId);
         return new ResponseEntity<>(userLogin, HttpStatus.OK);
-       
+
     }
 
     @GetMapping("/myProfile/{userId}")
