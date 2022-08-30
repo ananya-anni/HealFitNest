@@ -56,9 +56,9 @@ public class ItemController {
     }
 
     @PutMapping("/update/{itemId}")
-    public ResponseEntity<Item> updateItem(@PathVariable String id, @RequestBody Item updatedItem){
-        Item updateItem = itemRepo.findById(id)
-                .orElseThrow(() -> new ItemNotFoundException("Item with the Id : " + id + " was not found!"));
+    public ResponseEntity<Item> updateItem(@PathVariable String itemId, @RequestBody Item updatedItem){
+        Item updateItem = itemRepo.findById(itemId)
+                .orElseThrow(() -> new ItemNotFoundException("Item with the Id : " + itemId + " was not found!"));
         updateItem.setItemName(updatedItem.getItemName());
         updateItem.setItemDescription(updatedItem.getItemDescription());
         updateItem.setItemPrice(updatedItem.getItemPrice());

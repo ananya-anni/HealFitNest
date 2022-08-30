@@ -5,13 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.HealFitNest.Model.Cart;
 import com.example.HealFitNest.Service.CartService;
@@ -38,6 +32,7 @@ public class CartController {
     }
 
     // Add first item which is present in the item as well as inventory to the cart
+    @CrossOrigin
     @PostMapping("/addToCart/{userId}/{itemId}/{quantity}")
     public ResponseEntity<String> addToCart(@PathVariable String userId, @PathVariable String itemId, @PathVariable int quantity){
         Cart cart = new Cart();
@@ -48,6 +43,7 @@ public class CartController {
     }
 
     // Add items
+    @CrossOrigin
     @PutMapping("/updateCart/{cartId}/{itemId}/{quantity}")
     public ResponseEntity<?> updateCart(@PathVariable String cartId, @PathVariable String itemId, @PathVariable int quantity){
         cartService.addItem(cartId, itemId, quantity);
@@ -69,6 +65,7 @@ public class CartController {
     }
 
     // Delete item from the cart
+    @CrossOrigin
     @DeleteMapping("/deleteItem/{cartId}/{itemId}")
     public ResponseEntity<?> deleteItem(@PathVariable String cartId, @PathVariable String itemId){
         cartService.removeItem(cartId, itemId);
@@ -76,12 +73,14 @@ public class CartController {
     }
 
     // Updates the quantity of an item already present in the cart
+    @CrossOrigin
     @PutMapping("/updateCartItemAdd/{cartId}/{itemId}")
     public ResponseEntity<?> updateCartItemAdd(@PathVariable String cartId, @PathVariable String itemId){
         cartService.updateItemQuantityAdd(cartId, itemId);
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 
+    @CrossOrigin
     @PutMapping("/updateCartItemSub/{cartId}/{itemId}")
     public ResponseEntity<?> updateCartItemSub(@PathVariable String cartId, @PathVariable String itemId){
         cartService.updateItemQuantitySub(cartId, itemId);

@@ -13,7 +13,7 @@ public interface CartService {
     public Cart showCartofId(String cartId);
     public int countItem(String cartId);
     public BigDecimal totalPrice(String cartId);
-    public void clearCart(String cartId);
+    public String clearCart(String cartId);
     public void removeItem(String cartId, String itemId);
     public void updateItemQuantityAdd(String cartId, String itemId);
     public void updateItemQuantitySub(String cartId, String itemId);
