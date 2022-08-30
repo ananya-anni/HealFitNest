@@ -24,16 +24,18 @@ public class CategoryServiceImp implements CategoryService {
     List<Item> items=new ArrayList<Item>();
     List<String> category=new ArrayList<String>();
 
+    //Displaying all the subcategories of a particular category by its name
     public List<String> displaySubCategory(String categoryName){
         Category category=categoryRepo.findBycategoryName(categoryName);
-        List<String> list1=category.getSubCategoryName();
-        return list1;
+        List<String> subCategoryName=category.getSubCategoryName();
+        return subCategoryName;
     }
 
+    //Displaying items of a particular subcategory
     public List<Item> displayItemInASubcategory(String CategoryName, String SubCategoryName){
         Category category=categoryRepo.findBycategoryName(CategoryName);
-        List<String> list1=category.getSubCategoryName();
-        int index=list1.indexOf(SubCategoryName);
+        List<String> subCategoryName=category.getSubCategoryName();
+        int index=subCategoryName.indexOf(SubCategoryName);
 
         List<String> subCategoryId=category.getSubCategoryId();
         String subId=subCategoryId.get(index);
@@ -41,6 +43,7 @@ public class CategoryServiceImp implements CategoryService {
 
     }
 
+    //Displaying only the categories by its name
     public List<String> displayAllCategory(){
         List<Category> category1=categoryRepo.findAll();
         for(Category cat:category1){

@@ -29,10 +29,7 @@ public class ItemController {
     @Autowired
     private ItemServiceImp itemServiceImp;
 
-//    @EventListener(ApplicationReadyEvent.class)
-//    public void sendEmail(){
-
-//    }
+    //Adding an item into the database
     @PostMapping("/addItem")
     public String saveItem(@RequestBody Item item){
         try{
@@ -43,18 +40,21 @@ public class ItemController {
         }
     }
 
+    //Getting all items present in the database
     @GetMapping("/items")
     public List<Item> getItem(){
         return itemRepo.findAll();
     }
 
-    @GetMapping("{itemId}")
+    //Getting a particular item from the database using its Id
+    @GetMapping("/get/{itemId}")
     public ResponseEntity<Item> getItemsById(@PathVariable String itemId){
         Item item = itemRepo.findById(itemId)
                .orElseThrow(() -> new ItemNotFoundException("Item with the Id : " + itemId + " was not found!"));
         return ResponseEntity.ok(item);
     }
 
+    //Updating an item of a particular item id in the database
     @PutMapping("/update/{itemId}")
     public ResponseEntity<Item> updateItem(@PathVariable String id, @RequestBody Item updatedItem){
         Item updateItem = itemRepo.findById(id)
@@ -63,27 +63,32 @@ public class ItemController {
         updateItem.setItemDescription(updatedItem.getItemDescription());
         updateItem.setItemPrice(updatedItem.getItemPrice());
         updateItem.setItemImage(updatedItem.getItemImage());
-
+        updateItem.setCategoryId(updatedItem.getCategoryId());
+        updateItem.setSubCategoryId(updatedItem.getSubCategoryId());
         itemRepo.save(updateItem);
         return ResponseEntity.ok(updateItem);
     }
 
+    //Deleting an item of a particular item id
     @DeleteMapping("/delete/{itemId}")
-    public String deleteProduct(@PathVariable String id){
-        itemRepo.deleteById(id);
+    public String deleteProduct(@PathVariable String itemId){
+        itemRepo.deleteById(itemId);
         return "Item Deleted Successfully";
     }
 
+    //Getting all items of a particular category
     @GetMapping("/get/{categoryId}")
     public List<Item> getItems(@PathVariable String categoryId){
         return itemService.getAllItems(categoryId);
     }
+
+    //Getting item using its name
     @GetMapping("/item/{name}")
     public Item searchByName(@PathVariable String name){
         return itemService.searchItem(name);
     }
 
-
+    //Getting the bestSeller item
     @GetMapping("/getBestSeller")
     public List<Inventory> BestSellerItems(){
         return itemServiceImp.BestSeller();

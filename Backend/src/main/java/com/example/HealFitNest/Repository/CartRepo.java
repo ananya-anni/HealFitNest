@@ -8,5 +8,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CartRepo extends MongoRepository<Cart,String> {
-
 }

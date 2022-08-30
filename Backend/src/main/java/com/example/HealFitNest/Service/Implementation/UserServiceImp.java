@@ -22,6 +22,7 @@ public class UserServiceImp implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    //Registering the user
     @Override
     public Users registerUser(Users user) {
         try{
@@ -32,7 +33,7 @@ public class UserServiceImp implements UserService {
             String emailreg="^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
             Pattern pattern=Pattern.compile(emailreg);
             Matcher matcher= pattern.matcher(user.getEmail());
-            if(matcher.matches()==true)
+            if(matcher.matches())
                 regUser.setEmail(user.getEmail());
             else
                 throw new UserNotFoundException("Email not valid");
@@ -53,6 +54,7 @@ public class UserServiceImp implements UserService {
         }
     }
 
+    //Finding the user by userId
     public Users findUser(String userId){
         return userRepo.findById(userId).orElseThrow(()-> new UserNotFoundException("User not found."));
     }

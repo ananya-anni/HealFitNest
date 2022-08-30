@@ -50,6 +50,7 @@ public class ItemServiceImp implements ItemService {
         return itemRepo.findById(id).orElseThrow(() -> new ItemNotFoundException("Item not found of this id: "+id));
     }
 
+    //Getting all items of a particular category id
     @Override
     public List<Item> getAllItems(String categoryId){
 //        Query query = new Query();
@@ -58,13 +59,15 @@ public class ItemServiceImp implements ItemService {
         return itemRepo.findBycategoryId(categoryId);
     }
 
-
+    //Getting the item using its name
     @Override
     public Item searchItem(String name){
         return itemRepo.findByitemName(name).orElseThrow(() -> new ItemNotFoundException("Item not found of this name: "+name));
 
 
     }
+
+    //Getting all items of a particular sub id
     @Override
     public List<Item> getAllItem(String subId) {
 //        Query query = new Query();
@@ -74,14 +77,16 @@ public class ItemServiceImp implements ItemService {
         return itemRepo.findBysubCategoryId(subId);
     }
 
-
+    //Getting the bestseller item
     public List<Inventory> BestSeller() {
         List<Inventory> itemList = inventoryRepo.findAll();
+
         for (Inventory eachInventory : itemList) {
 
             int itemQuantity = eachInventory.getItemQuantity();
             int amountPresent = eachInventory.getAmountPresent();
             int soldItem = itemQuantity - amountPresent;
+
             eachInventory.setSoldItem(soldItem);
         }
         Collections.sort(itemList);

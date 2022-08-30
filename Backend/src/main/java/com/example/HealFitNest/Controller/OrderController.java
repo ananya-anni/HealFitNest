@@ -53,19 +53,19 @@ public class OrderController {
         return new ResponseEntity<>(orderList, HttpStatus.OK);
     }
 
-    //Add order when click proceed
+    //Add order
     @PostMapping("/addToOrder/{cartId}")
     public ResponseEntity<?> addOrder(@PathVariable String cartId) {
         Cart cart = cartRepo.findById(cartId).orElseThrow(() -> new CartNotFoundException("CartId not Valid"));
         cart.setCartStatus(false);
         cartRepo.save(cart);
-        orderService.addOrderBycartId(cartId);
-        return new ResponseEntity<>(null, HttpStatus.CREATED);
+        Order order=orderService.addOrderBycartId(cartId);
+        return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
 
-    // Show Orders in "My Orders"
+    // Show Order items
     @GetMapping("/showOrderHistory/{orderId}")
-    public ResponseEntity<Cart> showOrderHistory(@PathVariable String orderId) {
+    public ResponseEntity<Cart> showOrderItems(@PathVariable String orderId) {
         Order order = orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException("Order not found"));
         String cartId = order.getCartId();
         Cart cart  = cartService.showCartofId(cartId);
@@ -76,10 +76,13 @@ public class OrderController {
     // Order Status Change ( when order placed)
     @PutMapping("/orderStatusChange/{orderId}")
     public ResponseEntity<?> statusChange(@PathVariable String orderId) {
+
         Order order = orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException("Order not found"));
-        order.getUserId();
-        orderService.statusChange(orderId);
-        return new ResponseEntity<>(null, HttpStatus.CREATED);
+        String userId=order.getUserId();
+
+        orderService.statusChange(orderId,userId);
+
+        return new ResponseEntity<>(orderId, HttpStatus.CREATED);
     }
 }
 

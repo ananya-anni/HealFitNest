@@ -21,6 +21,7 @@ InventoryServiceImp implements InventoryService {
     @Autowired
     private InventoryRepo inventRepo;
 
+    //Adding new item to the inventory
     public void addNewItem(String itemId, int amount){
         Item item = itemService.findItemById(itemId);
         Inventory inventItem = new Inventory(itemId, item.getItemName(), amount,amount,0);
@@ -30,34 +31,45 @@ InventoryServiceImp implements InventoryService {
         itemService.saveItem(item);
     }
 
+    //Showing all items present in the inventory
     public List<Inventory> showInventory(){
         return inventRepo.findAll();
     }
 
+    //Finding the item in the inventory with its item id
     public Inventory showInventoryItem(String itemId){
         return inventRepo.findById(itemId).orElseThrow(() -> new ItemNotFoundException("Item does not exists."));
     }
 
+    //Checking the inventory if the item is available there or not
     public boolean itemAvailability(String itemId){
         Inventory inventItem = inventRepo.findById(itemId).get();
-        if(inventItem.getAmountPresent() > 10){
+        if(inventItem.getAmountPresent() > 0){
             return true;
         } else {
             return false;
         }
     }
 
+    //When item is added to cart then its quantity will decrease from inventory
     public void amountVariation(String itemId, int quantity){
         Inventory inventItem = showInventoryItem(itemId);
         int amount  = inventItem.getAmountPresent() - quantity;
+        int soldItem=inventItem.getItemQuantity()-amount;
         inventItem.setAmountPresent(amount);
+        inventItem.setSoldItem(soldItem);
         inventRepo.save(inventItem);
+        Item item = itemService.findItemById(itemId);
+        boolean avail = itemAvailability(itemId);
+        item.setItemAvailable(avail);
+        itemService.saveItem(item);
     }
 
+    //when item is deleted from the cart then it is added to inventory
     public void updateInventQuantity(String itemId, int quantity){
         Inventory inventItem = showInventoryItem(itemId);
-        int itemQuantity=inventItem.getItemQuantity()+quantity;
-        inventItem.setItemQuantity(itemQuantity);
+       int itemQuantity=inventItem.getItemQuantity()+quantity;
+       inventItem.setItemQuantity(itemQuantity);
         int amount  = inventItem.getAmountPresent() + quantity;
         inventItem.setAmountPresent(amount);
         inventRepo.save(inventItem);

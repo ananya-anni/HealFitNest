@@ -22,6 +22,7 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    //Adding a new Category
     @PostMapping("/addCategory")
     public String addCategory(@RequestBody Category category){
         try{
@@ -32,23 +33,27 @@ public class CategoryController {
         }
     }
 
+    //List all categories
     @GetMapping("/categories")
     public List<Category> findAllCategories(){
         return categoryRepo.findAll();
     }
 
+    //Finding a particular Category using categoryID
     @GetMapping("/category/{categoryId}")
     public ResponseEntity<Category> getItemsById(@PathVariable String categoryId){
         Category category = categoryRepo.findById(categoryId).orElse(null);
         return ResponseEntity.ok(category);
     }
 
+    //Updating a particular category details
     @PutMapping("/category/update/{categoryId}")
     public ResponseEntity<?> updateCategory(@PathVariable String categoryId, @RequestBody Category updatedCategory){
         try{
             Category updateCategory = categoryRepo.findById(categoryId).orElse(null);
             updateCategory.setCategoryName(updatedCategory.getCategoryName());
             updateCategory.setSubCategoryName(updatedCategory.getSubCategoryName());
+            updateCategory.setCategoryImage(updateCategory.getCategoryImage());
             categoryRepo.save(updateCategory);
             return ResponseEntity.ok(updateCategory);
         } catch (ConstraintViolationException e){
@@ -56,26 +61,27 @@ public class CategoryController {
         }
 
     }
+
+    //Deleting a particular category
     @DeleteMapping("/category/delete/{categoryId}")
     public String deleteCategory(@PathVariable String categoryId){
         categoryRepo.deleteById(categoryId);
         return "Category Deleted Successfully";
     }
 
+    //Displaying only the categories by its name
     @GetMapping("/categoryNames")
     public List<String> getAllCategories(){
         return categoryService.displayAllCategory();
     }
+
+    //Displaying subcategories of a particular category only by its name
     @GetMapping("/categories/{CategoryName}")
     public List<String> showAllSubCategory(@PathVariable String CategoryName){
         return categoryService.displaySubCategory(CategoryName);
     }
 
-//    @GetMapping("/categories/{CategoryName}/{subCategoryName}")
-//    public List<Item> showAllItemsInASubcategory(@PathVariable String CategoryName,@PathVariable String subCategoryName){
-//        return categoryService.displayItemsInASubcategory(CategoryName,subCategoryName);
-//    }
-
+    //Displaying all the items present in a particular subcategory
     @GetMapping("/categories/{CategoryName}/{SubCategoryName}")
     public List<Item> displayItemsInASubcategory(@PathVariable String CategoryName, @PathVariable String SubCategoryName) {
         return categoryService.displayItemInASubcategory(CategoryName,SubCategoryName);

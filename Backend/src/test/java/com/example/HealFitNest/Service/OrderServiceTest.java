@@ -113,24 +113,24 @@ public class OrderServiceTest {
 //    }
 
 
-    @Test
-    public void statusChange(){
-        List<Order> order=new ArrayList<>();
-        Order order1=new Order();
-//        order1.setOrderId("23456");
-        order1.setUserId("62ee2d1fec74e75beb7ea5dd");
-        order1.setCartId("62ee9e89a05e8e657c087ccc");
-        order1.setAddressId("123456");
-        order1.setOrderStatus(true);
-        order1.setTotalPrice(BigDecimal.valueOf(20));
-
-        order.add(order1);
-
-        when(orderRepo.findById(any())).thenReturn(Optional.of(order1));
-        Order orders=orderServiceImp.statusChange(order1.getOrderId());
-        assertEquals(true,orders.getOrderStatus());
-
-    }
+//    @Test
+//    public void statusChange(){
+//        List<Order> order=new ArrayList<>();
+//        Order order1=new Order();
+////        order1.setOrderId("23456");
+//        order1.setUserId("62ee2d1fec74e75beb7ea5dd");
+//        order1.setCartId("62ee9e89a05e8e657c087ccc");
+//        order1.setAddressId("123456");
+//        order1.setOrderStatus(true);
+//        order1.setTotalPrice(BigDecimal.valueOf(20));
+//
+//        order.add(order1);
+//
+//        when(orderRepo.findById(any())).thenReturn(Optional.of(order1));
+//        Order orders=orderServiceImp.statusChange(order1.getOrderId());
+//        assertEquals(true,orders.getOrderStatus());
+//
+//    }
 
     @Test
     public void showOrderByUserId(){

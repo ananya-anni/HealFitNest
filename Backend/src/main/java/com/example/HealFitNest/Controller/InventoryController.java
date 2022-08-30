@@ -26,7 +26,7 @@ public class InventoryController {
         return inventService.showInventory();
     }
 
-    // Updates the item quantity present in inventory
+    // Updates the item quantity present in inventory when item is added or subtracted to the cart
     @PutMapping("/updateInventItem/{itemId}/{amount}")
     public void updateInventItem(@PathVariable String itemId, @PathVariable int amount){
         inventService.updateInventQuantity(itemId, amount);

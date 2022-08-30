@@ -29,28 +29,34 @@ public class AddressServiceImp implements AddressService {
         return mongoTemplate.find(query, Address.class);
     }
 
+    //Saving the address of the user
     public void saveAddress(Address address, String userId) {
         address.setUserId(userId);
         addressRepo.save(address);
     }
 
+    //Finding all address
     public List<Address> findAllAddress() {
         return addressRepo.findAll();
     }
 
+    //Deleting the address by addressid
     public void deleteAddressById(String id) {
         addressRepo.deleteById(id);
     }
 
+    //Updating the address
     public void updateAddressValues(String userId, String addressId, Address updatedAddress) {
         Address updateAddress = addressRepo.findById(addressId).orElse(null);
-        updateAddress.setAddressLine1(updatedAddress.getAddressLine1());
-        updateAddress.setAddressLine2((updatedAddress.getAddressLine2()));
-        updateAddress.setCity(updatedAddress.getCity());
-        updateAddress.setState(updatedAddress.getState());
-        updateAddress.setCountry(updatedAddress.getCountry());
-        updateAddress.setPostalCode(updatedAddress.getPostalCode());
-        addressRepo.save(updateAddress);
+        if(updateAddress!=null) {
+            updateAddress.setAddressLine1(updatedAddress.getAddressLine1());
+            updateAddress.setAddressLine2((updatedAddress.getAddressLine2()));
+            updateAddress.setCity(updatedAddress.getCity());
+            updateAddress.setState(updatedAddress.getState());
+            updateAddress.setCountry(updatedAddress.getCountry());
+            updateAddress.setPostalCode(updatedAddress.getPostalCode());
+            addressRepo.save(updateAddress);
+        }
     }
 
 }
