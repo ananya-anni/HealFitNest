@@ -9,8 +9,7 @@ import com.example.HealFitNest.Model.Cart;
 import com.example.HealFitNest.Model.*;
 import com.example.HealFitNest.Repository.CartRepo;
 import com.example.HealFitNest.Repository.UserRepo;
-import com.example.HealFitNest.Service.AddressService;
-import com.example.HealFitNest.Service.CartService;
+import com.example.HealFitNest.Service.*;
 import com.example.HealFitNest.Handler.CartNotFoundException;
 import com.example.HealFitNest.Handler.UserNotFoundException;
 
@@ -19,7 +18,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
 import com.example.HealFitNest.Repository.OrderRepo;
-import com.example.HealFitNest.Service.OrderService;
 
 @Service
 public class OrderServiceImp implements OrderService{
@@ -41,6 +39,12 @@ public class OrderServiceImp implements OrderService{
 
      @Autowired
     private EmailSenderService emailSenderService;
+
+     @Autowired
+     private InventoryService inventoryService;
+
+     @Autowired
+     private ItemService itemService;
 
     //Get all the orders
     public List<Order> showOrder() {
@@ -66,6 +70,20 @@ public class OrderServiceImp implements OrderService{
         String totalPrice=order.getTotalPrice().toString();
         Cart cart=cartRepo.findById(cartId).orElseThrow(() -> new CartNotFoundException("Cart does not exsists."));;
         List<CartItem> cartItems=cart.getCartItems();
+
+
+
+        for(CartItem eachCartItem:cartItems){
+            inventoryService.amountVariation(eachCartItem.getItemId(), eachCartItem.getItemQuantity());
+            boolean avail = inventoryService.itemAvailability(eachCartItem.getItemId());
+            Item item=itemService.findItemById(eachCartItem.getItemId());
+            item.setItemAvailable(avail);
+            itemService.saveItem(item);
+        }
+
+
+
+
         Users users=userRepo.findById(userId).orElseThrow(() -> new UserNotFoundException("User  not found"));;
 //        String email=users.getEmail();
 ////        String email=users.getEmail();
@@ -90,6 +108,9 @@ cartService.clearCart(cartId);
             order.setTotalPrice(cart.getTotalPrice());
             order.setUserId(cart.getUserId());
             orderRepo.save(order);
+
+
+
             return order;
         }
         catch ( OrderNotFoundException e){
