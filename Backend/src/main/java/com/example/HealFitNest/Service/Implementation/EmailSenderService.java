@@ -77,6 +77,7 @@ public class EmailSenderService {
                 }
                 sb.append("</table><br>");
                 sb.append("<strong>Total Price = </strong><strong>Rs."+totalPrice+"</strong>");
+                sb.append("<img src=\"C:\\Users\\ANANYA PRIYA\\Downloads\\HealFitNest\\Backend\\logo.jpg\"/>");
                 sb.append("<hr style=\"width:30%;align:center;border:1 px solid black\">\n" +
                         "<footer>\n" +
                         "    <p style=\"color:grey\"><i>From <br> HealFitNest Team</i></p>\n" +

@@ -9,6 +9,7 @@
 <h3>Your order Id is ${orderId}</h3>
 <p>Date of order placed: ${date}</p>
 <p>Items are:</p>
+<img src="C:\Users\ANANYA PRIYA\Downloads\HealFitNest\Backend\logo.jpg"/>
 
 <table style="border-color:white">
     <tr>
