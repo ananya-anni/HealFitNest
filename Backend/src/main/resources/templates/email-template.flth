@@ -1,0 +1,35 @@
+
+
+<html>
+<head>
+
+</head>
+<body>
+<h1>Congratulations! Your Order has been placed</h1>
+<h3>Your order Id is ${orderId}</h3>
+<p>Date of order placed: ${date}</p>
+<p>Items are:</p>
+
+<table style="border-color:white">
+    <tr>
+        <th style="margin:10px;padding:5px">Item Name</th>
+        <th>Item Price</th>
+
+    </tr>
+    <tr>
+        <td rowspan="2"></td>
+        <td></td>
+    </tr>
+</table>
+
+
+
+<hr style="width:50%;align:center">
+<footer>
+    <p style="color:grey"><i>From <br> HealFitNest Team</i></p>
+
+</footer>
+
+
+</body>
+</html>

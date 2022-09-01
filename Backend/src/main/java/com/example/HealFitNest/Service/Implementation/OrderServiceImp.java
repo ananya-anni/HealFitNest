@@ -23,6 +23,8 @@ import com.example.HealFitNest.Service.OrderService;
 @Service
 public class OrderServiceImp implements OrderService{
     @Autowired
+    private CartRepo cartRepo;
+    @Autowired
     private OrderRepo orderRepo;
 
     @Autowired
@@ -30,13 +32,14 @@ public class OrderServiceImp implements OrderService{
 
     @Autowired
     private AddressService addressService;
+    @Autowired
+    private UserRepo userRepo;
 
     @Autowired
     MongoTemplate mongoTemplate;
 
-    EmailSenderService emailSenderService;
-    UserRepo userRepo;
-    CartRepo cartRepo;
+    @Autowired
+    private EmailSenderService emailSenderService;
 
     // @Autowired
     // private EmailSenderService emailSenderService;
