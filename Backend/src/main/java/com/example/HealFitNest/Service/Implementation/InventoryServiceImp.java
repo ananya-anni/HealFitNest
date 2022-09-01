@@ -1,8 +1,10 @@
 package com.example.HealFitNest.Service.Implementation;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.example.HealFitNest.Handler.ItemNotFoundException;
 import com.example.HealFitNest.Model.Inventory;
 import com.example.HealFitNest.Model.Item;
@@ -11,46 +13,59 @@ import com.example.HealFitNest.Service.InventoryService;
 import com.example.HealFitNest.Service.ItemService;
 
 @Service
-public class InventoryServiceImp implements InventoryService {
+public class
+InventoryServiceImp implements InventoryService {
     @Autowired
     private ItemService itemService;
 
     @Autowired
     private InventoryRepo inventRepo;
 
-    //Adding item into the inventory
+    //Adding new item to the inventory
     public void addNewItem(String itemId, int amount){
         Item item = itemService.findItemById(itemId);
-        if(item!=null) {
-            Inventory inventItem = new Inventory(itemId, item.getItemName(), amount, amount, 0);
-            inventRepo.save(inventItem);
-            boolean avail = itemAvailability(itemId);
-            item.setItemAvailable(avail);
-            itemService.saveItem(item);
-        }
+        Inventory inventItem = new Inventory(itemId, item.getItemName(), amount,amount,0);
+        inventRepo.save(inventItem);
+        boolean avail = itemAvailability(itemId);
+        item.setItemAvailable(avail);
+        itemService.saveItem(item);
     }
-    //Show list of inventory/items
+
+    //Showing all items present in the inventory
     public List<Inventory> showInventory(){
         return inventRepo.findAll();
     }
-    //Get item by its id
+
+    //Finding the item in the inventory with its item id
     public Inventory showInventoryItem(String itemId){
         return inventRepo.findById(itemId).orElseThrow(() -> new ItemNotFoundException("Item does not exists."));
     }
-    //If item is present in inventory it will return true as item availability
+
+    //Checking the inventory if the item is available there or not
     public boolean itemAvailability(String itemId){
-        Inventory inventItem = inventRepo.findById(itemId).orElseThrow(() -> new ItemNotFoundException("Item does not exists."));
-        return inventItem.getAmountPresent() > 10;
+        Inventory inventItem = inventRepo.findById(itemId).get();
+        if(inventItem.getAmountPresent() > 0){
+            return true;
+        } else {
+            return false;
+        }
     }
-    ////It reduces the amount of item in inventory as soon as item gets added to cart
+
+    //When item is added to cart then its quantity will decrease from inventory
     public void amountVariation(String itemId, int quantity){
         Inventory inventItem = showInventoryItem(itemId);
         int amount  = inventItem.getAmountPresent() - quantity;
+        int soldItem=inventItem.getItemQuantity()-amount;
         inventItem.setAmountPresent(amount);
+        inventItem.setSoldItem(soldItem);
         inventRepo.save(inventItem);
+        Item item = itemService.findItemById(itemId);
+        boolean avail = itemAvailability(itemId);
+        item.setItemAvailable(avail);
+        itemService.saveItem(item);
     }
 
-    //Update the inventory items
+    //when item is deleted from the cart then it is added to inventory
     public void updateInventQuantity(String itemId, int quantity){
         Inventory inventItem = showInventoryItem(itemId);
         int itemQuantity=inventItem.getItemQuantity()+quantity;

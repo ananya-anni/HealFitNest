@@ -86,10 +86,21 @@ public class OrderController {
     @CrossOrigin
     @PutMapping("/orderStatusChange/{orderId}")
     public ResponseEntity<?> statusChange(@PathVariable String orderId) {
+
         Order order = orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException("Order not found"));
-        String userId=order.getUserId();
-        orderService.statusChange(orderId,userId);
-        return new ResponseEntity<>(null, HttpStatus.CREATED);
+        String userId = order.getUserId();
+
+        orderService.statusChange(orderId, userId);
+
+        return new ResponseEntity<>(orderId, HttpStatus.CREATED);
     }
+
+    //@PutMapping("/orderStatusChange/{orderId}")
+    //public ResponseEntity<?> statusChange(@PathVariable String orderId) {
+    //    Order order = orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException("Order not found"));
+    //    String userId=order.getUserId();
+    //    orderService.statusChange(orderId,userId);
+    //    return new ResponseEntity<>(null, HttpStatus.CREATED);
+    //}
 }
 
