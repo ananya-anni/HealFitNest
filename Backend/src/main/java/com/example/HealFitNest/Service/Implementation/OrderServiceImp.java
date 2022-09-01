@@ -18,6 +18,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
 import com.example.HealFitNest.Repository.OrderRepo;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Service
 public class OrderServiceImp implements OrderService{
@@ -60,8 +61,7 @@ public class OrderServiceImp implements OrderService{
     public List<Order> showOrderByUserId(String userId){
         return orderRepo.findAllByUserId(userId);
     }
-
-
+    
     public Order statusChange(String orderId,String userId) {
         Order order =orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException("OrderId not found"));
         order.setOrderStatus(true);
@@ -87,7 +87,7 @@ public class OrderServiceImp implements OrderService{
         Users users=userRepo.findById(userId).orElseThrow(() -> new UserNotFoundException("User  not found"));;
 //        String email=users.getEmail();
 ////        String email=users.getEmail();
-  emailSenderService.sendEmail("ananyapriya1003@gmail.com","Order Summary",userId,cartItems,orderId,totalPrice);
+  emailSenderService.sendEmail("ish.asthana@gmail.com","Order Summary",userId,cartItems,orderId,totalPrice);
 cartService.clearCart(cartId);
         return order;
     }
