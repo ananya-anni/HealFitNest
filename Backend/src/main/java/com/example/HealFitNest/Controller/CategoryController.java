@@ -25,18 +25,19 @@ public class CategoryController {
     //Adding a new Category
     @PostMapping("/addCategory")
     public String addCategory(@RequestBody Category category){
-        try{
-            categoryRepo.save(category);
-            return "Category added successfully";
-        } catch(ConstraintViolationException e){
-            return e.getMessage();
-        }
+//        try{
+//            categoryRepo.save(category);
+//            return "Category added successfully";
+//        } catch(ConstraintViolationException e){
+//            return e.getMessage();
+//        }
+        return categoryService.addCategory(category);
     }
 
     //List all categories
     @GetMapping("/categories")
     public List<Category> findAllCategories(){
-        return categoryRepo.findAll();
+        return categoryService.findAllCategories();
     }
 
     //Finding a particular Category using categoryID

@@ -76,7 +76,7 @@ public class OrderServiceTest {
         order1.setAddressId("123456");
         order1.setTotalPrice(BigDecimal.valueOf(20));
 
-        when(orderRepo.findById(any())).thenReturn(Optional.of(order1));
+        when(orderRepo.findById(order1.getOrderId())).thenReturn(Optional.of(order1));
         Order orders=orderServiceImp.showOrderbyId(order1.getOrderId());
         assertEquals("62ee9e89a05e8e657c087ccc",orders.getCartId());
 

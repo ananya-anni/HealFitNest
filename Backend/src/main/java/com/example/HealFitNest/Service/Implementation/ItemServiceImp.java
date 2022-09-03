@@ -14,10 +14,7 @@ import com.example.HealFitNest.Model.Item;
 import com.example.HealFitNest.Repository.ItemRepo;
 import com.example.HealFitNest.Service.ItemService;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ItemServiceImp implements ItemService {
@@ -97,7 +94,13 @@ public class ItemServiceImp implements ItemService {
     public List<Item> searchAllItems(String itemName){
         Query query = new Query();
         query.addCriteria(Criteria.where("itemName").regex(itemName));
+
         return mongoTemplate.find(query, Item.class);
+
+
+
+
+
     }
 
 

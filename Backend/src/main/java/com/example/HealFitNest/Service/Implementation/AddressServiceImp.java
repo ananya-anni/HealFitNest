@@ -23,10 +23,11 @@ public class AddressServiceImp implements AddressService {
     private AddressRepo addressRepo;
 
     public List<Address> getAllAddress(String userId){
-        Query query = new Query();
-        query.addCriteria(Criteria.where("userId").is(userId));
-
-        return mongoTemplate.find(query, Address.class);
+//        Query query = new Query();
+//        query.addCriteria(Criteria.where("userId").is(userId));
+//
+//        return mongoTemplate.find(query, Address.class);
+        return addressRepo.findByUserId(userId);
     }
 
     //Saving the address of the user

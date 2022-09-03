@@ -56,7 +56,7 @@ public class CartServiceTest {
         cart.setTotalPrice(BigDecimal.valueOf(250));
         cart.setUserId("456");
 
-        when(cartRepo.save(any())).thenReturn(cart);
+        when(cartRepo.save(cart)).thenReturn(cart);
         Cart cart2 = cartServiceImp.createCart(cart);
         assertEquals("123", cart2.getCartId());
     }
@@ -105,8 +105,51 @@ public class CartServiceTest {
         cartItems.add(cartItem2);
         cart.setCartItems(cartItems);
 
-        when(cartRepo.findById(any())).thenReturn(Optional.of(cart));
+        when(cartRepo.findById(cart.getCartId())).thenReturn(Optional.of(cart));
         Cart cart2 = cartServiceImp.showCartofId(cart.getCartId());
         assertEquals("123", cart2.getCartId());
+    }
+
+
+    @Test
+    public void countItemTest(){
+        List<Cart> carts = new ArrayList<>();
+        Cart cart = new Cart();
+        cart.setCartId("123");
+        CartItem cartItem1 = new CartItem("abc", "tealeaf", BigDecimal.valueOf(150), 2, "https://www.narayanahealth.org/blog/coconut-benefits/");
+        CartItem cartItem2 = new CartItem("def", "sugar", BigDecimal.valueOf(100), 2, "https://www.narayanahealth.org/blog/coconut-benefits/");
+        List<CartItem> cartItems = new ArrayList<CartItem>();
+        cartItems.add(cartItem1);
+        cartItems.add(cartItem2);
+        cart.setCartItems(cartItems);
+        cart.setCartStatus(true);
+        cart.setTotalPrice(BigDecimal.valueOf(20));
+        cart.setCountItem(2);
+
+
+        when(cartRepo.findById(cart.getCartId())).thenReturn(Optional.of(cart));
+        int cartItemCount = cartServiceImp.countItem(cart.getCartId());
+        assertEquals(4,cartItemCount);
+    }
+
+    @Test
+    public void totalPriceTest() {
+        List<Cart> carts = new ArrayList<>();
+        Cart cart = new Cart();
+        cart.setCartId("123");
+        CartItem cartItem1 = new CartItem("abc", "tealeaf", BigDecimal.valueOf(150), 2, "https://www.narayanahealth.org/blog/coconut-benefits/");
+        CartItem cartItem2 = new CartItem("def", "sugar", BigDecimal.valueOf(100), 2, "https://www.narayanahealth.org/blog/coconut-benefits/");
+        List<CartItem> cartItems = new ArrayList<CartItem>();
+        cartItems.add(cartItem1);
+        cartItems.add(cartItem2);
+        cart.setCartItems(cartItems);
+        cart.setCartStatus(true);
+        cart.setTotalPrice(BigDecimal.valueOf(20));
+        cart.setCountItem(2);
+
+
+        when(cartRepo.findById(cart.getCartId())).thenReturn(Optional.of(cart));
+        BigDecimal cartTotalPrice = cartServiceImp.totalPrice(cart.getCartId());
+        assertEquals(BigDecimal.valueOf(500), cartTotalPrice);
     }
 }

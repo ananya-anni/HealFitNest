@@ -24,6 +24,20 @@ public class CategoryServiceImp implements CategoryService {
     List<Item> items=new ArrayList<Item>();
     List<String> category=new ArrayList<String>();
 
+
+    @Override
+    public String addCategory(Category category) {
+        categoryRepo.save(category);
+        return "Category added Successfully";
+    }
+
+    @Override
+    public List<Category> findAllCategories(){
+
+        return categoryRepo.findAll();
+
+    }
+
     //Displaying all the subcategories of a particular category by its name
     public List<String> displaySubCategory(String categoryName){
         Category category=categoryRepo.findBycategoryName(categoryName);
