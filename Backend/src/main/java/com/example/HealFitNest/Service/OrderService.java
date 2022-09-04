@@ -2,6 +2,7 @@ package com.example.HealFitNest.Service;
 
 import java.util.List;
 
+import com.example.HealFitNest.Model.Cart;
 import com.example.HealFitNest.Model.Order;
 import org.springframework.http.ResponseEntity;
 
@@ -11,5 +12,6 @@ public interface OrderService {
     public List<Order> showOrderByUserId(String userId);
     public Order addOrderBycartId(String cartId);
     public Order statusChange(String orderId, String userId);
+    public List<Cart> userHistory(String userId);
 
 }

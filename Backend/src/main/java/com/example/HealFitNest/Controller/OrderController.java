@@ -63,6 +63,13 @@ public class OrderController {
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
 
+    @GetMapping("/myHistory/{userId}")
+    public ResponseEntity<?> myHistory(@PathVariable String userId) {
+        List<Cart> carts=orderService.userHistory(userId);
+        return new ResponseEntity<>(carts, HttpStatus.CREATED);
+    }
+
+
     // Show Order items
     @GetMapping("/showOrderHistory/{orderId}")
     public ResponseEntity<Cart> showOrderItems(@PathVariable String orderId) {

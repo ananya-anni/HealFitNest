@@ -6,7 +6,9 @@ import com.example.HealFitNest.Model.Item;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface CartRepo extends MongoRepository<Cart,String> {
-    Cart findByUserId(String userId);
+    List<Cart> findByUserId(String userId);
 }

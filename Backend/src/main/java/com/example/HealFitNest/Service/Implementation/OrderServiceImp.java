@@ -1,6 +1,7 @@
 
 package com.example.HealFitNest.Service.Implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.HealFitNest.Handler.OrderNotFoundException;
@@ -46,6 +47,9 @@ public class OrderServiceImp implements OrderService{
      private InventoryService inventoryService;
 
      @Autowired
+     private OrderLineService orderLineService;
+
+     @Autowired
      private ItemService itemService;
 
     //Get all the orders
@@ -70,7 +74,7 @@ public class OrderServiceImp implements OrderService{
         orderRepo.save(order);
         String cartId=order.getCartId();
         String totalPrice=order.getTotalPrice().toString();
-        Cart cart=cartRepo.findById(cartId).orElseThrow(() -> new CartNotFoundException("Cart does not exsists."));;
+        Cart cart=cartRepo.findById(cartId).orElseThrow(() -> new CartNotFoundException("Cart does not exists."));
         cart.setCartStatus(false);
         cartRepo.save(cart);
         List<CartItem> cartItems=cart.getCartItems();
@@ -84,20 +88,29 @@ public class OrderServiceImp implements OrderService{
             item.setItemAvailable(avail);
             itemService.saveItem(item);
         }
-
-
-
-
        // Users users=userRepo.findById(userId).orElseThrow(() -> new UserNotFoundException("User  not found"));;
 //        String email=users.getEmail();
 ////        String email=users.getEmail();
-  emailSenderService.sendEmail("ananyapriya1003@gmail.com","Order Summary",userId,cartItems,orderId,totalPrice);
+        emailSenderService.sendEmail("ananyapriya1003@gmail.com","Order Summary",userId,cartItems,orderId,totalPrice);
+        orderLineService.addOrderLineByOrderId(orderId);
 //cartService.clearCart(cartId);
 
         return order;
     }
 
 
+    public List<Cart> userHistory(String userId) {
+
+        List<Cart> cart1=cartRepo.findByUserId(userId);
+        List<Cart> history =new ArrayList<Cart>();
+        for(Cart eachCart1:cart1){
+
+            if (eachCart1.isCartStatus()==false){
+                history.add(eachCart1);
+            }
+        }
+        return history;
+    }
 
 
     //Adding order into the database
