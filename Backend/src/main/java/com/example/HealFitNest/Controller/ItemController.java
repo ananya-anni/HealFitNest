@@ -98,8 +98,8 @@ public class ItemController {
 
 
     @GetMapping("/search/{itemName}")
-    public List<Item> searchItems(@PathVariable String itemName){
-        return itemService.searchAllItems(itemName);
+    public Item searchItems(@PathVariable String itemName){
+        return itemService.searchItem(itemName);
     }
 
 //    @GetMapping("/item/find/{subId}")

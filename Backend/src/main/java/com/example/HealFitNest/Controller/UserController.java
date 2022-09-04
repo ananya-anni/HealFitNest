@@ -68,7 +68,7 @@ public class UserController {
         return new ResponseEntity<>(userProfile, HttpStatus.OK);
     }
 
-    @PostMapping("/logout")
+    @GetMapping("/logout")
     private ResponseEntity<String> userLogout(){
         return new ResponseEntity<>("User and Cart Id does not exist",HttpStatus.OK);
     }
