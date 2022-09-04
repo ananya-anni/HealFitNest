@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CartRepo extends MongoRepository<Cart,String> {
+    Cart findByUserId(String userId);
 }

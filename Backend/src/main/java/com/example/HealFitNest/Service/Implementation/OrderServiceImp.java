@@ -84,7 +84,7 @@ public class OrderServiceImp implements OrderService{
 
 
 
-        Users users=userRepo.findById(userId).orElseThrow(() -> new UserNotFoundException("User  not found"));;
+       // Users users=userRepo.findById(userId).orElseThrow(() -> new UserNotFoundException("User  not found"));;
 //        String email=users.getEmail();
 ////        String email=users.getEmail();
   emailSenderService.sendEmail("ananyapriya1003@gmail.com","Order Summary",userId,cartItems,orderId,totalPrice);

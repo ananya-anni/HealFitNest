@@ -87,7 +87,7 @@ public class CartServiceImp implements CartService {
     public void addItem(String cartId, String itemId, int quantity) {
         Cart cart = cartRepo.findById(cartId).orElseThrow(()-> new CartNotFoundException("Cart not found"));
         Item item = itemService.findItemById(itemId);
-        userRepo.findById(cart.getUserId()).orElseThrow(()-> new UserNotFoundException("User not found"));
+      //  userRepo.findById(cart.getUserId()).orElseThrow(()-> new UserNotFoundException("User not found"));
         boolean present = cartRepo.findById(cartId).isPresent();
         List<CartItem> addCartItem =  new ArrayList<CartItem>();
         if(present){
@@ -168,6 +168,7 @@ public class CartServiceImp implements CartService {
 
         cart.setCountItem(0);
         cart.setTotalPrice(null);
+        cart.setCartStatus(true);
 
         cartRepo.save(cart);
         return cartId;
@@ -180,7 +181,7 @@ public class CartServiceImp implements CartService {
         List<CartItem> cartItems = cart.getCartItems();
         for(CartItem eachCartItem : cartItems){
             int index  = cartItems.indexOf(eachCartItem);
-            if(eachCartItem.getItemId().equalsIgnoreCase(itemId)){
+            if(eachCartItem.getItemId().equals(itemId)){
               //  int removeIndex = index;
                 int quant = eachCartItem.getItemQuantity();
                 cartItems.remove(index);
@@ -193,7 +194,7 @@ public class CartServiceImp implements CartService {
                 BigDecimal total = totalPrice(cartId);
                 cart.setTotalPrice(total);
                 cartRepo.save(cart);
-
+                break;
 
 //                inventService.amountVariation(itemId, (-quant));
 
@@ -211,7 +212,7 @@ public class CartServiceImp implements CartService {
         int updateIndex = 0;
         for(CartItem eachCartItem : cartItems){
             int index  = cartItems.indexOf(eachCartItem);
-            if(eachCartItem.getItemId().equalsIgnoreCase(itemId)){
+            if(eachCartItem.getItemId().equals(itemId)){
                 updateIndex = index;
                 break;
             }
@@ -292,12 +293,16 @@ public class CartServiceImp implements CartService {
 
     //Show the status of the cart either it is active or not
     public String showCurrentStatus(String userId) {
-        Query query = new Query();
-        query.addCriteria(Criteria.where("userId").is(userId));
-        List<Cart> cartList = mongoTemplate.find(query, Cart.class);
-        for(Cart eachCart : cartList){
-            if(eachCart.isCartStatus())
-                return eachCart.getCartId();
+//        Query query = new Query();
+//        query.addCriteria(Criteria.where("userId").is(userId));
+//        List<Cart> cartList = mongoTemplate.find(query, Cart.class);
+//        for(Cart eachCart : cartList){
+//            if(eachCart.isCartStatus())
+//                return eachCart.getCartId();
+//        }
+        Cart cart=cartRepo.findByUserId(userId);
+        if(cart!=null){
+            return cart.getCartId();
         }
         return "Cart does not exists.";
     }
