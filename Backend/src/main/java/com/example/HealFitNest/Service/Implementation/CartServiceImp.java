@@ -293,17 +293,14 @@ public class CartServiceImp implements CartService {
 
     //Show the status of the cart either it is active or not
     public String showCurrentStatus(String userId) {
-//        Query query = new Query();
-//        query.addCriteria(Criteria.where("userId").is(userId));
-//        List<Cart> cartList = mongoTemplate.find(query, Cart.class);
-//        for(Cart eachCart : cartList){
-//            if(eachCart.isCartStatus())
-//                return eachCart.getCartId();
-//        }
-        Cart cart=cartRepo.findByUserId(userId);
-        if(cart!=null){
-            return cart.getCartId();
+        Query query = new Query();
+        query.addCriteria(Criteria.where("userId").is(userId));
+        List<Cart> cartList = mongoTemplate.find(query, Cart.class);
+        for(Cart eachCart : cartList){
+            if(eachCart.isCartStatus())
+                return eachCart.getCartId();
         }
+
         return "Cart does not exists.";
     }
 

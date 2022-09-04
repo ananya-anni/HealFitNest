@@ -15,6 +15,8 @@ import com.example.HealFitNest.Handler.UserNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.HealFitNest.Repository.OrderRepo;
@@ -69,6 +71,8 @@ public class OrderServiceImp implements OrderService{
         String cartId=order.getCartId();
         String totalPrice=order.getTotalPrice().toString();
         Cart cart=cartRepo.findById(cartId).orElseThrow(() -> new CartNotFoundException("Cart does not exsists."));;
+        cart.setCartStatus(false);
+        cartRepo.save(cart);
         List<CartItem> cartItems=cart.getCartItems();
 
 
@@ -88,7 +92,8 @@ public class OrderServiceImp implements OrderService{
 //        String email=users.getEmail();
 ////        String email=users.getEmail();
   emailSenderService.sendEmail("ananyapriya1003@gmail.com","Order Summary",userId,cartItems,orderId,totalPrice);
-cartService.clearCart(cartId);
+//cartService.clearCart(cartId);
+
         return order;
     }
 
@@ -99,7 +104,6 @@ cartService.clearCart(cartId);
     public Order addOrderBycartId(String cartId) {
         try{
             Cart cart=cartService.showCartofId(cartId);
-            cart.setCartStatus(false);
             Order order=new Order();
             String userId=cart.getUserId();
             List<Address> address_list=addressService.getAllAddress(userId);
