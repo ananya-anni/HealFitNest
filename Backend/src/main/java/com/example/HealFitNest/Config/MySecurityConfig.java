@@ -40,10 +40,6 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter{
 
     }
 
-    // @Override
-    // public void configure(WebSecurity web)  {
-    //     web.ignoring().antMatchers("/v3/api-docs", "/swagger-ui.html/**", "/swagger-ui/**");
-    // }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -51,10 +47,8 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter{
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/**")
+                .antMatchers("/api/**","/api/v6")
                 .permitAll()
-//                .antMatchers("/api/v1/addItem").hasRole("ADMIN")
-//                .antMatchers("/api/v3/addAddress","/api/v1/addItem").hasAuthority("USER")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin();

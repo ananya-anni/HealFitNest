@@ -1,4 +1,5 @@
 package com.example.HealFitNest.Controller;
+
 import com.example.HealFitNest.Model.Cart;
 import com.example.HealFitNest.Model.UserLogin;
 import com.example.HealFitNest.Model.UserProfile;
@@ -33,12 +34,14 @@ public class UserController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    //Adding the user to the database
     @PostMapping("/registerUser")
     private String registerUser(@RequestBody Users user){
         userService.registerUser(user);
         return "User added successfully";
     }
 
+    //Login of the user
     @PostMapping("/loginUser")
     private ResponseEntity<?> loginAuth(@RequestBody Users logUser){
         String email=logUser.getEmail();
@@ -55,14 +58,19 @@ public class UserController {
         String cartId=cartService.showCurrentStatus(loggedUser.getUserId());
         userLogin.setCartId(cartId);
         return new ResponseEntity<>(userLogin, HttpStatus.OK);
-
     }
 
+    //User Profile
     @GetMapping("/myProfile/{userId}")
     private ResponseEntity<UserProfile> myProfile(@PathVariable String userId){
         Users user = userService.findUser(userId);
         UserProfile userProfile = new UserProfile(user.getFirstName(), user.getLastName(), user.getContact(), user.getEmail());
         return new ResponseEntity<>(userProfile, HttpStatus.OK);
+    }
+
+    @GetMapping("/logout")
+    private ResponseEntity<String> userLogout(){
+        return new ResponseEntity<>("User and Cart Id does not exist",HttpStatus.OK);
     }
 }
 

@@ -72,10 +72,10 @@ public class CartServiceImp implements CartService {
             cartRepo.save(cart);
 
 
-            inventService.amountVariation(itemId, quantity);
-            boolean avail = inventService.itemAvailability(itemId);
-            item.setItemAvailable(avail);
-            itemService.saveItem(item);
+//            inventService.amountVariation(itemId, quantity);
+//            boolean avail = inventService.itemAvailability(itemId);
+//            item.setItemAvailable(avail);
+//            itemService.saveItem(item);
 
 
         } else {
@@ -87,7 +87,7 @@ public class CartServiceImp implements CartService {
     public void addItem(String cartId, String itemId, int quantity) {
         Cart cart = cartRepo.findById(cartId).orElseThrow(()-> new CartNotFoundException("Cart not found"));
         Item item = itemService.findItemById(itemId);
-        userRepo.findById(cart.getUserId()).orElseThrow(()-> new UserNotFoundException("User not found"));
+        //  userRepo.findById(cart.getUserId()).orElseThrow(()-> new UserNotFoundException("User not found"));
         boolean present = cartRepo.findById(cartId).isPresent();
         List<CartItem> addCartItem =  new ArrayList<CartItem>();
         if(present){
@@ -108,10 +108,18 @@ public class CartServiceImp implements CartService {
             BigDecimal total = totalPrice(cartId);
             cart.setTotalPrice(total);
             cartRepo.save(cart);
-            inventService.amountVariation(itemId, quantity);
-            boolean avail = inventService.itemAvailability(itemId);
-            item.setItemAvailable(avail);
-            itemService.saveItem(item);
+
+
+
+
+//            inventService.amountVariation(itemId, quantity);
+//            boolean avail = inventService.itemAvailability(itemId);
+//            item.setItemAvailable(avail);
+//            itemService.saveItem(item);
+//
+
+
+
         } else {
             throw new ItemNotFoundException("Sufficient amount of this item is not present.");
         }
@@ -160,6 +168,7 @@ public class CartServiceImp implements CartService {
 
         cart.setCountItem(0);
         cart.setTotalPrice(null);
+        cart.setCartStatus(true);
 
         cartRepo.save(cart);
         return cartId;
@@ -172,7 +181,7 @@ public class CartServiceImp implements CartService {
         List<CartItem> cartItems = cart.getCartItems();
         for(CartItem eachCartItem : cartItems){
             int index  = cartItems.indexOf(eachCartItem);
-            if(eachCartItem.getItemId().equalsIgnoreCase(itemId)){
+            if(eachCartItem.getItemId().equals(itemId)){
                 //  int removeIndex = index;
                 int quant = eachCartItem.getItemQuantity();
                 cartItems.remove(index);
@@ -185,7 +194,11 @@ public class CartServiceImp implements CartService {
                 BigDecimal total = totalPrice(cartId);
                 cart.setTotalPrice(total);
                 cartRepo.save(cart);
-                inventService.amountVariation(itemId, (-quant));
+                break;
+
+//                inventService.amountVariation(itemId, (-quant));
+
+
             }
         }
     }
@@ -199,7 +212,7 @@ public class CartServiceImp implements CartService {
         int updateIndex = 0;
         for(CartItem eachCartItem : cartItems){
             int index  = cartItems.indexOf(eachCartItem);
-            if(eachCartItem.getItemId().equalsIgnoreCase(itemId)){
+            if(eachCartItem.getItemId().equals(itemId)){
                 updateIndex = index;
                 break;
             }
@@ -217,10 +230,16 @@ public class CartServiceImp implements CartService {
             BigDecimal total = totalPrice(cartId);
             cart.setTotalPrice(total);
             cartRepo.save(cart);
-            inventService.amountVariation(itemId,1);
-            boolean avail = inventService.itemAvailability(itemId);
-            item.setItemAvailable(avail);
-            itemService.saveItem(item);
+
+
+
+//            inventService.amountVariation(itemId,1);
+//            boolean avail = inventService.itemAvailability(itemId);
+//            item.setItemAvailable(avail);
+//            itemService.saveItem(item);
+//
+
+
         } else {
             throw new ItemNotFoundException("Inventory does not contain sufficient amount.");
         }
@@ -253,10 +272,17 @@ public class CartServiceImp implements CartService {
             BigDecimal total = totalPrice(cartId);
             cart.setTotalPrice(total);
             cartRepo.save(cart);
-            inventService.amountVariation(itemId, -1);
-            boolean avail = inventService.itemAvailability(itemId);
-            item.setItemAvailable(avail);
-            itemService.saveItem(item);
+
+
+
+//                inventService.amountVariation(itemId, -1);
+//                boolean avail = inventService.itemAvailability(itemId);
+//                item.setItemAvailable(avail);
+//                itemService.saveItem(item);
+
+
+
+
         } else {
             throw new ItemNotFoundException("Quantity cannot be reduced further.");
         }
@@ -274,9 +300,9 @@ public class CartServiceImp implements CartService {
             if(eachCart.isCartStatus())
                 return eachCart.getCartId();
         }
+
         return "Cart does not exists.";
     }
-
 
 
 //    public void updateItemQuantity(String cartId, String itemId, int quantity){
