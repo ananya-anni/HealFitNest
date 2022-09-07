@@ -15,7 +15,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/api/v2")
+import java.security.Principal;
+
+@RequestMapping
 @RestController
 public class UserController {
     @Autowired
@@ -63,6 +65,11 @@ public class UserController {
         Users user = userService.findUser(userId);
         UserProfile userProfile = new UserProfile(user.getFirstName(), user.getLastName(), user.getContact(), user.getEmail());
         return new ResponseEntity<>(userProfile, HttpStatus.OK);
+    }
+
+    @GetMapping("/")
+    private Principal user(Principal principal){
+        return principal;
     }
 }
 

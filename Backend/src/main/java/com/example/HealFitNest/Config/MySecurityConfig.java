@@ -57,7 +57,8 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter{
 //                .antMatchers("/api/v3/addAddress","/api/v1/addItem").hasAuthority("USER")
                 .anyRequest().authenticated()
                 .and()
-                .formLogin();
+                .oauth2Login();
+        //.formLogin();
     }
 
     @Override
