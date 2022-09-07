@@ -7,5 +7,5 @@ spring:
             clientId: 207697175176-6eqe8pgap5t6ottrtc8tpn76bjbkuk3n.apps.googleusercontent.com
             clientSecret: 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
 
-  spring:
+  server:
     port: 8989
