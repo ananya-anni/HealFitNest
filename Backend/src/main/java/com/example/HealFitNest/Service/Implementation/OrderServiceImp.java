@@ -1,25 +1,18 @@
 
 package com.example.HealFitNest.Service.Implementation;
 
-import java.util.List;
-
+import com.example.HealFitNest.Handler.CartNotFoundException;
 import com.example.HealFitNest.Handler.OrderNotFoundException;
-import com.example.HealFitNest.Model.Address;
-import com.example.HealFitNest.Model.Cart;
 import com.example.HealFitNest.Model.*;
 import com.example.HealFitNest.Repository.CartRepo;
+import com.example.HealFitNest.Repository.OrderRepo;
 import com.example.HealFitNest.Repository.UserRepo;
 import com.example.HealFitNest.Service.*;
-import com.example.HealFitNest.Handler.CartNotFoundException;
-import com.example.HealFitNest.Handler.UserNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.example.HealFitNest.Repository.OrderRepo;
+import java.util.List;
 
 @Service
 public class OrderServiceImp implements OrderService{
@@ -91,8 +84,8 @@ public class OrderServiceImp implements OrderService{
        // Users users=userRepo.findById(userId).orElseThrow(() -> new UserNotFoundException("User  not found"));;
 //        String email=users.getEmail();
 ////        String email=users.getEmail();
-  emailSenderService.sendEmail("ananyapriya1003@gmail.com","Order Summary",userId,cartItems,orderId,totalPrice);
-//cartService.clearCart(cartId);
+  emailSenderService.sendEmail("ish.asthana@gmail.com","Order Summary",userId,cartItems,orderId,totalPrice);
+cartService.clearCart(cartId);
 
         return order;
     }

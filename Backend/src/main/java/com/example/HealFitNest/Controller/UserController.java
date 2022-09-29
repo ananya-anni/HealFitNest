@@ -1,6 +1,5 @@
 package com.example.HealFitNest.Controller;
 
-import com.example.HealFitNest.Model.Cart;
 import com.example.HealFitNest.Model.UserLogin;
 import com.example.HealFitNest.Model.UserProfile;
 import com.example.HealFitNest.Model.Users;
@@ -8,7 +7,6 @@ import com.example.HealFitNest.Repository.CartRepo;
 import com.example.HealFitNest.Repository.UserRepo;
 import com.example.HealFitNest.Service.CartService;
 import com.example.HealFitNest.Service.UserService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/api/v2")
+@RequestMapping
 @RestController
 public class UserController {
     @Autowired
@@ -35,14 +33,14 @@ public class UserController {
     private AuthenticationManager authenticationManager;
 
     //Adding the user to the database
-    @PostMapping("/registerUser")
+    @PostMapping("/api/v2/registerUser")
     private String registerUser(@RequestBody Users user){
         userService.registerUser(user);
         return "User added successfully";
     }
 
     //Login of the user
-    @PostMapping("/loginUser")
+    @PostMapping("/api/v2/loginUser")
     private ResponseEntity<?> loginAuth(@RequestBody Users logUser){
         String email=logUser.getEmail();
         String pass=logUser.getPassword();
@@ -55,20 +53,21 @@ public class UserController {
         Users loggedUser = userRepo.findByEmail(email);
         UserLogin userLogin=new UserLogin();
         userLogin.setUserId(loggedUser.getUserId());
-      String cartId=cartService.showCurrentStatus(loggedUser.getUserId());
+        String cartId=cartService.showCurrentStatus(loggedUser.getUserId());
         userLogin.setCartId(cartId);
         return new ResponseEntity<>(userLogin, HttpStatus.OK);
     }
 
     //User Profile
-    @GetMapping("/myProfile/{userId}")
+    @GetMapping("/api/v2/myProfile/{userId}")
     private ResponseEntity<UserProfile> myProfile(@PathVariable String userId){
         Users user = userService.findUser(userId);
         UserProfile userProfile = new UserProfile(user.getFirstName(), user.getLastName(), user.getContact(), user.getEmail());
         return new ResponseEntity<>(userProfile, HttpStatus.OK);
     }
 
-    @GetMapping("/logout")
+    //User Logout
+    @GetMapping("/api/v2/logout")
     private ResponseEntity<String> userLogout(){
         return new ResponseEntity<>("User and Cart Id does not exist",HttpStatus.OK);
     }

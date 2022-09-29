@@ -6,16 +6,12 @@ import com.example.HealFitNest.Service.Implementation.AddressServiceImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.*;
 
@@ -59,15 +55,6 @@ public class AddressServiceTest {
         address.setCity("Noida");
         address.setState("Haryana");
         address.setCountry("India");
-
-        //Address address 1= new Address();
-        //address1.setAddressId("AI1");
-        //address1.setUserId("UI5");
-        //address1.setAddressLine1("CyberHub");
-        //address.setAddressLine2("asgs");
-        //address.setCity("Noida");
-        //address.setState("Haryana");
-        //address.setCountry("India");
 
         allAddress.add(address);
 
